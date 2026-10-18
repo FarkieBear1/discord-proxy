@@ -339,6 +339,7 @@ code {
   align-items: center;
   cursor: pointer;
   user-select: none;
+  flex-shrink: 0;
 }
 
 .chat-header button.close-btn {
@@ -356,6 +357,7 @@ code {
   padding: 8px;
   background: var(--bg-sidebar);
   border-bottom: 1px solid var(--border-subtle);
+  flex-shrink: 0;
 }
 
 .channel-btn {
@@ -375,8 +377,11 @@ code {
 }
 
 .chat-messages {
-  flex: 1 1 auto; /* Allows messages to shrink and scroll properly */
-  min-height: 0;   /* Crucial for flex child scrolling */
+  position: absolute;
+  top: 85px;
+  bottom: 60px;
+  left: 0;
+  right: 0;
   padding: 12px;
   overflow-y: auto;
   display: flex;
@@ -400,16 +405,11 @@ code {
 }
 
 .chat-input-area {
-  padding: 10px 12px;
-  background: var(--bg-card);
-  border-top: 1px solid var(--border-color);
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-.chat-input-area {
-  flex: 0 0 auto;  /* Locks input area height so it never gets pushed down */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
   padding: 10px 12px;
   background: var(--bg-card);
   border-top: 1px solid var(--border-color);
@@ -441,6 +441,7 @@ code {
   cursor: pointer;
   white-space: nowrap;
 }
+
 /* ==========================================
    MOBILE RESPONSIVENESS
    ========================================== */
