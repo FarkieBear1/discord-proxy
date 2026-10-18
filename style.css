@@ -1,39 +1,107 @@
+/* ==========================================
+   FIXIT CORE | CORPORATE TECH STYLING
+   ========================================== */
+
 :root {
   --bg-core: #0b0f19;
   --bg-card: #131b2e;
-  --border-color: #1e293b;
-  --accent-cyan: #06b6d4;
-  --accent-green: #10b981;
-  --text-main: #f8fafc;
+  --bg-input: #1a233a;
+  --border-color: #22304f;
+  --text-main: #f1f5f9;
   --text-muted: #94a3b8;
+  --accent-cyan: #0ea5e9;
+  --accent-cyan-hover: #38bdf8;
+  --accent-glow: rgba(14, 165, 233, 0.15);
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 body {
   background-color: var(--bg-core);
   color: var(--text-main);
-  line-height: 1.6;
   padding: 20px;
+  line-height: 1.6;
 }
 
+/* ==========================================
+   PROFESSIONAL NAVIGATION BAR
+   ========================================== */
+.site-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  max-width: 1200px;
+  margin: 0 auto 25px auto;
+  padding: 12px 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+}
+
+.site-nav a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  letter-spacing: 0.5px;
+}
+
+.site-nav a:hover {
+  color: var(--text-main);
+  background: var(--bg-input);
+}
+
+.site-nav a.active {
+  color: var(--accent-cyan);
+  background: var(--accent-glow);
+  border: 1px solid rgba(14, 165, 233, 0.3);
+}
+
+/* ==========================================
+   CENTERED BANNER CONTAINER
+   ========================================== */
+.banner-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 30px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.site-banner {
+  width: 100%;
+  max-height: 220px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+}
+
+/* ==========================================
+   HEADER / TITLES
+   ========================================== */
 header {
   text-align: center;
-  padding: 30px 0;
-  border-bottom: 1px solid var(--border-color);
-  margin-bottom: 30px;
+  margin-bottom: 35px;
 }
 
 header h1 {
-  font-size: 2.2rem;
-  color: var(--accent-cyan);
-  letter-spacing: 2px;
-  text-transform: uppercase;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: 0.5px;
+  margin-bottom: 5px;
 }
 
 header p {
@@ -41,27 +109,39 @@ header p {
   font-size: 0.95rem;
 }
 
+/* ==========================================
+   LAYOUT CONTAINER (2-COLUMN GRID)
+   ========================================== */
 .container {
-  max-width: 1400px;
-  margin: 0 auto;
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 30px;
+  grid-template-columns: 1fr 420px;
+  gap: 25px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 900px) {
   .container {
     grid-template-columns: 1fr;
   }
 }
 
-/* Repair Guides Section */
+/* ==========================================
+   GUIDES & CARDS SECTION
+   ========================================== */
+.guides-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 .guides-section h2 {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
+  font-size: 1.25rem;
+  font-weight: 600;
   color: var(--text-main);
-  border-left: 4px solid var(--accent-cyan);
-  padding-left: 10px;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 8px;
+  margin-bottom: 5px;
 }
 
 .guide-card {
@@ -69,31 +149,43 @@ header p {
   border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.guide-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  border: 1px solid var(--border-color);
 }
 
 .guide-card h3 {
-  color: var(--accent-cyan);
+  font-size: 1.1rem;
+  color: var(--text-main);
   margin-bottom: 12px;
-  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.guide-card ol {
+.guide-card ul, .guide-card ol {
   padding-left: 20px;
   color: var(--text-muted);
   font-size: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.guide-card li {
-  margin-bottom: 8px;
-}
-
-.guide-card strong {
+.guide-card li strong {
   color: var(--text-main);
 }
 
-/* Chat Interface Section */
+/* ==========================================
+   SECURE CHAT BRIDGE WIDGET
+   ========================================== */
 .chat-section {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
@@ -103,98 +195,122 @@ header p {
   height: 650px;
   position: sticky;
   top: 20px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
 }
 
 .chat-header {
-  padding: 15px 20px;
-  border-bottom: 1px solid var(--border-color);
-  font-weight: bold;
+  background: var(--bg-input);
+  padding: 14px;
+  font-size: 0.85rem;
+  font-weight: 700;
   letter-spacing: 1px;
+  color: var(--accent-cyan);
+  border-bottom: 1px solid var(--border-color);
+  text-align: center;
 }
 
+/* Channel Selector Tabs */
 .channel-selector {
   display: flex;
-  gap: 6px;
-  padding: 12px;
-  background: rgba(0, 0, 0, 0.2);
-  border-bottom: 1px solid var(--border-color);
   flex-wrap: wrap;
+  gap: 4px;
+  padding: 10px;
+  background: var(--bg-core);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .channel-btn {
-  background: var(--border-color);
-  border: none;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
   color: var(--text-muted);
-  padding: 6px 12px;
+  padding: 6px 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
   border-radius: 4px;
   cursor: pointer;
-  font-weight: bold;
-  font-size: 0.8rem;
   transition: all 0.2s;
 }
 
-.channel-btn:hover, .channel-btn.active {
-  background: var(--accent-cyan);
-  color: #000;
+.channel-btn:hover {
+  background: var(--bg-input);
+  color: var(--text-main);
 }
 
+.channel-btn.active {
+  background: var(--accent-cyan);
+  color: #0b0f19;
+  border-color: var(--accent-cyan);
+}
+
+/* Messages Feed */
 .chat-messages {
   flex: 1;
   padding: 15px;
   overflow-y: auto;
-  font-family: monospace;
-  font-size: 0.85rem;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  background: var(--bg-core);
 }
 
 .message {
-  background: rgba(255, 255, 255, 0.03);
-  padding: 8px 12px;
-  border-radius: 4px;
-  border-left: 3px solid var(--accent-cyan);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  color: var(--text-main);
 }
 
 .message .author {
   color: var(--accent-cyan);
-  font-weight: bold;
+  font-weight: 600;
   margin-right: 6px;
 }
 
+/* Input Area */
 .chat-input-area {
-  padding: 15px;
+  padding: 12px;
+  background: var(--bg-card);
   border-top: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
-.chat-input-area input, .chat-input-area textarea {
-  background: var(--bg-core);
+.chat-input-area input[type="text"],
+.chat-input-area textarea {
+  width: 100%;
+  background: var(--bg-input);
   border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 8px 12px;
   color: var(--text-main);
-  padding: 10px;
-  border-radius: 4px;
-  outline: none;
+  font-size: 0.85rem;
+  resize: none;
 }
 
-.chat-input-area input:focus, .chat-input-area textarea:focus {
+.chat-input-area input:focus,
+.chat-input-area textarea:focus {
+  outline: none;
   border-color: var(--accent-cyan);
 }
 
 .chat-input-area button {
   background: var(--accent-cyan);
-  color: #000;
+  color: #0b0f19;
   border: none;
-  padding: 10px;
-  border-radius: 4px;
-  font-weight: bold;
+  padding: 8px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.85rem;
   cursor: pointer;
+  transition: background 0.2s;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 
 .chat-input-area button:hover {
-  opacity: 0.9;
+  background: var(--accent-cyan-hover);
 }
