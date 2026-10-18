@@ -41,6 +41,7 @@
     .article-title { font-size: 2.2rem; font-weight: 800; margin-bottom: 0.75rem; line-height: 1.2; }
     .article-meta { display: flex; gap: 1rem; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
     
+    /* Fixed Hero Image */
     .hero-image { width: 100%; height: 350px; background-size: cover; background-position: center; border-radius: 8px; margin-bottom: 2rem; border: 1px solid var(--border); background-color: #000; }
 
     .spec-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem; }
@@ -54,14 +55,19 @@
     .step-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 10px; }
     .step-num { background: var(--accent); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: bold; flex-shrink: 0; }
     .step-body { background: var(--bg-card); padding: 1.25rem; border-radius: 8px; border: 1px solid var(--border); line-height: 1.6; color: #d1d5db; font-size: 0.95rem; }
-    .step-body ul { margin-left: 1.5rem; margin-top: 0.5rem; }
-    .step-body li { margin-bottom: 0.25rem; }
 
     /* --- CHAT WIDGET --- */
-    #chat-widget { position: fixed; bottom: 20px; right: 20px; width: 320px; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); display: flex; flex-direction: column; z-index: 1000; }
-    .widget-header { background: var(--bg-card); padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); border-radius: 8px 8px 0 0; display: flex; justify-content: space-between; align-items: center; }
+    #chat-widget { position: fixed; bottom: 20px; right: 20px; width: 320px; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); display: flex; flex-direction: column; z-index: 1000; transition: all 0.2s ease-in-out; }
+    
+    /* Minimized State */
+    #chat-widget.minimized { height: 46px; overflow: hidden; cursor: pointer; }
+    #chat-widget.minimized .widget-body { display: none; }
+    #chat-widget.minimized #login-screen { display: none; }
+    
+    .widget-header { background: var(--bg-card); padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); border-radius: 8px 8px 0 0; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
     .widget-title { font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; }
     .status-dot { width: 8px; height: 8px; background: #10b981; border-radius: 50%; box-shadow: 0 0 8px #10b981; }
+    .minimize-btn { font-size: 1.2rem; color: var(--text-muted); font-weight: bold; line-height: 1; }
     
     .widget-body { display: flex; flex-direction: column; height: 300px; }
     .widget-channels { display: flex; gap: 4px; padding: 0.5rem; border-bottom: 1px solid var(--border); overflow-x: auto; background: var(--bg-base); }
@@ -106,9 +112,10 @@
   </div>
 
   <!-- CHAT WIDGET -->
-  <div id="chat-widget">
-    <div class="widget-header">
+  <div id="chat-widget" class="minimized">
+    <div class="widget-header" onclick="toggleWidget()">
       <div class="widget-title"><div class="status-dot"></div> Live Repair Support</div>
+      <div class="minimize-btn" id="toggle-icon">+</div>
     </div>
     
     <!-- LOGIN SCREEN -->
@@ -116,10 +123,7 @@
       <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🔒</div>
       <p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; margin-bottom: 0.5rem;">Technician login required.</p>
       
-      <!-- FAKE USERNAME BOX -->
       <input type="text" placeholder="Username" style="width: 100%; padding: 0.6rem; border-radius: 4px; border: 1px solid var(--border); background: var(--bg-card); color: white; font-size: 0.85rem; outline: none;" />
-      
-      <!-- REAL PASSWORD BOX -->
       <input type="password" id="auth-password" placeholder="Password" style="width: 100%; padding: 0.6rem; border-radius: 4px; border: 1px solid var(--border); background: var(--bg-card); color: white; font-size: 0.85rem; outline: none;" />
       
       <button onclick="login()" style="width: 100%; background: var(--accent); color: white; border: none; padding: 0.6rem; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 0.5rem;">Log In</button>
@@ -149,7 +153,7 @@
     const API_URL = '';
     
     // ==========================================
-    // 1. DISCORD CHANNELS (For the Chat Widget)
+    // 1. DISCORD CHANNELS
     // ==========================================
     const CHANNELS = {
       "general": "1295177296080142360",
@@ -162,99 +166,95 @@
     };
 
     // ==========================================
-    // 2. STATIC REPAIR GUIDES (The Bait)
+    // 2. STATIC REPAIR GUIDES (With Fixed Images)
     // ==========================================
     const REPAIR_GUIDES = {
       "lenovo": {
         title: "Lenovo ThinkPad / Yoga Repair Guide & Boot Keys",
-        image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Lenovo_ThinkPad_X1_Carbon_Gen_9.jpg/1200px-Lenovo_ThinkPad_X1_Carbon_Gen_9.jpg",
+        image: "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?q=80&w=1200&auto=format&fit=crop",
         bios: "F2 (or Fn + F2)",
         boot: "F12 (or F8, F10)",
         steps: [
           { title: "Enter BIOS / UEFI Setup", text: "Turn on or restart the computer. When the Lenovo logo appears on the screen, press F2 repeatedly. Alternatively, if your laptop has a Novo button (a tiny pinhole button usually next to the power button), press it with a paperclip while the laptop is off. The Novo button menu will appear, and you can select 'BIOS Setup'." },
           { title: "Change Boot Device Temporarily", text: "Press F12 during startup to open the boot menu. This is a one-time boot menu, meaning it won't change your permanent boot order. Use the arrow keys to select your USB drive or network location and press Enter to boot from it." },
-          { title: "Permanent Boot Order Change", text: "Enter the BIOS (using F2). Navigate to the 'Startup' tab. Use the F5/F6 keys to move your USB device to the top of the boot priority list. Press F10 to save your changes and exit." },
-          { title: "Hidden BIOS Options", text: "On some enterprise ThinkPad models, pressing F1 provides General Help, F9 loads Setup Defaults, and F10 saves and exits." }
+          { title: "Permanent Boot Order Change", text: "Enter the BIOS (using F2). Navigate to the 'Startup' tab. Use the F5/F6 keys to move your USB device to the top of the boot priority list. Press F10 to save your changes and exit." }
         ]
       },
       "asus": {
         title: "ASUS ROG / ZenBook Repair Guide & Boot Keys",
-        image: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Asus_ROG_Zephyrus_G14_2021.jpg/1200px-Asus_ROG_Zephyrus_G14_2021.jpg",
+        image: "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?q=80&w=1200&auto=format&fit=crop",
         bios: "F2 (or Delete)",
-        boot: "Esc (hold) + Power button, or F8 inside BIOS",
+        boot: "Esc (hold) + Power button",
         steps: [
-          { title: "Enter Boot Menu (Hardware Hotkey)", text: "Ensure the device is completely shut down (not sleeping). Persistently hold the [Esc] key and press the [Power button]. Keep holding Esc until the Boot menu appears. From here, you can select your USB device." },
-          { title: "Enter BIOS via Advanced Mode", text: "If the hotkey fails, press F2 during startup to enter BIOS. Press F7 to enter Advanced Mode. Go to the 'Boot' tab, disable Fast Boot, and set Secure Boot Control to Disabled if you are trying to boot a non-Windows USB." },
-          { title: "Boot from USB inside BIOS", text: "While inside the BIOS, press F8 to open the Boot Menu. Select your USB flash drive or CD-ROM and press Enter." },
-          { title: "Save and Exit", text: "Press F10 to save your changes and exit the BIOS. The computer will restart and attempt to boot from your selected device." }
+          { title: "Enter Boot Menu (Hardware Hotkey)", text: "Ensure the device is completely shut down (not sleeping). Persistently hold the [Esc] key and press the [Power button]. Keep holding Esc until the Boot menu appears." },
+          { title: "Enter BIOS via Advanced Mode", text: "If the hotkey fails, press F2 during startup to enter BIOS. Press F7 to enter Advanced Mode. Go to the 'Boot' tab, disable Fast Boot, and set Secure Boot Control to Disabled." },
+          { title: "Boot from USB inside BIOS", text: "While inside the BIOS, press F8 to open the Boot Menu. Select your USB flash drive or CD-ROM and press Enter." }
         ]
       },
       "dell": {
         title: "Dell XPS / Inspiron Repair Guide & Boot Keys",
-        image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Dell_XPS_13_9370.jpg/1200px-Dell_XPS_13_9370.jpg",
+        image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?q=80&w=1200&auto=format&fit=crop",
         bios: "F2",
         boot: "F12",
         steps: [
-          { title: "Access System Setup (BIOS)", text: "Press F2 immediately after a power-on or reboot (tap it repeatedly) to enter the System Setup menu. This gives you access to hardware configuration, date/time, and security settings." },
-          { title: "Access One-Time Boot Menu", text: "Press F12 immediately after power-on to open the one-time boot menu. This allows you to select a different boot device (like a USB drive) for this session only, without changing the permanent boot order." },
-          { title: "Modify Permanent Boot Options", text: "Inside the BIOS (F2), navigate to the 'Boot' menu. Here you can add or delete boot options, toggle UEFI boot, or change the boot sequence. Make sure 'Legacy Option ROMs' is enabled if you are booting older operating systems." }
+          { title: "Access System Setup (BIOS)", text: "Press F2 immediately after a power-on or reboot (tap it repeatedly) to enter the System Setup menu. This gives you access to hardware configuration and security settings." },
+          { title: "Access One-Time Boot Menu", text: "Press F12 immediately after power-on to open the one-time boot menu. This allows you to select a different boot device for this session only." },
+          { title: "Modify Permanent Boot Options", text: "Inside the BIOS (F2), navigate to the 'Boot' menu. Here you can add or delete boot options, toggle UEFI boot, or change the boot sequence." }
         ]
       },
       "hp": {
         title: "HP Pavilion / Omen Repair Guide & Boot Keys",
-        image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/HP_Omen_15.jpg/1200px-HP_Omen_15.jpg",
+        image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1200&auto=format&fit=crop",
         bios: "F10 (or F2, F6)",
         boot: "Esc, then F9",
         steps: [
-          { title: "Open Startup Menu", text: "Turn on the computer and immediately press the Esc key repeatedly until the Startup Menu opens. This menu acts as a gateway to system diagnostics and BIOS." },
-          { title: "Open BIOS Setup Utility", text: "From the Startup Menu, press F10 to open the BIOS Setup Utility. Here you can adjust system time, virtualization settings, and boot options." },
-          { title: "Access Boot Menu", text: "From the Startup Menu (accessed via Esc), press F9 to open the Boot Device Options menu. Select your desired boot device (like a USB drive) and press Enter." },
-          { title: "Save and Exit", text: "Press F10 to save the current values and return to the previous menu, or use the arrow keys to navigate to the 'Exit' tab and save changes." }
+          { title: "Open Startup Menu", text: "Turn on the computer and immediately press the Esc key repeatedly until the Startup Menu opens." },
+          { title: "Open BIOS Setup Utility", text: "From the Startup Menu, press F10 to open the BIOS Setup Utility." },
+          { title: "Access Boot Menu", text: "From the Startup Menu, press F9 to open the Boot Device Options menu. Select your desired boot device." }
         ]
       },
       "acer": {
         title: "Acer Aspire / Nitro Repair Guide & Boot Keys",
-        image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Acer_Aspire_5_A515-54G.jpg/1200px-Acer_Aspire_5_A515-54G.jpg",
+        image: "https://images.unsplash.com/photo-1555617981-dac3880eac6e?q=80&w=1200&auto=format&fit=crop",
         bios: "F2 (or Delete)",
         boot: "F12 (or Esc, F9)",
         steps: [
-          { title: "Enter BIOS", text: "Press F2 or Delete during startup (right when you see the Acer logo) to enter the BIOS configuration. If F2 doesn't work, try holding Fn + F2." },
-          { title: "Access Boot Menu", text: "Press F12 during startup to open the Boot Menu. On some models, you can also try Esc or F9. If the boot menu doesn't open, you may need to enable 'F12 Boot Menu' in the BIOS first." },
-          { title: "Adjust Boot Settings", text: "Inside the BIOS, go to the 'Boot' tab. Ensure Secure Boot is Disabled if you are booting from a non-Windows USB. Use F5/F6 to change the boot priority order." },
-          { title: "Enable F12 Boot Menu", text: "If F12 isn't working, enter the BIOS with F2, go to the 'Main' tab, and look for 'F12 Boot Menu'. Change it to 'Enabled', then press F10 to save and exit." }
+          { title: "Enter BIOS", text: "Press F2 or Delete during startup to enter the BIOS configuration." },
+          { title: "Access Boot Menu", text: "Press F12 during startup to open the Boot Menu. If it doesn't open, enable 'F12 Boot Menu' in the BIOS first." },
+          { title: "Adjust Boot Settings", text: "Inside the BIOS, go to the 'Boot' tab. Ensure Secure Boot is Disabled if booting a non-Windows USB." }
         ]
       },
       "razer": {
         title: "Razer Blade Repair Guide & Boot Keys",
-        image: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Razer_Blade_15_%282018%29.jpg/1200px-Razer_Blade_15_%282018%29.jpg",
+        image: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?q=80&w=1200&auto=format&fit=crop",
         bios: "F1 (or Del)",
         boot: "F12",
         steps: [
-          { title: "Enter BIOS Setup", text: "Restart your Blade. When the Razer logo appears, tap F1 or Del repeatedly. Ensure you press it fast enough to trigger the setting before Windows begins to load." },
-          { title: "Access Boot Menu", text: "When the Razer logo appears, repeatedly press F12 to access the boot menu before the Secure Boot warning appears. Select your USB device from the list." },
-          { title: "Windows Advanced Startup (Alternative)", text: "If the keys fail, go to Windows Settings > System > Recovery > Advanced startup > Restart now. Select Troubleshoot > Advanced options > UEFI Firmware Settings to reboot directly into the BIOS." }
+          { title: "Enter BIOS Setup", text: "Restart your Blade. When the Razer logo appears, tap F1 or Del repeatedly." },
+          { title: "Access Boot Menu", text: "When the Razer logo appears, repeatedly press F12 to access the boot menu." },
+          { title: "Windows Advanced Startup", text: "If keys fail, go to Settings > System > Recovery > Advanced startup > Restart now > Troubleshoot > UEFI Firmware Settings." }
         ]
       },
       "samsung": {
-        title: "Samsung Notebook / Galaxy Book Repair Guide & Boot Keys",
-        image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Samsung_Galaxy_Book_Pro_360.jpg/1200px-Samsung_Galaxy_Book_Pro_360.jpg",
+        title: "Samsung Notebook / Galaxy Book Repair Guide",
+        image: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?q=80&w=1200&auto=format&fit=crop",
         bios: "F2",
         boot: "F2 (inside BIOS) or F10",
         steps: [
-          { title: "Enter BIOS Setup", text: "Press F2 when the Samsung logo appears in the booting sequence to enter the BIOS Setup. You may need to press it multiple times quickly." },
-          { title: "Change Boot Priority", text: "Connect your bootable USB device. Restart and press F2 repeatedly. Enter the BIOS, select the 'Boot' menu, and set 'Fast BIOS Mode' to Off. Then change 'Boot Device Priority' to your USB device." },
-          { title: "Save and Restart", text: "Select 'Save' and then 'Yes' to save your changes and restart the computer. It should now boot from your USB drive." }
+          { title: "Enter BIOS Setup", text: "Press F2 when the Samsung logo appears in the booting sequence." },
+          { title: "Change Boot Priority", text: "Connect your USB. Restart and press F2. In BIOS, set 'Fast BIOS Mode' to Off, then change 'Boot Device Priority' to USB." },
+          { title: "Save and Restart", text: "Select 'Save' and then 'Yes' to save your changes and restart." }
         ]
       },
       "surface": {
         title: "Microsoft Surface Repair Guide & Boot Keys",
-        image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Microsoft_Surface_Pro_7.jpg/1200px-Microsoft_Surface_Pro_7.jpg",
+        image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1200&auto=format&fit=crop",
         bios: "Hold Volume Up + Power",
-        boot: "Hold Volume Up + Power (UEFI Menu)",
+        boot: "Hold Volume Up + Power (UEFI)",
         steps: [
-          { title: "Access UEFI Firmware", text: "Power off the device completely (Start > Power > Shut down, hold Shift). Press and hold the Volume Up button, then press and release the Power button. Continue holding Volume Up until the Surface logo appears and disappears, revealing the UEFI menu." },
-          { title: "Configure Boot Order", text: "Navigate to 'Configure Alternate System Boot Order' using the arrow keys. Press Enter to load the submenu, then select your first boot device (like a USB drive)." },
-          { title: "Exit and Save", text: "Navigate to the 'Exit' setup menu, press Enter, and use the arrow keys to select 'Yes' to save and restart. The Surface will now attempt to boot from the selected device." }
+          { title: "Access UEFI Firmware", text: "Power off completely. Press and hold Volume Up, then press and release Power. Keep holding Volume Up until the UEFI menu appears." },
+          { title: "Configure Boot Order", text: "Navigate to 'Configure Alternate System Boot Order' and press Enter. Select your first boot device." },
+          { title: "Exit and Save", text: "Navigate to the 'Exit' menu and select 'Yes' to save and restart." }
         ]
       }
     };
@@ -314,7 +314,7 @@
     loadGuide('lenovo', document.querySelector('.nav-item'));
 
     // ==========================================
-    // 4. CHAT WIDGET LOGIC (Secure Login)
+    // 4. CHAT WIDGET LOGIC
     // ==========================================
     let currentChannel = null;
     let eventSource = null;
@@ -325,12 +325,27 @@
     const inputEl = document.getElementById('message-input');
     const formEl = document.getElementById('send-form');
     const sendBtn = document.getElementById('send-btn');
+    const widgetEl = document.getElementById('chat-widget');
+    const toggleIcon = document.getElementById('toggle-icon');
+
+    // --- MINIMIZE / MAXIMIZE LOGIC ---
+    function toggleWidget() {
+      // Don't toggle if the user is actively typing in the input
+      if (document.activeElement === inputEl) return;
+
+      if (widgetEl.classList.contains('minimized')) {
+        widgetEl.classList.remove('minimized');
+        toggleIcon.textContent = '-';
+      } else {
+        widgetEl.classList.add('minimized');
+        toggleIcon.textContent = '+';
+      }
+    }
 
     // --- LOGIN LOGIC ---
     function login() {
       const pwd = document.getElementById('auth-password').value;
       
-      // Call the /api/verify endpoint
       fetch(`${API_URL}/api/verify`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -342,6 +357,9 @@
           savedPassword = pwd;
           document.getElementById('login-screen').style.display = 'none';
           document.getElementById('chat-interface').style.display = 'flex';
+          // Automatically expand widget on successful login
+          widgetEl.classList.remove('minimized');
+          toggleIcon.textContent = '-';
           initChat(); 
         }
       }).catch(err => {
