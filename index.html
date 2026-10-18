@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FixIt Core | Master Hardware Wiki & Reference</title>
+  <title>FixIt Core | Master Hardware Wiki & Technical Reference</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Banner Section First -->
+  <!-- Banner Section -->
   <div class="banner-container">
     <img src="images/banner.jpg" alt="FixIt Core Banner" class="site-banner">
   </div>
 
-  <!-- Top Navigation Bar Below Banner -->
+  <!-- Top Navigation Bar (Positioned Below Banner) -->
   <nav class="site-nav">
     <a href="index.html" class="active">Home</a>
     <a href="dell.html">Dell</a>
@@ -32,7 +32,7 @@
   </header>
 
   <div class="wiki-container">
-    <!-- LEFT SIDEBAR: Index Navigation -->
+    <!-- LEFT SIDEBAR: Article Index -->
     <aside class="wiki-sidebar">
       <div class="sidebar-title">Article Index</div>
       <ul class="sidebar-links">
@@ -41,10 +41,11 @@
         <li><a href="#bench-tips"><span>▸</span> General Benchtop Protocols</a></li>
         <li><a href="#commands"><span>▸</span> System Audit Commands</a></li>
         <li><a href="#storage-battery"><span>▸</span> Storage & Battery Safety</a></li>
+        <li><a href="#help-chat-portal"><span>▸</span> Help Chat Access Portal</a></li>
       </ul>
     </aside>
 
-    <!-- RIGHT CONTENT: Wiki Guides -->
+    <!-- RIGHT CONTENT: Main Guides -->
     <main class="wiki-content">
       <div class="wiki-section-header">Central Hardware Reference</div>
 
@@ -196,28 +197,40 @@
           <li><strong>Display Assembly eDP Fuses:</strong> Never plug or unplug an eDP screen cable while the battery is connected; doing so frequently blows the mainboard backlight fuse.</li>
         </ol>
       </div>
+
+      <!-- HELP CHAT PORTAL ACCESS CARD -->
+      <div class="guide-card" id="help-chat-portal" style="border-color: var(--accent-purple); box-shadow: 0 0 16px var(--accent-glow);">
+        <h3>Help Chat Portal Login</h3>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 14px;">
+          Log in with your access credentials to enable live cross-brand Help Chat and internal stream access.
+        </p>
+        
+        <div id="login-form-container" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+          <input type="text" id="portal-username" placeholder="Your Handle (e.g., User_01)" style="flex: 1; min-width: 180px; background: var(--bg-input); border: 1px solid var(--border-subtle); padding: 8px 12px; border-radius: 5px; color: var(--text-main); font-size: 0.85rem;">
+          <input type="password" id="portal-password" placeholder="Access Password" style="flex: 1; min-width: 180px; background: var(--bg-input); border: 1px solid var(--border-subtle); padding: 8px 12px; border-radius: 5px; color: var(--text-main); font-size: 0.85rem;">
+          <button onclick="unlockPortalLogin()" style="background: var(--accent-purple); color: #fff; border: none; padding: 8px 20px; border-radius: 5px; font-weight: 600; cursor: pointer; font-size: 0.85rem;">Authenticate</button>
+        </div>
+
+        <div id="logged-in-badge" style="display: none; align-items: center; justify-content: space-between;">
+          <span style="color: #4ade80; font-size: 0.88rem; font-weight: 600;">✓ Active Session: <span id="active-user-display" style="color: var(--text-main);"></span></span>
+          <button onclick="logoutPortal()" style="background: transparent; border: 1px solid var(--border-color); color: var(--text-muted); padding: 4px 12px; border-radius: 4px; cursor: pointer; font-size: 0.78rem;">Logout</button>
+        </div>
+      </div>
+
     </main>
   </div>
 
-  <!-- FLOATING SUPPORT CHAT WIDGET -->
-  <div class="chat-widget-container">
-    <button class="chat-toggle-btn" onclick="toggleChat()">Support Chat</button>
+  <!-- FLOATING HELP CHAT WIDGET (Hidden until logged in) -->
+  <div class="chat-widget-container" id="chat-widget-root" style="display: none;">
+    <button class="chat-toggle-btn" onclick="toggleChat()">Help Chat</button>
     
     <div class="chat-popup-panel" id="chat-panel">
       <div class="chat-header">
-        <span id="chat-header-title">Support Chat</span>
+        <span id="chat-header-title">Help Chat</span>
         <button class="close-btn" onclick="toggleChat()">✕</button>
       </div>
 
-      <div id="auth-gate" style="padding: 20px; text-align: center; display: flex; flex-direction: column; gap: 12px; justify-content: center; height: 100%;">
-        <h4 style="color: var(--accent-purple);">Restricted Access</h4>
-        <p style="color: var(--text-muted); font-size: 0.85rem;">Please log in to receive support.</p>
-        <input type="text" id="gateway-username" placeholder="Username">
-        <input type="password" id="gateway-password" placeholder="Password">
-        <button onclick="unlockChat()">Login</button>
-      </div>
-
-      <div id="chat-interface" style="display: none; flex-direction: column; height: 100%;">
+      <div id="chat-interface" style="display: flex; flex-direction: column; height: 100%;">
         <div class="channel-selector">
           <button class="channel-btn active" data-channel="GEN" onclick="selectChannel('GEN')">GEN</button>
           <button class="channel-btn" data-channel="IGC" onclick="selectChannel('IGC')">IGC</button>
@@ -229,7 +242,7 @@
         </div>
 
         <div class="chat-messages" id="message-container">
-          <div class="message"><span class="author">[System]</span> Logged in. Support stream active.</div>
+          <div class="message"><span class="author">[System]</span> Logged in. Stream active.</div>
         </div>
 
         <div class="chat-input-area">
@@ -245,36 +258,66 @@
     let activePassword = "";
     let activeUsername = "WebUser";
 
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedPass = localStorage.getItem('chat_pass');
+      const savedUser = localStorage.getItem('chat_user');
+      if (savedPass && savedUser) {
+        verifyAndActivate(savedPass, savedUser, true);
+      }
+    });
+
     function toggleChat() {
       const panel = document.getElementById('chat-panel');
       panel.style.display = panel.style.display === 'flex' ? 'none' : 'flex';
     }
 
-    async function unlockChat() {
-      const pwdInput = document.getElementById('gateway-password').value;
-      const userInput = document.getElementById('gateway-username').value;
-      if (userInput) activeUsername = userInput;
+    async function unlockPortalLogin() {
+      const pwdInput = document.getElementById('portal-password').value;
+      const userInput = document.getElementById('portal-username').value || "User";
+      await verifyAndActivate(pwdInput, userInput, false);
+    }
 
+    async function verifyAndActivate(password, username, isAutoLogin) {
       try {
         const res = await fetch('/api/verify', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ password: pwdInput })
+          body: JSON.stringify({ password: password })
         });
         const data = await res.json();
+        
         if (data.success) {
-          activePassword = pwdInput;
-          document.getElementById('auth-gate').style.display = 'none';
-          document.getElementById('chat-interface').style.display = 'flex';
-          document.getElementById('chat-header-title').textContent = `Support Chat (${activeUsername})`;
+          activePassword = password;
+          activeUsername = username;
+
+          localStorage.setItem('chat_pass', password);
+          localStorage.setItem('chat_user', username);
+
+          document.getElementById('chat-widget-root').style.display = 'block';
+          document.getElementById('login-form-container').style.display = 'none';
+          document.getElementById('logged-in-badge').style.display = 'flex';
+          document.getElementById('active-user-display').textContent = username;
+          document.getElementById('chat-header-title').textContent = `Help Chat (${username})`;
+
           fetchHistory();
           initStream();
-        } else {
+        } else if (!isAutoLogin) {
           alert('Access Denied: Invalid Password.');
         }
       } catch (err) {
         console.error('Auth error:', err);
       }
+    }
+
+    function logoutPortal() {
+      localStorage.removeItem('chat_pass');
+      localStorage.removeItem('chat_user');
+      activePassword = "";
+      document.getElementById('chat-widget-root').style.display = 'none';
+      document.getElementById('chat-panel').style.display = 'none';
+      document.getElementById('login-form-container').style.display = 'flex';
+      document.getElementById('logged-in-badge').style.display = 'none';
+      document.getElementById('portal-password').value = '';
     }
 
     function selectChannel(code) {
