@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FixIt Core | Acer Repair Protocols</title>
+  <title>FixIt Core | Acer Repair Protocols & Boot Cheat Sheet</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -26,36 +26,87 @@
 
   <header>
     <h1>Acer Hardware Servicing Guide</h1>
-    <p>Aspire, Predator, Nitro & Swift Protocols</p>
+    <p>Aspire, Predator, Nitro & Swift Bench Protocols</p>
   </header>
 
   <div class="wiki-container">
     <aside class="wiki-sidebar">
       <div class="sidebar-title">Article Index</div>
       <ul class="sidebar-links">
-        <li><a href="#acer-keys"><span>▸</span> Boot Keys & Enabling F12</a></li>
-        <li><a href="#acer-pinhole"><span>▸</span> Battery Reset Pinhole</a></li>
+        <li><a href="#acer-matrix"><span>▸</span> Startup & Key Matrix</a></li>
+        <li><a href="#acer-models"><span>▸</span> Series Classification</a></li>
+        <li><a href="#acer-f12"><span>▸</span> Enabling F12 Boot Menu</a></li>
+        <li><a href="#acer-pinhole"><span>▸</span> Battery Interlock Pinhole</a></li>
       </ul>
     </aside>
 
     <main class="wiki-content">
       <div class="wiki-section-header">Acer Hardware Reference</div>
 
-      <div class="guide-card" id="acer-keys">
-        <h3>Acer Startup Keys</h3>
+      <!-- MATRIX TABLE -->
+      <div class="guide-card" id="acer-matrix">
+        <h3>Acer Keys Quick Reference</h3>
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--text-muted); margin-top: 10px;">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--border-color); text-align: left; color: var(--text-main);">
+              <th style="padding: 8px;">Target Action</th>
+              <th style="padding: 8px;">Primary Key / Combination</th>
+              <th style="padding: 8px;">Description / Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">BIOS Setup</td>
+              <td style="padding: 8px;"><code>F2</code></td>
+              <td style="padding: 8px;">Tap repeatedly at power-on logo.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Boot Menu</td>
+              <td style="padding: 8px;"><code>F12</code> (Must Enable First)</td>
+              <td style="padding: 8px;">Disabled by default in BIOS configuration.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">eRecovery System Reset</td>
+              <td style="padding: 8px;"><code>Alt + F10</code></td>
+              <td style="padding: 8px;">Launches factory Windows recovery partition.</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Battery Cutoff Switch</td>
+              <td style="padding: 8px;"><code>Bottom Pinhole (4 sec)</code></td>
+              <td style="padding: 8px;">Resets physical power cut switch under base cover.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- MODEL BREAKDOWN -->
+      <div class="guide-card" id="acer-models">
+        <h3>Model Series Breakdown</h3>
         <ul>
-          <li><strong>BIOS Setup:</strong> Press <code>F2</code> repeatedly at boot.</li>
-          <li><strong>Boot Menu (F12):</strong> By default, Acer disables the <code>F12</code> boot menu. You must enter BIOS (<code>F2</code>), navigate to Main -> set <code>F12 Boot Menu</code> to <strong>Enabled</strong>, then press <code>F10</code> to save.</li>
-          <li><strong>System Recovery:</strong> Press <code>Alt + F10</code> at power-on to invoke Acer eRecovery Management.</li>
+          <li><strong>Gaming Tier (Predator / Nitro):</strong> Dual thermal blowers, high-density heatsinks, secondary M.2 slots. Watch out for fragile keyboard ribbon connectors.</li>
+          <li><strong>Slim Tier (Swift / Spin):</strong> Thin metal chassis, soldered LPDDR memory, integrated battery packs.</li>
+          <li><strong>Everyday Tier (Aspire):</strong> Heavy plastic casing, loose hinge mounting posts, removable RAM modules on standard models.</li>
         </ul>
       </div>
 
+      <!-- REPAIR TIPS -->
+      <div class="guide-card" id="acer-f12">
+        <h3>Mandatory Step: Enabling F12 Boot Menu in BIOS</h3>
+        <p style="color: var(--text-muted); font-size: 0.88rem;">Acer laptops ship with the `F12` boot device menu toggled OFF by default:</p>
+        <ol>
+          <li>Power on the laptop and tap <code>F2</code> repeatedly to enter BIOS Setup.</li>
+          <li>Use the right arrow key to navigate to the <strong>Main</strong> tab.</li>
+          <li>Scroll down to <strong>F12 Boot Menu</strong> and change setting from <code>Disabled</code> to <code>Enabled</code>.</li>
+          <li>Press <code>F10</code> to Save & Exit. Now pressing <code>F12</code> at boot will show your USB drives!</li>
+        </ol>
+      </div>
+
       <div class="guide-card" id="acer-pinhole">
-        <h3>Battery Reset Pinhole Switch</h3>
-        <p style="color: var(--text-muted); font-size: 0.88rem;">Acer laptops feature a physical battery interlock microswitch on the lower chassis:</p>
+        <img src="images/battery-replacement.jpg" alt="Acer Servicing" class="guide-img">
+        <h3>Pro Benchtop Repair Tips for Acer</h3>
         <ul>
-          <li>Unplug the charger. Insert a paperclip into the battery pinhole on the bottom case for <strong>4 seconds</strong>.</li>
-          <li>Allow the system to sit idle for 5 minutes before plugging in AC power and re-booting.</li>
+          <li><strong>Base RAM Door Microswitch Safety:</strong> Many Acer Aspire laptops have a safety microswitch near the RAM door or bottom cover screw hole. If the bottom cover is loose or unscrewed, the laptop will refuse to power on!</li>
+          <li><strong>Battery Reset Button:</strong> Insert a paperclip into the tiny battery battery pinhole on the lower chassis, hold for 4 seconds, and leave disconnected for 5 minutes to clear boot deadlocks.</li>
         </ul>
       </div>
     </main>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FixIt Core | Microsoft Surface Repair Protocols</title>
+  <title>FixIt Core | Surface Repair Protocols & Boot Cheat Sheet</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -26,36 +26,86 @@
 
   <header>
     <h1>Microsoft Surface Servicing Guide</h1>
-    <p>Surface Pro, Surface Laptop & Surface Studio Notes</p>
+    <p>Surface Pro, Surface Laptop, Surface Go & Surface Studio Notes</p>
   </header>
 
   <div class="wiki-container">
     <aside class="wiki-sidebar">
       <div class="sidebar-title">Article Index</div>
       <ul class="sidebar-links">
-        <li><a href="#surface-keys"><span>▸</span> Hardware Button Combinations</a></li>
+        <li><a href="#surface-matrix"><span>▸</span> Startup & Key Matrix</a></li>
+        <li><a href="#surface-models"><span>▸</span> Series Classification</a></li>
         <li><a href="#surface-ssd"><span>▸</span> Modular M.2 Door Access</a></li>
+        <li><a href="#surface-tips"><span>▸</span> Benchtop Repair Tips</a></li>
       </ul>
     </aside>
 
     <main class="wiki-content">
       <div class="wiki-section-header">Microsoft Surface Reference</div>
 
-      <div class="guide-card" id="surface-keys">
-        <h3>Surface Firmware Button Combinations</h3>
+      <!-- MATRIX TABLE -->
+      <div class="guide-card" id="surface-matrix">
+        <h3>Surface Hardware Combinations Quick Reference</h3>
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--text-muted); margin-top: 10px;">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--border-color); text-align: left; color: var(--text-main);">
+              <th style="padding: 8px;">Target Action</th>
+              <th style="padding: 8px;">Primary Key / Combination</th>
+              <th style="padding: 8px;">Description / Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">UEFI BIOS Menu</td>
+              <td style="padding: 8px;"><code>Hold Vol Up + Power</code></td>
+              <td style="padding: 8px;">Release Power at logo, continue holding Vol Up.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">USB Boot Override</td>
+              <td style="padding: 8px;"><code>Hold Vol Down + Power</code></td>
+              <td style="padding: 8px;">Release Vol Down once spinning dots appear under logo.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Forced Hard Reset</td>
+              <td style="padding: 8px;"><code>Hold Power (20 sec)</code></td>
+              <td style="padding: 8px;">Forces hardware shutoff on frozen screen.</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Recovery Drive Boot</td>
+              <td style="padding: 8px;"><code>USB Recovery Image</code></td>
+              <td style="padding: 8px;">Download official Microsoft Surface Bare-Metal BMR image.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- MODEL BREAKDOWN -->
+      <div class="guide-card" id="surface-models">
+        <h3>Model Series Breakdown</h3>
         <ul>
-          <li><strong>UEFI BIOS Menu:</strong> Press and hold <code>Volume Up</code>, press Power once, then release <code>Volume Up</code> when the Surface logo appears.</li>
-          <li><strong>USB Boot Override:</strong> Press and hold <code>Volume Down</code>, press Power once, then release <code>Volume Down</code> when spinning dots appear under the logo.</li>
-          <li><strong>Hard Reboot / Forced Shutdown:</strong> Hold the Power button for <strong>20 seconds</strong> until the screen turns off and reboots.</li>
+          <li><strong>Surface Pro (7+ / 8 / 9 / 10 / 11):</strong> Glass display screen glued with tough heat-activated adhesive. Features accessible M.2 2230 SSD kickstand door.</li>
+          <li><strong>Surface Laptop (3 / 4 / 5 / 6 / Studio):</strong> Alcantara or metal palmrests held by hidden magnetic Torx screws beneath rubber base feet.</li>
+          <li><strong>Surface Go:</strong> Lower power fanless tablets, glued display glass, non-upgradable eMMC / soldered NVMe storage.</li>
         </ul>
       </div>
 
+      <!-- REPAIR TIPS -->
       <div class="guide-card" id="surface-ssd">
-        <h3>Modular M.2 2230 Door (Modern Surface)</h3>
-        <p style="color: var(--text-muted); font-size: 0.88rem;">Surface Pro 7+, 8, 9, 10 and Surface Laptop 3, 4, 5, 6 include accessible SSD doors:</p>
+        <h3>Modular M.2 2230 SSD Access Door</h3>
+        <p style="color: var(--text-muted); font-size: 0.88rem;">Modern Surface Pro and Laptop models allow easy storage replacement without removing glued display glass:</p>
+        <ol>
+          <li>Open the kickstand on Surface Pro models to reveal the magnetic SSD compartment door.</li>
+          <li>Insert a SIM ejector tool into the pinhole to pop open the metal door cover.</li>
+          <li>Remove the single Torx T3 screw holding the M.2 2230 NVMe drive.</li>
+        </ol>
+      </div>
+
+      <div class="guide-card" id="surface-tips">
+        <img src="images/drive-replacement.jpg" alt="Surface Servicing" class="guide-img">
+        <h3>Pro Benchtop Repair Tips for Surface</h3>
         <ul>
-          <li>Pop open the magnetic door under the kickstand using a SIM eject tool or pin.</li>
-          <li>Unscrew the single Torx T3 screw securing the M.2 2230 drive module.</li>
+          <li><strong>Heat Gun Screen Removal Rule:</strong> When opening glued Surface screens, heat edges uniformly to **70°C–75°C**. Never exceed 80°C or thermal spot damage will permanently yellow the display digitizer.</li>
+          <li><strong>Surface Bare Metal Recovery (BMR):</strong> Standard Windows 10/11 ISOs often lack touch screen and Wi-Fi drivers out of the box. Always download the model-specific Surface BMR Recovery Zip from Microsoft Support.</li>
         </ul>
       </div>
     </main>

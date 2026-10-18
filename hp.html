@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FixIt Core | HP Repair Protocols</title>
+  <title>FixIt Core | HP Repair Protocols & Boot Cheat Sheet</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -26,40 +26,93 @@
 
   <header>
     <h1>HP Hardware Servicing Guide</h1>
-    <p>EliteBook, ProBook, Pavilion & Spectre Protocols</p>
+    <p>EliteBook, ProBook, Pavilion, Spectre & OMEN Bench Notes</p>
   </header>
 
   <div class="wiki-container">
     <aside class="wiki-sidebar">
       <div class="sidebar-title">Article Index</div>
       <ul class="sidebar-links">
-        <li><a href="#hp-keys"><span>▸</span> Startup Keys</a></li>
-        <li><a href="#hp-recovery"><span>▸</span> BIOS Recovery Key Combination</a></li>
+        <li><a href="#hp-matrix"><span>▸</span> Startup & Key Matrix</a></li>
+        <li><a href="#hp-models"><span>▸</span> Series Classification</a></li>
+        <li><a href="#hp-recovery"><span>▸</span> Win + B BIOS Rollback</a></li>
+        <li><a href="#hp-tips"><span>▸</span> Benchtop Repair Tips</a></li>
       </ul>
     </aside>
 
     <main class="wiki-content">
       <div class="wiki-section-header">HP Hardware Reference</div>
 
-      <div class="guide-card" id="hp-keys">
-        <h3>HP Startup Keys</h3>
+      <!-- MATRIX TABLE -->
+      <div class="guide-card" id="hp-matrix">
+        <h3>HP Startup Keys Quick Reference</h3>
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--text-muted); margin-top: 10px;">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--border-color); text-align: left; color: var(--text-main);">
+              <th style="padding: 8px;">Target Action</th>
+              <th style="padding: 8px;">Primary Key / Combination</th>
+              <th style="padding: 8px;">Description / Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Startup Menu</td>
+              <td style="padding: 8px;"><code>Esc</code></td>
+              <td style="padding: 8px;">Pauses startup and displays full options menu.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">BIOS Setup</td>
+              <td style="padding: 8px;"><code>F10</code></td>
+              <td style="padding: 8px;">Direct entry into UEFI configuration settings.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Boot Device Menu</td>
+              <td style="padding: 8px;"><code>F9</code></td>
+              <td style="padding: 8px;">Brings up boot order drive menu.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Hardware Diag</td>
+              <td style="padding: 8px;"><code>F2</code></td>
+              <td style="padding: 8px;">Launches HP System Diagnostics suite.</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Emergency BIOS Recovery</td>
+              <td style="padding: 8px;"><code>Win + B + Power</code></td>
+              <td style="padding: 8px;">Forces BIOS reflashing from hidden block on corrupt boot.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- MODEL BREAKDOWN -->
+      <div class="guide-card" id="hp-models">
+        <h3>Model Series Breakdown</h3>
         <ul>
-          <li><strong>BIOS Setup:</strong> Press <code>F10</code> repeatedly at power-on.</li>
-          <li><strong>Boot Menu:</strong> Press <code>F9</code> to select startup devices.</li>
-          <li><strong>Startup Menu:</strong> Press <code>Esc</code> immediately upon pressing power to show all firmware options.</li>
-          <li><strong>Hardware Diagnostics:</strong> Press <code>F2</code> for HP UEFI System Diagnostics.</li>
+          <li><strong>Business Tier (EliteBook / ProBook / ZBook):</strong> Heavy magnesium/aluminum construction, spill-resistant keyboard trays, physical smartcard readers, socketed dual SODIMM RAM.</li>
+          <li><strong>Consumer Tier (Pavilion / Envy / Essential):</strong> Plastic clip enclosures, hidden rubber foot strips concealing screws, glued battery packs.</li>
+          <li><strong>Premium Tier (Spectre / OMEN):</strong> High density boards, ultra-thin ribbon cables, vapor chamber assemblies requiring thermal pads.</li>
         </ul>
       </div>
 
+      <!-- REPAIR TIPS -->
       <div class="guide-card" id="hp-recovery">
-        <h3>Emergency BIOS Rollback (Win + B)</h3>
-        <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 10px;">If an HP laptop exhibits black screen / caps lock blinking failure codes:</p>
+        <h3>Emergency BIOS Rollback Protocol (Win + B)</h3>
+        <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 10px;">If an HP laptop powers on with a blank screen and blinks the Caps Lock key (e.g., 2 long, 2 short blinks):</p>
         <ol>
-          <li>Power off the unit completely.</li>
-          <li>Press and hold the <code>Windows Key + B</code>.</li>
-          <li>While holding those keys, press and hold the Power button for 2–3 seconds, then release Power (continue holding <code>Win + B</code>).</li>
-          <li>Release keys when the screen turns on and the HP BIOS Update screen appears.</li>
+          <li>Power off the system completely.</li>
+          <li>Press and hold <code>Windows Key + B</code>.</li>
+          <li>Hold down the <code>Power Button</code> for 3 seconds, then release Power while continuing to hold <code>Win + B</code>.</li>
+          <li>When the screen lights up with "HP BIOS Update", release all keys.</li>
         </ol>
+      </div>
+
+      <div class="guide-card" id="hp-tips">
+        <img src="images/drive-replacement.jpg" alt="HP Servicing" class="guide-img">
+        <h3>Pro Benchtop Repair Tips for HP</h3>
+        <ul>
+          <li><strong>Hidden Base Screws under Rubber Feet:</strong> On Envy and Spectre models, bottom screws are concealed under long rubber friction strips. Heat strips with a hot air station at 80°C before peeling to preserve adhesive.</li>
+          <li><strong>CMOS Clear Key Combination:</strong> If removing the battery doesn't reset CMOS, hold <code>Win + V + Power</code> for 15 seconds to trigger CMOS default restoration on modern HP boards.</li>
+        </ul>
       </div>
     </main>
   </div>

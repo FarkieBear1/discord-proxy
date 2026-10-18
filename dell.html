@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FixIt Core | Dell Repair Protocols</title>
+  <title>FixIt Core | Dell Repair Protocols & Boot Cheat Sheet</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -26,50 +26,92 @@
 
   <header>
     <h1>Dell Hardware Servicing Guide</h1>
-    <p>Latitude, XPS, Inspiron & Precision Bench Notes</p>
+    <p>Latitude, XPS, Inspiron, Precision & Alienware Bench Protocols</p>
   </header>
 
   <div class="wiki-container">
     <aside class="wiki-sidebar">
       <div class="sidebar-title">Article Index</div>
       <ul class="sidebar-links">
-        <li><a href="#dell-keys"><span>▸</span> Boot & BIOS Keys</a></li>
-        <li><a href="#dell-diag"><span>▸</span> ePSA & LCD BIST</a></li>
-        <li><a href="#dell-reset"><span>▸</span> RTC Hard Reset</a></li>
+        <li><a href="#dell-matrix"><span>▸</span> Startup & Key Matrix</a></li>
+        <li><a href="#dell-models"><span>▸</span> Series Classification</a></li>
+        <li><a href="#dell-diag"><span>▸</span> LCD BIST & ePSA Diagnostics</a></li>
+        <li><a href="#dell-reset"><span>▸</span> RTC Hard Reset Procedure</a></li>
       </ul>
     </aside>
 
     <main class="wiki-content">
-      <div class="wiki-section-header">Dell Repair Manual & Diagnostics</div>
+      <div class="wiki-section-header">Dell Hardware Reference</div>
 
-      <div class="guide-card" id="dell-keys">
-        <h3>Startup & Recovery Key Shortcuts</h3>
+      <!-- MATRIX TABLE -->
+      <div class="guide-card" id="dell-matrix">
+        <h3>Dell Key & Recovery Quick Reference</h3>
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--text-muted); margin-top: 10px;">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--border-color); text-align: left; color: var(--text-main);">
+              <th style="padding: 8px;">Target Action</th>
+              <th style="padding: 8px;">Primary Key / Combination</th>
+              <th style="padding: 8px;">Description / Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">BIOS / UEFI Setup</td>
+              <td style="padding: 8px;"><code>F2</code></td>
+              <td style="padding: 8px;">Tap repeatedly at Dell logo during POST.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">One-Time Boot Menu</td>
+              <td style="padding: 8px;"><code>F12</code></td>
+              <td style="padding: 8px;">Selects USB installer, Network Boot, or UEFI shell.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">ePSA Hardware Diag</td>
+              <td style="padding: 8px;"><code>Fn + Power</code> or <code>F12</code> -> Diag</td>
+              <td style="padding: 8px;">Runs onboard memory, drive, and fan diagnostic routines.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">LCD BIST Screen Test</td>
+              <td style="padding: 8px;"><code>Hold D + Power</code></td>
+              <td style="padding: 8px;">Cycles solid color screens to isolate screen vs motherboard.</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">RTC / CMOS Hard Reset</td>
+              <td style="padding: 8px;"><code>Hold Power (30 Seconds)</code></td>
+              <td style="padding: 8px;">Resets BIOS to defaults on no-POST / corrupt states.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- MODEL BREAKDOWN -->
+      <div class="guide-card" id="dell-models">
+        <h3>Model Series Breakdown</h3>
         <ul>
-          <li><strong>BIOS Setup:</strong> Press <code>F2</code> repeatedly at the Dell splash logo.</li>
-          <li><strong>One-Time Boot Menu:</strong> Press <code>F12</code> to select USB installation drives or network boot options.</li>
-          <li><strong>ePSA Hardware Diagnostics:</strong> Hold <code>Fn</code> while powering on the system or select "Diagnostics" from the <code>F12</code> boot menu.</li>
+          <li><strong>Business Tier (Latitude / Precision):</strong> Features captive base screws, modular DC jacks, dTPM chips, and service doors. High repairability.</li>
+          <li><strong>Consumer Tier (Inspiron / Vostro):</strong> Plastic clip-heavy chassis, single heatpipe cooling, soldered components on lower models.</li>
+          <li><strong>Enthusiast Tier (XPS / Alienware):</strong> High thermal output, vapor chambers, strict screw size variations (Torx T5 on bottom, Phillips inside).</li>
         </ul>
       </div>
 
+      <!-- REPAIR TIPS -->
       <div class="guide-card" id="dell-diag">
         <img src="images/battery-replacement.jpg" alt="Dell Diagnostics" class="guide-img">
-        <h3>LCD Built-In Self-Test (BIST)</h3>
-        <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 10px;">To isolate whether a display issue is caused by the GPU/motherboard or the LCD panel itself:</p>
-        <ol>
-          <li>Power off the laptop completely.</li>
-          <li>Press and hold the <code>D</code> key on the keyboard, then press the Power button once.</li>
-          <li>Release both keys. The screen will cycle solid Red, Green, Blue, White, and Black patterns to confirm panel integrity.</li>
-        </ol>
+        <h3>Pro Benchtop Repair Tips for Dell</h3>
+        <ul>
+          <li><strong>Diagnostic LED Flashing Codes:</strong> Modern Dells flash the battery indicator light in Amber/White patterns (e.g., 2 Amber, 3 White = Memory / RAM failure; 3 Amber, 4 White = Display failure).</li>
+          <li><strong>Battery Cable Interlock:</strong> Always unplug the battery cable before unseating the eDP display cable. Plugging an eDP cable with power attached will instantly blow the backlight fuse on the logic board.</li>
+          <li><strong>Touchpad Grounding Ribbon:</strong> XPS and Latitude touchpads rely on a copper foil grounding tape attached to the palmrest. If missing, trackpad jitter occurs.</li>
+        </ul>
       </div>
 
       <div class="guide-card" id="dell-reset">
         <h3>Real-Time Clock (RTC) Reset Protocol</h3>
-        <p style="color: var(--text-muted); font-size: 0.88rem;">For unbootable, no-POST, or corrupt BIOS states on modern Dell systems:</p>
-        <ul>
-          <li>Connect AC power. Power off the system.</li>
-          <li>Press and hold the Power button for <strong>30 seconds</strong> until the power LED blinks three times, then release.</li>
-          <li>The system will power cycle several times while resetting CMOS and clearing BIOS settings.</li>
-        </ul>
+        <ol>
+          <li>Connect AC adapter power. Ensure device is turned off.</li>
+          <li>Press and hold the Power button down continuously for <strong>30 seconds</strong> until the battery LED blinks three times.</li>
+          <li>Release the Power button. The unit will power cycle multiple times to re-flash CMOS defaults.</li>
+        </ol>
       </div>
     </main>
   </div>

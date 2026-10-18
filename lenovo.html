@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FixIt Core | Lenovo Repair Protocols</title>
+  <title>FixIt Core | Lenovo Repair Protocols & Boot Cheat Sheet</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -26,37 +26,92 @@
 
   <header>
     <h1>Lenovo Hardware Servicing Guide</h1>
-    <p>ThinkPad, IdeaPad, Yoga & Legion Protocols</p>
+    <p>ThinkPad, IdeaPad, Yoga, Legion & ThinkBook Bench Notes</p>
   </header>
 
   <div class="wiki-container">
     <aside class="wiki-sidebar">
       <div class="sidebar-title">Article Index</div>
       <ul class="sidebar-links">
-        <li><a href="#lenovo-keys"><span>▸</span> Boot Keys & Novo Button</a></li>
+        <li><a href="#lenovo-matrix"><span>▸</span> Startup & Key Matrix</a></li>
+        <li><a href="#lenovo-models"><span>▸</span> Series Classification</a></li>
         <li><a href="#lenovo-pinhole"><span>▸</span> Emergency Reset Pinhole</a></li>
+        <li><a href="#lenovo-tips"><span>▸</span> Benchtop Repair Tips</a></li>
       </ul>
     </aside>
 
     <main class="wiki-content">
       <div class="wiki-section-header">Lenovo Hardware Reference</div>
 
-      <div class="guide-card" id="lenovo-keys">
-        <h3>Lenovo Startup Keys</h3>
+      <!-- MATRIX TABLE -->
+      <div class="guide-card" id="lenovo-matrix">
+        <h3>Lenovo Keys Quick Reference</h3>
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--text-muted); margin-top: 10px;">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--border-color); text-align: left; color: var(--text-main);">
+              <th style="padding: 8px;">Target Action</th>
+              <th style="padding: 8px;">Primary Key / Combination</th>
+              <th style="padding: 8px;">Description / Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Interrupt Boot Prompt</td>
+              <td style="padding: 8px;"><code>Enter Key</code></td>
+              <td style="padding: 8px;">Tap repeatedly on ThinkPads during startup splash.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">BIOS Setup</td>
+              <td style="padding: 8px;"><code>F1</code> or <code>Fn + F1</code></td>
+              <td style="padding: 8px;">Enters Lenovo UEFI configuration setup.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Boot Device Menu</td>
+              <td style="padding: 8px;"><code>F12</code> or <code>Fn + F12</code></td>
+              <td style="padding: 8px;">Brings up UEFI drive boot selection.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Novo Button Menu</td>
+              <td style="padding: 8px;"><code>Paperclip in Novo Hole</code></td>
+              <td style="padding: 8px;">Used on IdeaPad/Yoga while system is powered OFF.</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Emergency Power Reset</td>
+              <td style="padding: 8px;"><code>Bottom Pinhole (10 sec)</code></td>
+              <td style="padding: 8px;">Cuts main battery circuit on unresponsive ThinkPads.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- MODEL BREAKDOWN -->
+      <div class="guide-card" id="lenovo-models">
+        <h3>Model Series Breakdown</h3>
         <ul>
-          <li><strong>BIOS Setup:</strong> Press <code>F1</code> or press <code>Enter</code> on ThinkPads during the splash screen to interrupt boot.</li>
-          <li><strong>Boot Menu:</strong> Press <code>F12</code> to select boot overrides.</li>
-          <li><strong>Novo Button:</strong> On IdeaPads, insert a paperclip into the small Novo hole on the side chassis while powered off to enter boot options.</li>
+          <li><strong>Enterprise Tier (ThinkPad X1 / T / P / L Series):</strong> Roll-cage magnesium construction, captive screws,TrackPoint keyboards, water drainage channels. Highly modular.</li>
+          <li><strong>Mid-Range Business (ThinkBook):</strong> Aluminum top cover, standard plastic base, dual M.2 NVMe expansion slots.</li>
+          <li><strong>Consumer Tier (IdeaPad / Yoga / Slim):</strong> Pinhole Novo buttons, single heatpipe fan assemblies, delicate hinges mounted to plastic anchors.</li>
         </ul>
       </div>
 
+      <!-- REPAIR TIPS -->
       <div class="guide-card" id="lenovo-pinhole">
-        <h3>Emergency Reset Pinhole (ThinkPads)</h3>
-        <p style="color: var(--text-muted); font-size: 0.88rem;">If a ThinkPad becomes unresponsive and will not power off:</p>
+        <h3>Emergency Reset Pinhole Procedure</h3>
+        <p style="color: var(--text-muted); font-size: 0.88rem;">If a ThinkPad exhibits a black screen or locked power state:</p>
+        <ol>
+          <li>Disconnect the AC adapter.</li>
+          <li>Locate the tiny emergency reset pinhole on the bottom casing.</li>
+          <li>Insert a straightened paperclip for <strong>10 full seconds</strong> to disconnect the internal battery circuit and drain board capacitance.</li>
+          <li>Reconnect AC power and turn on normally.</li>
+        </ol>
+      </div>
+
+      <div class="guide-card" id="lenovo-tips">
+        <img src="images/battery-replacement.jpg" alt="Lenovo Servicing" class="guide-img">
+        <h3>Pro Benchtop Repair Tips for Lenovo</h3>
         <ul>
-          <li>Disconnect AC power adapter.</li>
-          <li>Locate the tiny emergency reset hole on the bottom cover.</li>
-          <li>Insert a straightened paperclip into the hole for <strong>10 seconds</strong> to disconnect the internal battery circuit.</li>
+          <li><strong>BIOS Power Cutoff Feature:</strong> Before servicing internal components, boot into ThinkPad BIOS -> Config -> Power -> Select "Disable Built-in Battery". The battery disconnects automatically until AC power is re-attached!</li>
+          <li><strong>Hinge Screw Torque Issue:</strong> IdeaPad hinges often pull out of their plastic standoffs. Re-anchor standoffs using epoxy resin and loosen hinge nut tension by a quarter turn before reinstalling.</li>
         </ul>
       </div>
     </main>

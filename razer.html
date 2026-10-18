@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FixIt Core | Razer Repair Protocols</title>
+  <title>FixIt Core | Razer Repair Protocols & Boot Cheat Sheet</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -26,36 +26,85 @@
 
   <header>
     <h1>Razer Blade Servicing Guide</h1>
-    <p>Blade 14, 15, 16, 17 & Stealth Servicing Protocols</p>
+    <p>Blade 14, 15, 16, 17, Pro & Stealth Bench Protocols</p>
   </header>
 
   <div class="wiki-container">
     <aside class="wiki-sidebar">
       <div class="sidebar-title">Article Index</div>
       <ul class="sidebar-links">
-        <li><a href="#razer-keys"><span>▸</span> Boot & Recovery Keys</a></li>
-        <li><a href="#razer-battery"><span>▸</span> Battery Swell Inspection</a></li>
+        <li><a href="#razer-matrix"><span>▸</span> Startup & Key Matrix</a></li>
+        <li><a href="#razer-models"><span>▸</span> Series Classification</a></li>
+        <li><a href="#razer-swell"><span>▸</span> Battery Bloat Inspection</a></li>
+        <li><a href="#razer-tips"><span>▸</span> Benchtop Repair Tips</a></li>
       </ul>
     </aside>
 
     <main class="wiki-content">
       <div class="wiki-section-header">Razer Hardware Reference</div>
 
-      <div class="guide-card" id="razer-keys">
-        <h3>Razer Startup Keys</h3>
+      <!-- MATRIX TABLE -->
+      <div class="guide-card" id="razer-matrix">
+        <h3>Razer Keys Quick Reference</h3>
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--text-muted); margin-top: 10px;">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--border-color); text-align: left; color: var(--text-main);">
+              <th style="padding: 8px;">Target Action</th>
+              <th style="padding: 8px;">Primary Key / Combination</th>
+              <th style="padding: 8px;">Description / Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">BIOS Setup</td>
+              <td style="padding: 8px;"><code>F2</code> or <code>Delete</code></td>
+              <td style="padding: 8px;">Tap rapidly at the green Razer emblem.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Boot Device Menu</td>
+              <td style="padding: 8px;"><code>F12</code></td>
+              <td style="padding: 8px;">Brings up boot device selector options.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Factory Recovery</td>
+              <td style="padding: 8px;"><code>Hold F9 at Boot</code></td>
+              <td style="padding: 8px;">Launches native Razer System Recovery engine.</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Static Discharge Reset</td>
+              <td style="padding: 8px;"><code>Hold Power (15 sec)</code></td>
+              <td style="padding: 8px;">Unplug AC charger first to clear capacitor state.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- MODEL BREAKDOWN -->
+      <div class="guide-card" id="razer-models">
+        <h3>Model Series Breakdown</h3>
         <ul>
-          <li><strong>BIOS Setup:</strong> Press <code>F2</code> or <code>Del</code> continuously when the Razer logo appears.</li>
-          <li><strong>Boot Menu:</strong> Press <code>F12</code> to select external boot media.</li>
-          <li><strong>System Recovery:</strong> Hold <code>F9</code> during cold boot to launch the factory Razer Recovery partition.</li>
+          <li><strong>Blade 16 / 17 / Pro:</strong> Vapor chamber cooling, dual M.2 slots, high screw count (T5 Torx on bottom, Phillips inside). Extremely prone to battery swell.</li>
+          <li><strong>Blade 14 / 15:</strong> Compact CNC aluminum unibody, high thermal density, dual SODIMM RAM slots on 15" (soldered RAM on 14").</li>
+          <li><strong>Blade Stealth / Book 13:</strong> Thin-and-light productivity chassis, soldered RAM, single M.2 NVMe slot.</li>
         </ul>
       </div>
 
-      <div class="guide-card" id="razer-battery">
-        <h3>Battery Swell & Thermal Maintenance</h3>
-        <p style="color: var(--text-muted); font-size: 0.88rem;">Razer Blade chassis generate extreme heat inside dense vapor chamber assemblies:</p>
+      <!-- REPAIR TIPS -->
+      <div class="guide-card" id="razer-swell">
+        <h3>Battery Swell & Trackpad Inspection Protocol</h3>
+        <p style="color: var(--text-muted); font-size: 0.88rem;">Razer Blade unibody designs feature minimal internal tolerances:</p>
+        <ol>
+          <li><strong>Stiff Trackpad Test:</strong> If the glass trackpad is physically hard to press down or stops clicking, stop using the laptop immediately—the lithium battery has inflated under the trackpad frame.</li>
+          <li><strong>Torx T5 Base Fasteners:</strong> Always use high-quality T5 drivers; soft alloy Razer chassis screws strip easily if cheap bits are used.</li>
+        </ol>
+      </div>
+
+      <div class="guide-card" id="razer-tips">
+        <img src="images/drive-replacement.jpg" alt="Razer Servicing" class="guide-img">
+        <h3>Pro Benchtop Repair Tips for Razer</h3>
         <ul>
-          <li><strong>Trackpad Resistance Check:</strong> If the glass trackpad stops clicking cleanly, immediately remove the bottom cover—this indicates lithium battery swelling.</li>
-          <li><strong>Vapor Chamber Caution:</strong> Never flex or force vapor chamber heatsinks during paste re-application; a micro-fracture permanently voids the vacuum seal.</li>
+          <li><strong>Vapor Chamber Caution:</strong> Never bend or force the copper vapor chamber assembly. A hairline crease releases the internal vacuum, destroying heat transfer capability instantly.</li>
+          <li><strong>Screen Flex Ribbon Shielding:</strong> Keep thermal tape intact over display ribbon connectors near the hinge area to prevent GPU display noise artifacts.</li>
         </ul>
       </div>
     </main>

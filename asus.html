@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FixIt Core | ASUS Repair Protocols</title>
+  <title>FixIt Core | ASUS Repair Protocols & Boot Cheat Sheet</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -26,38 +26,87 @@
 
   <header>
     <h1>ASUS Hardware Servicing Guide</h1>
-    <p>ROG, ZenBook, TUF & VivoBook Bench Notes</p>
+    <p>ROG Strix, ZenBook, TUF Gaming & VivoBook Bench Notes</p>
   </header>
 
   <div class="wiki-container">
     <aside class="wiki-sidebar">
       <div class="sidebar-title">Article Index</div>
       <ul class="sidebar-links">
-        <li><a href="#asus-keys"><span>▸</span> Boot Keys & Flash Options</a></li>
-        <li><a href="#asus-ec"><span>▸</span> Embedded Controller Reset</a></li>
+        <li><a href="#asus-matrix"><span>▸</span> Startup & Key Matrix</a></li>
+        <li><a href="#asus-models"><span>▸</span> Series Classification</a></li>
+        <li><a href="#asus-ec"><span>▸</span> EC Hard Power Reset</a></li>
+        <li><a href="#asus-tips"><span>▸</span> Benchtop Repair Tips</a></li>
       </ul>
     </aside>
 
     <main class="wiki-content">
       <div class="wiki-section-header">ASUS Hardware Reference</div>
 
-      <div class="guide-card" id="asus-keys">
-        <h3>ASUS Startup Keys</h3>
+      <!-- MATRIX TABLE -->
+      <div class="guide-card" id="asus-matrix">
+        <h3>ASUS Keys Quick Reference</h3>
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--text-muted); margin-top: 10px;">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--border-color); text-align: left; color: var(--text-main);">
+              <th style="padding: 8px;">Target Action</th>
+              <th style="padding: 8px;">Primary Key / Combination</th>
+              <th style="padding: 8px;">Description / Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">BIOS Setup</td>
+              <td style="padding: 8px;"><code>F2</code> or <code>Delete</code></td>
+              <td style="padding: 8px;">Hold or tap continuously at startup.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Boot Device Menu</td>
+              <td style="padding: 8px;"><code>Escape Key</code></td>
+              <td style="padding: 8px;">Opens drive selection menu on laptops.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">EZ Flash Utility</td>
+              <td style="padding: 8px;"><code>F7 (Advanced) -> Tools</code></td>
+              <td style="padding: 8px;">Flashes UEFI firmware via FAT32 USB drive.</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">EC Hard Power Reset</td>
+              <td style="padding: 8px;"><code>Hold Power (40 Seconds)</code></td>
+              <td style="padding: 8px;">Drains embedded controller power state on no-boot.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- MODEL BREAKDOWN -->
+      <div class="guide-card" id="asus-models">
+        <h3>Model Series Breakdown</h3>
         <ul>
-          <li><strong>BIOS Setup:</strong> Press <code>F2</code> or <code>Del</code> immediately at boot.</li>
-          <li><strong>Boot Menu:</strong> Press <code>Esc</code> or <code>F8</code> (on desktop boards) for drive selection.</li>
-          <li><strong>EZ Flash Firmware Update:</strong> Enter UEFI BIOS and navigate to Advanced Mode -> Tools -> ASUS EZ Flash 3 Utility.</li>
+          <li><strong>Gaming Tier (ROG Strix / Zephyrus / TUF):</strong> High power thermal loads, dual fan heat sinks, liquid metal cooling compound applied on CPU dies.</li>
+          <li><strong>Ultrabook Tier (ZenBook / ExpertBook):</strong> ErgoLift hinges, delicate ribbon cables, glued base feet concealing chassis screws.</li>
+          <li><strong>Entry Tier (VivoBook):</strong> Single fan assemblies, plastic chassis mounts, soldered mainboard RAM.</li>
         </ul>
       </div>
 
+      <!-- REPAIR TIPS -->
       <div class="guide-card" id="asus-ec">
-        <h3>Hard EC Reset (Hard Power Cycle)</h3>
-        <p style="color: var(--text-muted); font-size: 0.88rem;">To clear stuck power states or blank screen initialization issues on ROG/ZenBook models:</p>
+        <h3>Hard EC Reset (Embedded Controller Clear)</h3>
+        <p style="color: var(--text-muted); font-size: 0.88rem;">To clear stuck power states or blank screen initialization issues on ROG and ZenBook models:</p>
         <ol>
-          <li>Disconnect the AC adapter.</li>
-          <li>Press and hold the Power button down continuously for <strong>40 seconds</strong>.</li>
-          <li>Plug the AC adapter back in and power on the system normally.</li>
+          <li>Unplug the AC power adapter.</li>
+          <li>Press and hold the Power button down continuously for <strong>40 full seconds</strong>.</li>
+          <li>Plug the AC adapter back in and press Power normally. The system will take up to 60 seconds to train memory and display video.</li>
         </ol>
+      </div>
+
+      <div class="guide-card" id="asus-tips">
+        <img src="images/drive-replacement.jpg" alt="ASUS Servicing" class="guide-img">
+        <h3>Pro Benchtop Repair Tips for ASUS</h3>
+        <ul>
+          <li><strong>Liquid Metal Caution (ROG Series):</strong> Modern ROG laptops use liquid metal thermal compound on the CPU. Never tilt or flex the logic board vertically while warm. Clean only using 99% IPA and high-density foam swabs.</li>
+          <li><strong>ROG Pop-Open Base Screw:</strong> On TUF and ROG laptops, the bottom-right corner screw is a "Pop-Open" captive screw designed to create an opening gap for your guitar pick pry tool.</li>
+        </ul>
       </div>
     </main>
   </div>

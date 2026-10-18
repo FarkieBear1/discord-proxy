@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FixIt Core | Samsung Repair Protocols</title>
+  <title>FixIt Core | Samsung Repair Protocols & Boot Cheat Sheet</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -33,29 +33,79 @@
     <aside class="wiki-sidebar">
       <div class="sidebar-title">Article Index</div>
       <ul class="sidebar-links">
-        <li><a href="#samsung-keys"><span>▸</span> Boot Keys & Recovery</a></li>
-        <li><a href="#samsung-screws"><span>▸</span> Hidden Foot Fasteners</a></li>
+        <li><a href="#samsung-matrix"><span>▸</span> Startup & Key Matrix</a></li>
+        <li><a href="#samsung-models"><span>▸</span> Series Classification</a></li>
+        <li><a href="#samsung-screws"><span>▸</span> Hidden Foot Screws</a></li>
+        <li><a href="#samsung-tips"><span>▸</span> Benchtop Repair Tips</a></li>
       </ul>
     </aside>
 
     <main class="wiki-content">
       <div class="wiki-section-header">Samsung Hardware Reference</div>
 
-      <div class="guide-card" id="samsung-keys">
-        <h3>Samsung Galaxy Book Keys</h3>
+      <!-- MATRIX TABLE -->
+      <div class="guide-card" id="samsung-matrix">
+        <h3>Samsung Keys Quick Reference</h3>
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--text-muted); margin-top: 10px;">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--border-color); text-align: left; color: var(--text-main);">
+              <th style="padding: 8px;">Target Action</th>
+              <th style="padding: 8px;">Primary Key / Combination</th>
+              <th style="padding: 8px;">Description / Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">BIOS Setup</td>
+              <td style="padding: 8px;"><code>F2</code></td>
+              <td style="padding: 8px;">Tap rapidly at the Samsung splash screen.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Boot Device Menu</td>
+              <td style="padding: 8px;"><code>F10</code></td>
+              <td style="padding: 8px;">Opens external boot media selector.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Samsung Factory Recovery</td>
+              <td style="padding: 8px;"><code>F4</code></td>
+              <td style="padding: 8px;">Launches native Samsung Recovery solution.</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Force Reboot (2-in-1s)</td>
+              <td style="padding: 8px;"><code>Power + Vol Down (10 sec)</code></td>
+              <td style="padding: 8px;">Forces hard reset on locked Galaxy Book 360 models.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- MODEL BREAKDOWN -->
+      <div class="guide-card" id="samsung-models">
+        <h3>Model Series Breakdown</h3>
         <ul>
-          <li><strong>BIOS Setup:</strong> Press <code>F2</code> repeatedly at the Samsung splash screen.</li>
-          <li><strong>Boot Menu:</strong> Press <code>F10</code> to bring up the drive selector.</li>
-          <li><strong>Samsung Recovery:</strong> Press <code>F4</code> at boot to enter factory recovery.</li>
+          <li><strong>Galaxy Book Ultra / Pro:</strong> Ultra-thin magnesium-aluminum alloy, dual M.2 NVMe SSD slots, soldered LPDDR memory chips.</li>
+          <li><strong>Galaxy Book 360 / Flex:</strong> 2-in-1 convertible touch displays, S-Pen digitizer assemblies, fragile lower glass bezel edges.</li>
+          <li><strong>Galaxy Book Go / ARM Series:</strong> Fanless Qualcomm Snapdragon SOC architectures, soldered eMMC/UFS storage on base models.</li>
         </ul>
       </div>
 
+      <!-- REPAIR TIPS -->
       <div class="guide-card" id="samsung-screws">
-        <h3>Ultra-Thin Base Disassembly Notes</h3>
-        <p style="color: var(--text-muted); font-size: 0.88rem;">Samsung Galaxy Book models conceal base fasteners under rubber feet:</p>
+        <h3>Base Fasteners & Rubber Foot Removal</h3>
+        <p style="color: var(--text-muted); font-size: 0.88rem;">Samsung Galaxy Book laptops feature completely concealed base screws:</p>
+        <ol>
+          <li>Use a thin plastic pry tool to unseat all four circular rubber corner feet on the bottom case.</li>
+          <li>Remove the standard Phillips screws hidden beneath each rubber foot.</li>
+          <li>Unclip the thin aluminum lower panel starting from the back hinge edge.</li>
+        </ol>
+      </div>
+
+      <div class="guide-card" id="samsung-tips">
+        <img src="images/battery-replacement.jpg" alt="Samsung Servicing" class="guide-img">
+        <h3>Pro Benchtop Repair Tips for Samsung</h3>
         <ul>
-          <li>Use a plastic pry tool to gently lift all four corner rubber feet—Phillips screws are hidden underneath each rubber pad.</li>
-          <li><strong>Display Ribbon Safety:</strong> Galaxy Book OLED panels feature exposed lower display cables; pry from the hinge edge carefully to avoid tearing flex ribbons.</li>
+          <li><strong>OLED Screen Ribbon Caution:</strong> Galaxy Book Pro models feature paper-thin AMOLED screen assemblies. Never pry near the bottom display logo area to avoid severing delicate driver IC ribbons.</li>
+          <li><strong>Secondary SSD Slot Thermal Pad:</strong> When adding a secondary M.2 NVMe drive to a Galaxy Book Ultra, always install a 1.5mm thermal pad against the bottom metal chassis cover to prevent thermal throttling.</li>
         </ul>
       </div>
     </main>
