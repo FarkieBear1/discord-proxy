@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FixIt Core | Surface Repair Reference</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <nav class="site-nav">
+    <a href="index.html">Home</a>
+    <a href="dell.html">Dell</a>
+    <a href="hp.html">HP</a>
+    <a href="lenovo.html">Lenovo</a>
+    <a href="asus.html">ASUS</a>
+    <a href="acer.html">Acer</a>
+    <a href="razer.html">Razer</a>
+    <a href="samsung.html">Samsung</a>
+    <a href="surface.html" class="active">Surface</a>
+  </nav>
+
+  <!-- Centered Banner Section -->
+  <div class="banner-container">
+    <img src="images/banner.jpg" alt="FixIt Core Banner" class="site-banner">
+  </div>
+
+  <header>
+    <h1>Microsoft Surface Hardware Reference</h1>
+    <p>Hardware Repair Tips and Useful Commands</p>
+  </header>
+
+  <div class="container">
+    <div class="guides-section">
+      <h2>Microsoft Surface Repair Protocols & Keys</h2>
+      
+      <div class="guide-card">
+        <img src="images/surface main.jpg" alt="Surface Hardware" class="guide-img">
+        <h3>🔑 Microsoft Surface UEFI & Boot Keys</h3>
+        <ul>
+          <li><strong>Surface UEFI Setup:</strong> Turn off device. Hold <strong style="color: #60a5fa;">Volume Up</strong>, press and release Power button, release Volume Up when Surface logo appears.</li>
+          <li><strong>USB Boot Menu:</strong> Turn off device. Hold <strong style="color: #60a5fa;">Volume Down</strong>, press and release Power button, release Volume Down when Windows/Surface logo appears.</li>
+          <li><strong>Forced Hard Reset:</strong> Press and hold the Power button for 20 seconds straight until system reboots completely.</li>
+        </ul>
+      </div>
+
+      <div class="guide-card">
+        <h3>🚨 Surface Boot Screen & Diagnostic Symbols</h3>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 10px;">Format: Screen Logos & On-Screen Icons</p>
+        <ul>
+          <li><strong>Red Screen with Surface Logo:</strong> Trusted Platform Module (TPM) disabled or factory security keys altered in UEFI.</li>
+          <li><strong>American Megatrends (AMI) Screen:</strong> UEFI configuration error or CMOS battery voltage drop.</li>
+          <li><strong>Drive Icon with Red X:</strong> M.2 SSD unseated, damaged, or corrupted boot partition.</li>
+          <li><strong>Blinking Surface Connect LED:</strong> Power supply current fault, dirty magnet contacts, or thermal safety trip.</li>
+        </ul>
+      </div>
+
+      <div class="guide-card">
+        <img src="images/drive-replacement.jpg" alt="Surface Laptop SSD Upgrade" class="guide-img">
+        <h3>🔋 Surface Disassembly & SSD Upgrade Tips</h3>
+        <ol>
+          <li><strong>Modular M.2 2230 SSDs:</strong> Modern Surface Laptop (3/4/5/6/Studio) and Pro (7+/8/9) feature an accessible SSD door under the kickstand or base rubber feet using a SIM ejector tool and Torx Plus T3.</li>
+          <li><strong>Display Adhesive Heat (Pro Series):</strong> Screen glass on Surface Pro tablets requires 80°C heat mat application for 10 minutes before slicing adhesive tape with thin guitar picks; avoid digging deeper than 3mm near edge antennas.</li>
+          <li><strong>Alcantara Fabric Care:</strong> When servicing Surface Laptop models with Alcantara decks, unscrew hidden Torx fasteners beneath adhesive rubber feet; do not attempt to peel fabric edges.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING SUPPORT CHAT WIDGET -->
+  <div class="chat-widget-container">
+    <button class="chat-toggle-btn" onclick="toggleChat()">Support Chat</button>
+    
+    <div class="chat-popup-panel" id="chat-panel">
+      <div class="chat-header">
+        <span id="chat-header-title">Support Chat [Locked]</span>
+        <button class="close-btn" onclick="toggleChat()">✕</button>
+      </div>
+
+      <div id="auth-gate" style="padding: 20px; text-align: center; display: flex; flex-direction: column; gap: 12px; justify-content: center; height: 100%;">
+        <h4 style="color: #a78bfa;">Restricted Access</h4>
+        <p style="color: var(--text-muted); font-size: 0.85rem;">Please log in to receive support.</p>
+        <input type="text" id="gateway-username" placeholder="Username (Any)" style="background: var(--bg-input); border: 1px solid var(--border-color); color: #fff; padding: 8px; border-radius: 4px; text-align: center; font-size: 0.85rem;">
+        <input type="password" id="gateway-password" placeholder="Password" style="background: var(--bg-input); border: 1px solid var(--border-color); color: #fff; padding: 8px; border-radius: 4px; text-align: center; font-size: 0.85rem;">
+        <button onclick="unlockChat()" style="background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue)); color: #fff; border: none; padding: 8px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.85rem;">Login</button>
+      </div>
+
+      <div id="chat-interface" style="display: none; flex-direction: column; height: 100%;">
+        <div class="channel-selector">
+          <button class="channel-btn active" data-channel="GEN" onclick="selectChannel('GEN')">GEN</button>
+          <button class="channel-btn" data-channel="IGC" onclick="selectChannel('IGC')">IGC</button>
+          <button class="channel-btn" data-channel="JL" onclick="selectChannel('JL')">JL</button>
+          <button class="channel-btn" data-channel="COM" onclick="selectChannel('COM')">COM</button>
+          <button class="channel-btn" data-channel="L" onclick="selectChannel('L')">L</button>
+          <button class="channel-btn" data-channel="S" onclick="selectChannel('S')">S</button>
+          <button class="channel-btn" data-channel="SEC" onclick="selectChannel('SEC')">SEC</button>
+        </div>
+
+        <div class="chat-messages" id="message-container">
+          <div class="message"><span class="author">[System]</span> Logged in. Surface stream active.</div>
+        </div>
+
+        <div class="chat-input-area">
+          <textarea id="message-input" rows="2" placeholder="Type message..."></textarea>
+          <button onclick="handleSend()">Send Message</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let activeChannel = "GEN";
+    let activePassword = "";
+    let activeUsername = "WebUser";
+
+    function toggleChat() {
+      const panel = document.getElementById('chat-panel');
+      panel.style.display = panel.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    async function unlockChat() {
+      const pwdInput = document.getElementById('gateway-password').value;
+      const userInput = document.getElementById('gateway-username').value;
+      if (userInput) activeUsername = userInput;
+
+      try {
+        const res = await fetch('/api/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: pwdInput })
+        });
+        const data = await res.json();
+        if (data.success) {
+          activePassword = pwdInput;
+          document.getElementById('auth-gate').style.display = 'none';
+          document.getElementById('chat-interface').style.display = 'flex';
+          document.getElementById('chat-header-title').textContent = `Support Chat (${activeUsername})`;
+          fetchHistory();
+          initStream();
+        } else {
+          alert('Access Denied: Invalid Password.');
+        }
+      } catch (err) {
+        console.error('Auth error:', err);
+      }
+    }
+
+    function selectChannel(code) {
+      activeChannel = code;
+      document.querySelectorAll('.channel-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-channel') === code);
+      });
+      fetchHistory();
+    }
+
+    async function fetchHistory() {
+      if (!activePassword) return;
+      try {
+        const res = await fetch(`/api/messages?channel=${activeChannel}&password=${encodeURIComponent(activePassword)}`);
+        const data = await res.json();
+        const container = document.getElementById('message-container');
+        if (Array.isArray(data)) {
+          container.innerHTML = data.map(m => `
+            <div class="message"><span class="author">${m.author}:</span> ${m.content}</div>
+          `).join('');
+          container.scrollTop = container.scrollHeight;
+        }
+      } catch (err) {
+        console.error('Failed to load history:', err);
+      }
+    }
+
+    async function sendMessage(content) {
+      try {
+        const res = await fetch('/api/messages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            content: content,
+            password: activePassword,
+            username: activeUsername,
+            channel: activeChannel
+          })
+        });
+        const data = await res.json();
+        if (!res.ok) alert('Error: ' + (data.error || 'Failed to transmit'));
+      } catch (err) {
+        console.error('Send error:', err);
+      }
+    }
+
+    function handleSend() {
+      const content = document.getElementById('message-input').value;
+      if (!content) return;
+      sendMessage(content);
+      document.getElementById('message-input').value = '';
+    }
+
+    function initStream() {
+      const eventSource = new EventSource('/api/stream');
+      eventSource.onmessage = (event) => {
+        const msg = JSON.parse(event.data);
+        if (msg.channel === activeChannel) {
+          const container = document.getElementById('message-container');
+          container.innerHTML += `
+            <div class="message"><span class="author">${msg.author}:</span> ${msg.content}</div>
+          `;
+          container.scrollTop = container.scrollHeight;
+        }
+      };
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FixIt Core | Acer Repair Reference</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <nav class="site-nav">
+    <a href="index.html">Home</a>
+    <a href="dell.html">Dell</a>
+    <a href="hp.html">HP</a>
+    <a href="lenovo.html">Lenovo</a>
+    <a href="asus.html">ASUS</a>
+    <a href="acer.html" class="active">Acer</a>
+    <a href="razer.html">Razer</a>
+    <a href="samsung.html">Samsung</a>
+    <a href="surface.html">Surface</a>
+  </nav>
+
+  <!-- Centered Banner Section -->
+  <div class="banner-container">
+    <img src="images/banner.jpg" alt="FixIt Core Banner" class="site-banner">
+  </div>
+
+  <header>
+    <h1>Acer Hardware Reference</h1>
+    <p>Hardware Repair Tips and Useful Commands</p>
+  </header>
+
+  <div class="container">
+    <div class="guides-section">
+      <h2>Acer Repair Protocols & Keys</h2>
+      
+      <div class="guide-card">
+        <img src="images/acer main.jpg" alt="Acer Hardware" class="guide-img">
+        <h3>🔑 Acer Firmware & Boot Keys</h3>
+        <ul>
+          <li><strong>BIOS / UEFI Setup:</strong> Tap <strong style="color: #60a5fa;">F2</strong> repeatedly on startup (or <strong style="color: #60a5fa;">Del</strong> on desktops).</li>
+          <li><strong>One-Time Boot Menu:</strong> Tap <strong style="color: #60a5fa;">F12</strong> repeatedly on startup (must enable "F12 Boot Menu" in BIOS first).</li>
+          <li><strong>Acer eRecovery Management:</strong> Hold <strong style="color: #60a5fa;">Alt + F10</strong> on boot to trigger factory recovery.</li>
+          <li><strong>Battery Reset Pinhole:</strong> Disconnect AC, insert paperclip into bottom pinhole for 4 seconds, and wait 5 minutes before powering on.</li>
+        </ul>
+      </div>
+
+      <div class="guide-card">
+        <h3>🚨 Acer Diagnostic Tones & Power LED Indicators</h3>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 10px;">Format: Power / Battery LED Light Sequences</p>
+        <ul>
+          <li><strong>Blinking Amber Power LED:</strong> System in low-battery thermal safeguard state or charger wattage insufficient.</li>
+          <li><strong>Continuous Amber (No Boot):</strong> Main rail short or EC (Embedded Controller) logic failure.</li>
+          <li><strong>1 Long, 2 Short Beeps (Legacy UEFI):</strong> Display controller / eDP cable unseated or GPU power rail error.</li>
+          <li><strong>Continuous Beeps:</strong> Unseated or incompatible DDR RAM SODIMM.</li>
+        </ul>
+      </div>
+
+      <div class="guide-card">
+        <img src="images/battery-replacement.jpg" alt="Acer Battery Servicing" class="guide-img">
+        <h3>🔋 Acer Aspire & Nitro Servicing Tips</h3>
+        <ol>
+          <li><strong>Chassis Clip Safety:</strong> Plastic clips around Nitro/Predator exhaust vents are brittle; unclip carefully with non-marring tools.</li>
+          <li><strong>Internal Battery Lock Switch:</strong> Many Acer motherboards feature a tiny spring-loaded kill switch triggered by the base panel. Ensure screws are fully tightened or power won't route.</li>
+          <li><strong>Dual Fan Maintenance:</strong> Clean dust buildup from thermal fins quarterly; CPU/GPU heatsinks share heatpipes on budget models.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING SUPPORT CHAT WIDGET -->
+  <div class="chat-widget-container">
+    <button class="chat-toggle-btn" onclick="toggleChat()">Support Chat</button>
+    
+    <div class="chat-popup-panel" id="chat-panel">
+      <div class="chat-header">
+        <span id="chat-header-title">Support Chat [Locked]</span>
+        <button class="close-btn" onclick="toggleChat()">✕</button>
+      </div>
+
+      <div id="auth-gate" style="padding: 20px; text-align: center; display: flex; flex-direction: column; gap: 12px; justify-content: center; height: 100%;">
+        <h4 style="color: #a78bfa;">Restricted Access</h4>
+        <p style="color: var(--text-muted); font-size: 0.85rem;">Please log in to receive support.</p>
+        <input type="text" id="gateway-username" placeholder="Username (Any)" style="background: var(--bg-input); border: 1px solid var(--border-color); color: #fff; padding: 8px; border-radius: 4px; text-align: center; font-size: 0.85rem;">
+        <input type="password" id="gateway-password" placeholder="Password" style="background: var(--bg-input); border: 1px solid var(--border-color); color: #fff; padding: 8px; border-radius: 4px; text-align: center; font-size: 0.85rem;">
+        <button onclick="unlockChat()" style="background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue)); color: #fff; border: none; padding: 8px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.85rem;">Login</button>
+      </div>
+
+      <div id="chat-interface" style="display: none; flex-direction: column; height: 100%;">
+        <div class="channel-selector">
+          <button class="channel-btn active" data-channel="GEN" onclick="selectChannel('GEN')">GEN</button>
+          <button class="channel-btn" data-channel="IGC" onclick="selectChannel('IGC')">IGC</button>
+          <button class="channel-btn" data-channel="JL" onclick="selectChannel('JL')">JL</button>
+          <button class="channel-btn" data-channel="COM" onclick="selectChannel('COM')">COM</button>
+          <button class="channel-btn" data-channel="L" onclick="selectChannel('L')">L</button>
+          <button class="channel-btn" data-channel="S" onclick="selectChannel('S')">S</button>
+          <button class="channel-btn" data-channel="SEC" onclick="selectChannel('SEC')">SEC</button>
+        </div>
+
+        <div class="chat-messages" id="message-container">
+          <div class="message"><span class="author">[System]</span> Logged in. Acer stream active.</div>
+        </div>
+
+        <div class="chat-input-area">
+          <textarea id="message-input" rows="2" placeholder="Type message..."></textarea>
+          <button onclick="handleSend()">Send Message</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let activeChannel = "GEN";
+    let activePassword = "";
+    let activeUsername = "WebUser";
+
+    function toggleChat() {
+      const panel = document.getElementById('chat-panel');
+      panel.style.display = panel.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    async function unlockChat() {
+      const pwdInput = document.getElementById('gateway-password').value;
+      const userInput = document.getElementById('gateway-username').value;
+      if (userInput) activeUsername = userInput;
+
+      try {
+        const res = await fetch('/api/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: pwdInput })
+        });
+        const data = await res.json();
+        if (data.success) {
+          activePassword = pwdInput;
+          document.getElementById('auth-gate').style.display = 'none';
+          document.getElementById('chat-interface').style.display = 'flex';
+          document.getElementById('chat-header-title').textContent = `Support Chat (${activeUsername})`;
+          fetchHistory();
+          initStream();
+        } else {
+          alert('Access Denied: Invalid Password.');
+        }
+      } catch (err) {
+        console.error('Auth error:', err);
+      }
+    }
+
+    function selectChannel(code) {
+      activeChannel = code;
+      document.querySelectorAll('.channel-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-channel') === code);
+      });
+      fetchHistory();
+    }
+
+    async function fetchHistory() {
+      if (!activePassword) return;
+      try {
+        const res = await fetch(`/api/messages?channel=${activeChannel}&password=${encodeURIComponent(activePassword)}`);
+        const data = await res.json();
+        const container = document.getElementById('message-container');
+        if (Array.isArray(data)) {
+          container.innerHTML = data.map(m => `
+            <div class="message"><span class="author">${m.author}:</span> ${m.content}</div>
+          `).join('');
+          container.scrollTop = container.scrollHeight;
+        }
+      } catch (err) {
+        console.error('Failed to load history:', err);
+      }
+    }
+
+    async function sendMessage(content) {
+      try {
+        const res = await fetch('/api/messages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            content: content,
+            password: activePassword,
+            username: activeUsername,
+            channel: activeChannel
+          })
+        });
+        const data = await res.json();
+        if (!res.ok) alert('Error: ' + (data.error || 'Failed to transmit'));
+      } catch (err) {
+        console.error('Send error:', err);
+      }
+    }
+
+    function handleSend() {
+      const content = document.getElementById('message-input').value;
+      if (!content) return;
+      sendMessage(content);
+      document.getElementById('message-input').value = '';
+    }
+
+    function initStream() {
+      const eventSource = new EventSource('/api/stream');
+      eventSource.onmessage = (event) => {
+        const msg = JSON.parse(event.data);
+        if (msg.channel === activeChannel) {
+          const container = document.getElementById('message-container');
+          container.innerHTML += `
+            <div class="message"><span class="author">${msg.author}:</span> ${msg.content}</div>
+          `;
+          container.scrollTop = container.scrollHeight;
+        }
+      };
+    }
+  </script>
+</body>
+</html>
