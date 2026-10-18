@@ -63,6 +63,7 @@
     .nav-links { display: flex; gap: 2rem; font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-muted); }
     .nav-links a { color: var(--text-muted); text-decoration: none; transition: all 0.2s; cursor: pointer; }
     .nav-links a:hover { color: var(--accent); text-shadow: 0 0 8px var(--accent-dim); }
+    .nav-links a.active { color: var(--accent); font-weight: bold; }
 
     /* --- MAIN LAYOUT --- */
     #app-layout { display: flex; flex: 1; overflow: hidden; }
@@ -80,27 +81,39 @@
     /* --- MAIN CONTENT --- */
     #main-content { flex: 1; overflow-y: auto; position: relative; padding-bottom: 120px; }
     
-    /* --- BANNER --- */
+    /* --- BANNER (Homepage Only) --- */
     #hero-banner { 
       width: 100%; 
-      height: 300px; 
+      height: 350px; 
       border-bottom: 1px solid var(--border);
       position: relative;
       display: flex;
-      align-items: flex-end;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
       background-color: #0d1117;
+      background-image: url('images/banner.jpg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
     }
     #hero-banner::after {
       content: ''; position: absolute; inset: 0;
-      background: linear-gradient(to top, var(--bg-deep) 0%, transparent 100%);
+      background: rgba(5, 5, 5, 0.7); /* Dark overlay so text pops */
       pointer-events: none;
     }
-    .banner-content { position: relative; z-index: 2; padding: 2rem 3rem; width: 100%; max-width: 1000px; margin: 0 auto; }
-    .banner-title { font-size: 2.5rem; font-weight: 800; letter-spacing: -1px; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.8); margin-bottom: 0.5rem; }
-    .banner-subtitle { font-family: var(--font-mono); color: var(--accent); font-size: 0.9rem; letter-spacing: 1px; text-shadow: 0 0 8px rgba(0, 240, 255, 0.5); }
+    .banner-content { position: relative; z-index: 2; padding: 2rem; }
+    .banner-title { font-size: 3rem; font-weight: 800; letter-spacing: -1px; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.8); margin-bottom: 0.5rem; }
+    .banner-subtitle { font-family: var(--font-mono); color: var(--accent); font-size: 1.1rem; letter-spacing: 2px; text-shadow: 0 0 8px rgba(0, 240, 255, 0.5); }
+
+    /* --- HOMEPAGE GRID --- */
+    .home-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; padding: 3rem; max-width: 1200px; margin: 0 auto; }
+    .home-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+    .home-card:hover { border-color: var(--accent); transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0, 240, 255, 0.15); }
+    .home-card-img { width: 100%; height: 180px; background-size: cover; background-position: center; background-color: #000; border-bottom: 1px solid var(--border); }
+    .home-card-body { padding: 1.5rem; }
+    .home-card-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; font-family: var(--font-mono); }
+    .home-card-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
 
     .article-container { max-width: 900px; margin: 0 auto; padding: 2rem 3rem; animation: fadeIn 0.3s ease-out; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -138,7 +151,6 @@
     .guide-btn:hover span { filter: grayscale(0%) opacity(1); transform: scale(1.1); }
 
     /* --- CHAT WIDGET --- */
-    /* Increased width to 360px to fit more channels */
     #chat-widget { position: fixed; bottom: 25px; right: 25px; width: 360px; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 15px 40px rgba(0,0,0,0.8), 0 0 20px rgba(0, 240, 255, 0.05); display: flex; flex-direction: column; z-index: 1000; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden; }
     #chat-widget.minimized { height: 54px; cursor: pointer; border-color: var(--border); box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
     #chat-widget.minimized:hover { border-color: var(--accent); }
@@ -151,8 +163,6 @@
     .widget-header:hover .minimize-btn { color: var(--accent); }
     
     .widget-body { display: flex; flex-direction: column; height: 350px; }
-    
-    /* Changed to flex-wrap so channels wrap to the next line instead of hiding */
     .widget-channels { display: flex; flex-wrap: wrap; gap: 6px; padding: 0.75rem; border-bottom: 1px solid var(--border); background: var(--bg-deep); }
     .w-channel { font-size: 0.7rem; font-family: var(--font-mono); padding: 5px 8px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px; color: var(--text-muted); cursor: pointer; position: relative; transition: all 0.2s; }
     .w-channel:hover { border-color: var(--text-muted); }
@@ -189,14 +199,13 @@
 
   <!-- TOP NAVIGATION -->
   <header id="top-nav">
-    <a href="#" class="nav-logo" onclick="loadBrandOverview('lenovo', document.querySelector('.nav-item'))">
+    <a href="#" class="nav-logo" onclick="loadHomepage()">
       <span>⚡</span> FIXIT_CORE
     </a>
     <nav class="nav-links">
+      <a onclick="loadHomepage()" id="nav-home">HOME</a>
       <a onclick="alert('Database module currently locked.')">DATABASE</a>
-      <a onclick="alert('Documentation module currently locked.')">DOCS</a>
       <a onclick="alert('Diagnostic tools currently offline.')">TOOLS</a>
-      <a onclick="alert('Support portal requires authentication.')">SUPPORT</a>
     </nav>
   </header>
 
@@ -213,17 +222,10 @@
 
     <!-- MAIN CONTENT -->
     <main id="main-content">
-      <!-- Banner -->
-      <div id="hero-banner" style="background-image: url('/images/banner.jpg');">
-        <div class="banner-content">
-          <div class="banner-title">Hardware Diagnostics & Teardowns</div>
-          <div class="banner-subtitle">// FIELD_MANUAL_v2.0.26</div>
-        </div>
-      </div>
+      
+      <!-- This container will hold either the Homepage, Brand Overview, or Sub-Guide -->
+      <div id="content-area"></div>
 
-      <div class="article-container" id="article-content">
-        <!-- Article injected here -->
-      </div>
     </main>
 
   </div>
@@ -339,75 +341,75 @@
     const REPAIR_GUIDES = {
       "lenovo": {
         name: "Lenovo", 
-        image: "/images/lenovo-main.jpg",
+        image: "images/lenovo-main.jpg",
         note: "Common families: ThinkPad, ThinkBook, IdeaPad, Yoga, Legion, LOQ. Identify the machine type/model (MTM) from the underside label. Some ThinkPads use externally removable batteries; most modern systems use an internal pack. ThinkPad business models may have serviceable bezels. Many performance/business models have an M.2 NVMe SSD.",
         link: "https://pcsupport.lenovo.com/us/en/solutions/ht516547",
-        battery: { title: "Lenovo Battery Replacement", image: "/images/battery-replacement.jpg", text: BATTERY_STEPS },
-        screen: { title: "Lenovo Screen Replacement", image: "/images/screen-replacement.jpg", text: SCREEN_STEPS },
-        drive: { title: "Lenovo Hard Drive Replacement", image: "/images/drive-replacement.jpg", text: DRIVE_STEPS }
+        battery: { title: "Lenovo Battery Replacement", image: "images/battery-replacement.jpg", text: BATTERY_STEPS },
+        screen: { title: "Lenovo Screen Replacement", image: "images/screen-replacement.jpg", text: SCREEN_STEPS },
+        drive: { title: "Lenovo Hard Drive Replacement", image: "images/drive-replacement.jpg", text: DRIVE_STEPS }
       },
       "asus": {
         name: "ASUS", 
-        image: "/images/asus-main.jpg",
+        image: "images/asus-main.jpg",
         note: "Common families: Zenbook, Vivobook, ProArt, ROG, TUF. Use the complete model code on ASUS Support. Thin Zenbook and some Vivobook models commonly use internal batteries. OLED, touchscreen, and high-refresh gaming versions can use different display assemblies even within one chassis family. Many gaming models provide M.2 NVMe slots.",
         link: "https://www.asus.com/us/support/article/1199/",
-        battery: { title: "ASUS Battery Replacement", image: "/images/battery-replacement.jpg", text: BATTERY_STEPS },
-        screen: { title: "ASUS Screen Replacement", image: "/images/screen-replacement.jpg", text: SCREEN_STEPS },
-        drive: { title: "ASUS Hard Drive Replacement", image: "/images/drive-replacement.jpg", text: DRIVE_STEPS }
+        battery: { title: "ASUS Battery Replacement", image: "images/battery-replacement.jpg", text: BATTERY_STEPS },
+        screen: { title: "ASUS Screen Replacement", image: "images/screen-replacement.jpg", text: SCREEN_STEPS },
+        drive: { title: "ASUS Hard Drive Replacement", image: "images/drive-replacement.jpg", text: DRIVE_STEPS }
       },
       "dell": {
         name: "Dell", 
-        image: "/images/dell-main.jpg",
+        image: "images/dell-main.jpg",
         note: "Common families: XPS, Inspiron, Latitude, Precision, Alienware. Search Dell Support by Service Tag. Dell service manuals often specify a battery screw pattern. Dell uses both individual panels and complete display assemblies depending on model. Identify M.2 2230 versus 2280 and any thermal plate.",
         link: "https://www.dell.com/support/home",
-        battery: { title: "Dell Battery Replacement", image: "/images/battery-replacement.jpg", text: BATTERY_STEPS },
-        screen: { title: "Dell Screen Replacement", image: "/images/screen-replacement.jpg", text: SCREEN_STEPS },
-        drive: { title: "Dell Hard Drive Replacement", image: "/images/drive-replacement.jpg", text: DRIVE_STEPS }
+        battery: { title: "Dell Battery Replacement", image: "images/battery-replacement.jpg", text: BATTERY_STEPS },
+        screen: { title: "Dell Screen Replacement", image: "images/screen-replacement.jpg", text: SCREEN_STEPS },
+        drive: { title: "Dell Hard Drive Replacement", image: "images/drive-replacement.jpg", text: DRIVE_STEPS }
       },
       "hp": {
         name: "HP", 
-        image: "/images/HP-Main.jpg",
+        image: "images/HP-Main.jpg",
         note: "Common families: EliteBook, ProBook, Pavilion, Envy, Spectre, OMEN, Victus. Use the exact product name on HP Support. HP models vary from straightforward screw-secured packs to adhesive-mounted batteries. On some models the LCD panel is separately serviceable. Check whether the system uses M.2 NVMe, 2.5-inch SATA, or soldered storage.",
         link: "https://support.hp.com/us-en",
-        battery: { title: "HP Battery Replacement", image: "/images/battery-replacement.jpg", text: BATTERY_STEPS },
-        screen: { title: "HP Screen Replacement", image: "/images/screen-replacement.jpg", text: SCREEN_STEPS },
-        drive: { title: "HP Hard Drive Replacement", image: "/images/drive-replacement.jpg", text: DRIVE_STEPS }
+        battery: { title: "HP Battery Replacement", image: "images/battery-replacement.jpg", text: BATTERY_STEPS },
+        screen: { title: "HP Screen Replacement", image: "images/screen-replacement.jpg", text: SCREEN_STEPS },
+        drive: { title: "HP Hard Drive Replacement", image: "images/drive-replacement.jpg", text: DRIVE_STEPS }
       },
       "acer": {
         name: "Acer", 
-        image: "/images/acer%20main.jpg",
+        image: "images/acer%20main.jpg",
         note: "Common families: Aspire, Swift, Spin, TravelMate, Predator, Nitro. Use Acer Support's serial number/SNID. Watch for ribbon cables attached to the bottom cover. Swift/Spin convertible lids can be delicate. Nitro/Predator models may offer more than one M.2 slot.",
         link: "https://www.acer.com/us-en/support",
-        battery: { title: "Acer Battery Replacement", image: "/images/battery-replacement.jpg", text: BATTERY_STEPS },
-        screen: { title: "Acer Screen Replacement", image: "/images/screen-replacement.jpg", text: SCREEN_STEPS },
-        drive: { title: "Acer Hard Drive Replacement", image: "/images/drive-replacement.jpg", text: DRIVE_STEPS }
+        battery: { title: "Acer Battery Replacement", image: "images/battery-replacement.jpg", text: BATTERY_STEPS },
+        screen: { title: "Acer Screen Replacement", image: "images/screen-replacement.jpg", text: SCREEN_STEPS },
+        drive: { title: "Acer Hard Drive Replacement", image: "images/drive-replacement.jpg", text: DRIVE_STEPS }
       },
       "razer": {
         name: "Razer", 
-        image: "/images/Razer-Main.jpg",
+        image: "images/Razer-Main.jpg",
         note: "Common families: Blade 14, Blade 16, Blade 18. Razer Blade revisions can change significantly. Use the exact model number and year on Razer Support. Blade batteries are internal; inspect for swelling. High-refresh and OLED configurations may use different display assemblies.",
         link: "https://support.razer.com/",
-        battery: { title: "Razer Battery Replacement", image: "/images/battery-replacement.jpg", text: BATTERY_STEPS },
-        screen: { title: "Razer Screen Replacement", image: "/images/screen-replacement.jpg", text: SCREEN_STEPS },
-        drive: { title: "Razer Hard Drive Replacement", image: "/images/drive-replacement.jpg", text: DRIVE_STEPS }
+        battery: { title: "Razer Battery Replacement", image: "images/battery-replacement.jpg", text: BATTERY_STEPS },
+        screen: { title: "Razer Screen Replacement", image: "images/screen-replacement.jpg", text: SCREEN_STEPS },
+        drive: { title: "Razer Hard Drive Replacement", image: "images/drive-replacement.jpg", text: DRIVE_STEPS }
       },
       "samsung": {
         name: "Samsung", 
-        image: "/images/samsung%20main.jpg",
+        image: "images/samsung%20main.jpg",
         note: "Common families: Galaxy Book, Galaxy Book Pro, Galaxy Book Ultra, Galaxy Book4/5/6. Search Samsung Support using the full model code. Most Galaxy Books have internal batteries. AMOLED and LCD configurations are not interchangeable. Some models provide an M.2 SSD; others have limited upgrade options.",
         link: "https://www.samsung.com/us/support/",
-        battery: { title: "Samsung Battery Replacement", image: "/images/battery-replacement.jpg", text: BATTERY_STEPS },
-        screen: { title: "Samsung Screen Replacement", image: "/images/screen-replacement.jpg", text: SCREEN_STEPS },
-        drive: { title: "Samsung Hard Drive Replacement", image: "/images/drive-replacement.jpg", text: DRIVE_STEPS }
+        battery: { title: "Samsung Battery Replacement", image: "images/battery-replacement.jpg", text: BATTERY_STEPS },
+        screen: { title: "Samsung Screen Replacement", image: "images/screen-replacement.jpg", text: SCREEN_STEPS },
+        drive: { title: "Samsung Hard Drive Replacement", image: "images/drive-replacement.jpg", text: DRIVE_STEPS }
       },
       "surface": {
         name: "Surface", 
-        image: "/images/surface%20main.jpg",
+        image: "images/surface%20main.jpg",
         note: "Common families: Surface Laptop, Surface Laptop Go, Surface Laptop Studio. Use the Surface Service Guide Center. Surface batteries can be adhered and are model-specific. Many Surface repairs specify replacing the display module/assembly rather than separating the glass. Supported models may use a removable M.2 or service SSD.",
         link: "https://learn.microsoft.com/en-us/surface/service-guides",
-        battery: { title: "Surface Battery Replacement", image: "/images/battery-replacement.jpg", text: BATTERY_STEPS },
-        screen: { title: "Surface Screen Replacement", image: "/images/screen-replacement.jpg", text: SCREEN_STEPS },
-        drive: { title: "Surface Hard Drive Replacement", image: "/images/drive-replacement.jpg", text: DRIVE_STEPS }
+        battery: { title: "Surface Battery Replacement", image: "images/battery-replacement.jpg", text: BATTERY_STEPS },
+        screen: { title: "Surface Screen Replacement", image: "images/screen-replacement.jpg", text: SCREEN_STEPS },
+        drive: { title: "Surface Hard Drive Replacement", image: "images/drive-replacement.jpg", text: DRIVE_STEPS }
       }
     };
 
@@ -418,64 +420,110 @@
     const brandListEl = document.getElementById('brand-list');
     Object.keys(REPAIR_GUIDES).forEach((brand, index) => {
       const div = document.createElement('div');
-      div.className = `nav-item ${index === 0 ? 'active' : ''}`;
+      div.className = `nav-item`;
+      div.id = `nav-${brand}`;
       div.textContent = REPAIR_GUIDES[brand].name.toUpperCase();
-      div.onclick = () => loadBrandOverview(brand, div);
+      div.onclick = () => loadBrandOverview(brand);
       brandListEl.appendChild(div);
     });
 
-    function loadBrandOverview(brandKey, element) {
+    // --- HOMEPAGE RENDERER ---
+    function loadHomepage() {
       document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-      if (element) element.classList.add('active');
+      document.getElementById('nav-home').classList.add('active');
+      
+      const contentArea = document.getElementById('content-area');
+      
+      let cardsHtml = '';
+      Object.keys(REPAIR_GUIDES).forEach(brandKey => {
+        const guide = REPAIR_GUIDES[brandKey];
+        cardsHtml += `
+          <div class="home-card" onclick="loadBrandOverview('${brandKey}')">
+            <div class="home-card-img" style="background-image: url('${guide.image}');"></div>
+            <div class="home-card-body">
+              <div class="home-card-title">${guide.name.toUpperCase()}</div>
+              <div class="home-card-desc">View teardowns, battery protocols, and display replacements for ${guide.name} systems.</div>
+            </div>
+          </div>
+        `;
+      });
 
-      const guide = REPAIR_GUIDES[brandKey];
-      const articleContainer = document.getElementById('article-content');
-
-      articleContainer.innerHTML = `
-        <div class="breadcrumb">SYS_ROOT / HARDWARE / <span>${guide.name.toUpperCase()}</span></div>
-        <h1 class="article-title">${guide.name} Repair Architecture</h1>
-        <div class="article-meta"><span>BY: FIXIT_STAFF</span><span>|</span><span>SELECT MODULE TO INITIATE</span></div>
-        <div class="hero-image" style="background-image: url('${guide.image}');"></div>
-
-        <div class="spec-box">
-          <div class="spec-title">ARCHITECTURE_NOTES</div>
-          <p style="font-size: 0.95rem; line-height: 1.7; color: #c9d1d9;">${guide.note}</p>
-          <div style="margin-top: 1.5rem; font-size: 0.85rem; font-family: var(--font-mono); background: var(--bg-deep); padding: 1rem; border-radius: 4px; border: 1px solid var(--border);">
-            <span style="color: var(--text-muted);">OFFICIAL_MANUAL:</span> <a href="${guide.link}" target="_blank">${guide.link}</a>
+      contentArea.innerHTML = `
+        <div id="hero-banner">
+          <div class="banner-content">
+            <div class="banner-title">Hardware Diagnostics & Teardowns</div>
+            <div class="banner-subtitle">// FIELD_MANUAL_v2.0.26</div>
           </div>
         </div>
-
-        <div class="guide-links">
-          <div class="guide-btn" onclick="loadSubGuide('${brandKey}', 'battery', this)"><span>🔋</span> BATTERY_MODULE</div>
-          <div class="guide-btn" onclick="loadSubGuide('${brandKey}', 'screen', this)"><span>🖥️</span> DISPLAY_MODULE</div>
-          <div class="guide-btn" onclick="loadSubGuide('${brandKey}', 'drive', this)"><span>💾</span> STORAGE_MODULE</div>
+        <div class="home-grid">
+          ${cardsHtml}
         </div>
       `;
       document.getElementById('main-content').scrollTop = 0;
     }
 
-    function loadSubGuide(brandKey, partKey, element) {
+    // --- BRAND OVERVIEW RENDERER ---
+    function loadBrandOverview(brandKey) {
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      document.getElementById('nav-home').classList.remove('active');
+      
+      const navItem = document.getElementById(`nav-${brandKey}`);
+      if (navItem) navItem.classList.add('active');
+
+      const guide = REPAIR_GUIDES[brandKey];
+      const contentArea = document.getElementById('content-area');
+
+      contentArea.innerHTML = `
+        <div class="article-container">
+          <div class="breadcrumb">SYS_ROOT / HARDWARE / <span>${guide.name.toUpperCase()}</span></div>
+          <h1 class="article-title">${guide.name} Repair Architecture</h1>
+          <div class="article-meta"><span>BY: FIXIT_STAFF</span><span>|</span><span>SELECT MODULE TO INITIATE</span></div>
+          <div class="hero-image" style="background-image: url('${guide.image}');"></div>
+
+          <div class="spec-box">
+            <div class="spec-title">ARCHITECTURE_NOTES</div>
+            <p style="font-size: 0.95rem; line-height: 1.7; color: #c9d1d9;">${guide.note}</p>
+            <div style="margin-top: 1.5rem; font-size: 0.85rem; font-family: var(--font-mono); background: var(--bg-deep); padding: 1rem; border-radius: 4px; border: 1px solid var(--border);">
+              <span style="color: var(--text-muted);">OFFICIAL_MANUAL:</span> <a href="${guide.link}" target="_blank">${guide.link}</a>
+            </div>
+          </div>
+
+          <div class="guide-links">
+            <div class="guide-btn" onclick="loadSubGuide('${brandKey}', 'battery')"><span>🔋</span> BATTERY_MODULE</div>
+            <div class="guide-btn" onclick="loadSubGuide('${brandKey}', 'screen')"><span>🖥️</span> DISPLAY_MODULE</div>
+            <div class="guide-btn" onclick="loadSubGuide('${brandKey}', 'drive')"><span>💾</span> STORAGE_MODULE</div>
+          </div>
+        </div>
+      `;
+      document.getElementById('main-content').scrollTop = 0;
+    }
+
+    // --- SUB-GUIDE RENDERER ---
+    function loadSubGuide(brandKey, partKey) {
       const guide = REPAIR_GUIDES[brandKey][partKey];
       const brandData = REPAIR_GUIDES[brandKey];
-      const articleContainer = document.getElementById('article-content');
+      const contentArea = document.getElementById('content-area');
 
-      articleContainer.innerHTML = `
-        <div class="breadcrumb">SYS_ROOT / <span onclick="loadBrandOverview('${brandKey}')">${brandData.name.toUpperCase()}</span> / ${partKey.toUpperCase()}_PROTOCOL</div>
-        <h1 class="article-title">${guide.title}</h1>
-        <div class="article-meta"><span>PROTOCOL: SECURE</span><span>|</span><span>LEVEL: INTERMEDIATE</span></div>
-        <div class="hero-image" style="background-image: url('${guide.image}');"></div>
+      contentArea.innerHTML = `
+        <div class="article-container">
+          <div class="breadcrumb">SYS_ROOT / <span onclick="loadBrandOverview('${brandKey}')">${brandData.name.toUpperCase()}</span> / ${partKey.toUpperCase()}_PROTOCOL</div>
+          <h1 class="article-title">${guide.title}</h1>
+          <div class="article-meta"><span>PROTOCOL: SECURE</span><span>|</span><span>LEVEL: INTERMEDIATE</span></div>
+          <div class="hero-image" style="background-image: url('${guide.image}');"></div>
 
-        ${SAFETY_BOX}
+          ${SAFETY_BOX}
 
-        <div class="step">
-          <div class="step-title"><span class="step-num">01</span> Execution Sequence</div>
-          <div class="step-body">${guide.text}</div>
+          <div class="step">
+            <div class="step-title"><span class="step-num">01</span> Execution Sequence</div>
+            <div class="step-body">${guide.text}</div>
+          </div>
         </div>
       `;
       document.getElementById('main-content').scrollTop = 0;
     }
 
-    loadBrandOverview('lenovo', document.querySelector('.nav-item'));
+    // Load Homepage on startup
+    loadHomepage();
 
     // ==========================================
     // 5. CHAT WIDGET LOGIC
@@ -552,7 +600,6 @@
         div.id = `chan-${channelName}`;
         
         const nameSpan = document.createElement('span');
-        // Using the full name now that they wrap!
         nameSpan.textContent = channelName.toUpperCase();
         
         const dot = document.createElement('div');
