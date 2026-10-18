@@ -26,8 +26,7 @@
 }
 
 body {
-  /* Combines background overlay tint with the 3D block image */
-  background: var(--bg-overlay), url('images/background.jpg') no-repeat center center fixed;
+  background: var(--bg-overlay), url('./images/background.jpg') no-repeat center center fixed;
   background-size: cover;
   color: var(--text-main);
   padding: 24px;
