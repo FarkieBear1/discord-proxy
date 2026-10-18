@@ -3,7 +3,6 @@
    ========================================== */
 
 :root {
-  /* Overlay tint combining a dark purple gradient over background.jpg */
   --bg-overlay: linear-gradient(160deg, rgba(6, 7, 12, 0.85) 0%, rgba(17, 9, 32, 0.88) 60%, rgba(9, 5, 20, 0.92) 100%);
   --bg-card: rgba(19, 16, 36, 0.82);
   --bg-input: #120e24;
@@ -26,7 +25,7 @@
 }
 
 body {
-  background-color: #0b0817; /* Fallback dark color */
+  background-color: #0b0817;
   background-image: linear-gradient(160deg, rgba(6, 7, 12, 0.75) 0%, rgba(17, 9, 32, 0.8) 60%, rgba(9, 5, 20, 0.85) 100%), url('images/background.jpg');
   background-repeat: no-repeat;
   background-position: center center;
@@ -39,15 +38,36 @@ body {
 }
 
 /* ==========================================
-   NAVIGATION BAR
+   BANNER CONTAINER
+   ========================================== */
+.banner-container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto 18px auto;
+}
+
+.site-banner {
+  width: 100%;
+  max-height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  opacity: 0.9;
+  filter: contrast(105%);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* ==========================================
+   NAVIGATION BAR (Now Under Banner)
    ========================================== */
 .site-nav {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
   gap: 6px;
   max-width: 1280px;
-  margin: 0 auto 24px auto;
+  margin: 0 auto 32px auto;
   padding: 10px 18px;
   background: var(--bg-card);
   backdrop-filter: blur(16px);
@@ -78,26 +98,6 @@ body {
   background: var(--border-color);
   border: 1px solid rgba(157, 92, 255, 0.4);
   box-shadow: 0 0 12px var(--accent-glow);
-}
-
-/* ==========================================
-   BANNER CONTAINER
-   ========================================== */
-.banner-container {
-  width: 100%;
-  max-width: 1280px;
-  margin: 0 auto 24px auto;
-}
-
-.site-banner {
-  width: 100%;
-  max-height: 180px;
-  object-fit: cover;
-  border-radius: 8px;
-  border: 1px solid var(--border-color);
-  opacity: 0.9;
-  filter: contrast(105%);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 /* ==========================================
@@ -133,12 +133,6 @@ header p {
   gap: 28px;
   max-width: 1280px;
   margin: 0 auto;
-}
-
-@media (max-width: 900px) {
-  .wiki-container {
-    grid-template-columns: 1fr;
-  }
 }
 
 .wiki-sidebar {
@@ -193,6 +187,7 @@ header p {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  min-width: 0; /* Prevents tables from blowing out grid on mobile */
 }
 
 .wiki-section-header {
@@ -214,6 +209,7 @@ header p {
   border-radius: 8px;
   padding: 24px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+  overflow-x: auto; /* Enables horizontal scrolling for wide tables on mobile */
 }
 
 .guide-img {
@@ -284,8 +280,8 @@ code {
    ========================================== */
 .chat-widget-container {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
+  bottom: 20px;
+  right: 20px;
   z-index: 1000;
 }
 
@@ -295,7 +291,7 @@ code {
   -webkit-backdrop-filter: blur(16px);
   color: var(--text-main);
   border: 1px solid var(--border-color);
-  padding: 12px 20px;
+  padding: 10px 18px;
   border-radius: 24px;
   font-weight: 600;
   font-size: 0.85rem;
@@ -314,11 +310,12 @@ code {
 
 .chat-popup-panel {
   position: absolute;
-  bottom: 60px;
+  bottom: 55px;
   right: 0;
-  width: 380px;
-  height: 480px;
-  background: rgba(13, 10, 26, 0.92);
+  width: 360px;
+  max-width: calc(100vw - 40px);
+  height: 440px;
+  background: rgba(13, 10, 26, 0.95);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--border-color);
@@ -428,4 +425,52 @@ code {
   font-weight: 600;
   font-size: 0.8rem;
   cursor: pointer;
+}
+
+/* ==========================================
+   MOBILE RESPONSIVENESS MEDIA QUERY
+   ========================================== */
+@media (max-width: 900px) {
+  body {
+    padding: 12px;
+  }
+
+  .wiki-container {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .wiki-sidebar {
+    position: static;
+    margin-bottom: 8px;
+  }
+
+  header h1 {
+    font-size: 1.7rem;
+  }
+
+  header p {
+    font-size: 0.8rem;
+  }
+
+  .site-nav {
+    gap: 4px;
+    padding: 8px;
+  }
+
+  .site-nav a {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+  }
+
+  .guide-card {
+    padding: 16px;
+  }
+
+  .chat-popup-panel {
+    width: calc(100vw - 24px);
+    right: -12px;
+    bottom: 50px;
+    height: 400px;
+  }
 }
