@@ -108,7 +108,7 @@ app.post('/api/verify', (req, res) => {
 
 // 2. Send message (Password Protected)
 app.post('/api/messages', async (req, res) => {
-  const { content, channel: channelName, password } = req.body; 
+  const { content, channel: channelName, password, username } = req.body; 
   const channelId = channelMap[channelName];
 
   // 🛑 THE PASSWORD CHECK
@@ -120,7 +120,19 @@ app.post('/api/messages', async (req, res) => {
 
   try {
     const channel = await client.channels.fetch(channelId);
-    const sent = await channel.send(content);
+    
+    // Format sender identity (defaults to 'WebUser' if not provided by frontend)
+    const sender = username || 'WebUser';
+
+    // Format message with prefix command so CoreChatX processes it
+    let formattedMessage = `!chat [Web] ${sender}: ${content}`;
+
+    // If target channel is Survival console (CHANNELS.Survival in .env / 1548459448224456704)
+    if (channelName === 'Survival') {
+      formattedMessage = `!gchat [Web] ${sender}: ${content}`;
+    }
+
+    const sent = await channel.send(formattedMessage);
     res.json({ ok: true, id: sent.id });
   } catch (err) {
     res.status(500).json({ error: err.message });

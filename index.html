@@ -219,7 +219,6 @@
 
     <!-- MAIN CONTENT -->
     <main id="main-content">
-      <!-- Content goes here -->
       <div id="content-area"></div>
     </main>
 
@@ -236,7 +235,7 @@
       <div style="font-size: 2rem; text-shadow: 0 0 10px var(--accent);">🔒</div>
       <p style="font-size: 0.75rem; color: var(--text-muted); text-align: center; font-family: var(--font-mono); letter-spacing: 1px;">AUTHENTICATION REQUIRED</p>
       
-      <input type="text" placeholder="USER_ID" style="width: 100%; padding: 0.75rem; border-radius: 4px;" />
+      <input type="text" id="auth-username" placeholder="USER_ID" style="width: 100%; padding: 0.75rem; border-radius: 4px;" />
       <input type="password" id="auth-password" placeholder="ACCESS_KEY" style="width: 100%; padding: 0.75rem; border-radius: 4px;" />
       
       <button onclick="login()" style="width: 100%; padding: 0.75rem; border-radius: 4px; margin-top: 0.5rem;">INITIALIZE</button>
@@ -479,216 +478,220 @@
 
           <div class="spec-box">
             <div class="spec-title">ARCHITECTURE_NOTES</div>
-            <p style="font-size: 0.95rem; line-height: 1.7; color: #c9d1d9;">${guide.note}</p>
-            <div style="margin-top: 1.5rem; font-size: 0.85rem; font-family: var(--font-mono); background: var(--bg-deep); padding: 1rem; border-radius: 4px; border: 1px solid var(--border);">
-              <span style="color: var(--text-muted);">OFFICIAL_MANUAL:</span> <a href="${guide.link}" target="_blank">${guide.link}</a>
+            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
+              ${guide.note}
+            </p>
+            <div style="margin-top: 1rem; font-size: 0.8rem; font-family: var(--font-mono);">
+              Official Reference Portal: <a href="${guide.link}" target="_blank" style="color: var(--accent); text-decoration: none;">${guide.link}</a>
             </div>
           </div>
 
           <div class="guide-links">
-            <div class="guide-btn" onclick="loadSubGuide('${brandKey}', 'battery')"><span>🔋</span> BATTERY_MODULE</div>
-            <div class="guide-btn" onclick="loadSubGuide('${brandKey}', 'screen')"><span>🖥️</span> DISPLAY_MODULE</div>
-            <div class="guide-btn" onclick="loadSubGuide('${brandKey}', 'drive')"><span>💾</span> STORAGE_MODULE</div>
+            <div class="guide-btn" onclick="loadGuideStep('${brandKey}', 'battery')">
+              <span>🔋</span>
+              Battery Protocol
+            </div>
+            <div class="guide-btn" onclick="loadGuideStep('${brandKey}', 'screen')">
+              <span>🖥️</span>
+              Display Assembly
+            </div>
+            <div class="guide-btn" onclick="loadGuideStep('${brandKey}', 'drive')">
+              <span>💾</span>
+              NVMe / Storage
+            </div>
           </div>
         </div>
       `;
       document.getElementById('main-content').scrollTop = 0;
     }
 
-    // --- SUB-GUIDE RENDERER ---
-    function loadSubGuide(brandKey, partKey) {
-      const guide = REPAIR_GUIDES[brandKey][partKey];
-      const brandData = REPAIR_GUIDES[brandKey];
+    // --- SPECIFIC GUIDE STEP RENDERER ---
+    function loadGuideStep(brandKey, stepType) {
+      const guide = REPAIR_GUIDES[brandKey];
+      const module = guide[stepType];
       const contentArea = document.getElementById('content-area');
 
       contentArea.innerHTML = `
         <div class="article-container">
-          <div class="breadcrumb">SYS_ROOT / <span onclick="loadBrandOverview('${brandKey}')">${brandData.name.toUpperCase()}</span> / ${partKey.toUpperCase()}_PROTOCOL</div>
-          <h1 class="article-title">${guide.title}</h1>
-          <div class="article-meta"><span>PROTOCOL: SECURE</span><span>|</span><span>LEVEL: INTERMEDIATE</span></div>
-          <div class="hero-image" style="background-image: url('${guide.image}');"></div>
-
+          <div class="breadcrumb">
+            <span onclick="loadBrandOverview('${brandKey}')">${guide.name.toUpperCase()}</span> / <span>${stepType.toUpperCase()}_MODULE</span>
+          </div>
+          <h1 class="article-title">${module.title}</h1>
+          <div class="article-meta"><span>TARGET: ${guide.name}</span><span>|</span><span>STANDARD PROCEDURE</span></div>
+          
           ${SAFETY_BOX}
 
+          <div class="hero-image" style="background-image: url('${module.image}');"></div>
+
           <div class="step">
-            <div class="step-title"><span class="step-num">01</span> Execution Sequence</div>
-            <div class="step-body">${guide.text}</div>
+            <div class="step-title">
+              <div class="step-num">01</div>
+              Step-by-Step Procedure
+            </div>
+            <div class="step-body">
+              ${module.text}
+            </div>
+          </div>
+
+          <div style="margin-top: 3rem; display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.85rem;">
+            <a onclick="loadBrandOverview('${brandKey}')" style="color: var(--accent); cursor: pointer; text-decoration: none;">&larr; BACK TO ${guide.name.toUpperCase()} ARCHITECTURE</a>
+            <a onclick="loadHomepage()" style="color: var(--text-muted); cursor: pointer; text-decoration: none;">RETURN TO HOMEPAGE</a>
           </div>
         </div>
       `;
       document.getElementById('main-content').scrollTop = 0;
     }
 
-    // Load Homepage on startup
-    loadHomepage();
-
     // ==========================================
-    // 5. CHAT WIDGET LOGIC
+    // 5. CHAT / AUTH LOGIC
     // ==========================================
-    let currentChannel = null;
-    let eventSource = null;
-    let savedPassword = ""; 
-
-    const channelListEl = document.getElementById('channel-list');
-    const messagesEl = document.getElementById('messages');
-    const inputEl = document.getElementById('message-input');
-    const formEl = document.getElementById('send-form');
-    const sendBtn = document.getElementById('send-btn');
-    const widgetEl = document.getElementById('chat-widget');
-    const toggleIcon = document.getElementById('toggle-icon');
-    const mainStatusDot = document.getElementById('main-status-dot');
+    let isWidgetOpen = false;
+    let activeChannel = "gaming";
+    let pollInterval = null;
 
     function toggleWidget() {
-      if (document.activeElement === inputEl) return;
-      if (widgetEl.classList.contains('minimized')) {
-        widgetEl.classList.remove('minimized');
+      const widget = document.getElementById('chat-widget');
+      const toggleIcon = document.getElementById('toggle-icon');
+      
+      isWidgetOpen = !isWidgetOpen;
+      if (isWidgetOpen) {
+        widget.classList.remove('minimized');
         toggleIcon.textContent = '[-]';
       } else {
-        widgetEl.classList.add('minimized');
+        widget.classList.add('minimized');
         toggleIcon.textContent = '[+]';
       }
     }
 
     function login() {
-      const pwd = document.getElementById('auth-password').value;
-      fetch(`${API_URL}/api/verify`, {
+      const user = document.getElementById('auth-username').value.trim();
+      const pass = document.getElementById('auth-password').value;
+      const err = document.getElementById('login-error');
+
+      if (!user) {
+        err.textContent = 'ERR: USER_ID_REQUIRED';
+        err.style.display = 'block';
+        return;
+      }
+
+      fetch(API_URL + '/api/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password: pwd })
-      }).then(res => {
-        if (!res.ok) {
-          document.getElementById('login-error').style.display = 'block';
-        } else {
-          savedPassword = pwd;
+        body: JSON.stringify({ password: pass })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
           document.getElementById('login-screen').style.display = 'none';
           document.getElementById('chat-interface').style.display = 'flex';
-          widgetEl.classList.remove('minimized');
-          toggleIcon.textContent = '[-]';
+          document.getElementById('main-status-dot').style.background = 'var(--success)';
           
-          startListening();
-          initChat(); 
-        }
-      }).catch(err => {
-        document.getElementById('login-error').textContent = "ERR: SERVER_UNREACHABLE";
-        document.getElementById('login-error').style.display = 'block';
-      });
-    }
-
-    function startListening() {
-      if (!eventSource) {
-        eventSource = new EventSource(`${API_URL}/api/stream`);
-        eventSource.onmessage = (e) => {
-          const msg = JSON.parse(e.data);
-          if (msg.channel === currentChannel) {
-             appendMessage(msg);
-          } else {
-             const dot = document.getElementById(`dot-${msg.channel}`);
-             if (dot) dot.classList.add('show');
-             mainStatusDot.classList.add('alert');
-          }
-        };
-      }
-    }
-
-    function initChat() {
-      Object.keys(CHANNELS).forEach(channelName => {
-        const div = document.createElement('div');
-        div.className = 'w-channel';
-        div.id = `chan-${channelName}`;
-        
-        const nameSpan = document.createElement('span');
-        nameSpan.textContent = channelName.toUpperCase();
-        
-        const dot = document.createElement('div');
-        dot.className = 'unread-dot';
-        dot.id = `dot-${channelName}`;
-        
-        div.appendChild(nameSpan);
-        div.appendChild(dot);
-        div.title = channelName;
-        div.onclick = () => selectChannel(channelName, div);
-        channelListEl.appendChild(div);
-      });
-
-      const firstChannel = Object.keys(CHANNELS)[0];
-      selectChannel(firstChannel, document.getElementById(`chan-${firstChannel}`));
-    }
-
-    function selectChannel(channelName, element) {
-      currentChannel = channelName;
-      
-      document.querySelectorAll('.w-channel').forEach(el => {
-        el.classList.toggle('active', el === element);
-      });
-      
-      document.getElementById(`dot-${channelName}`).classList.remove('show');
-      mainStatusDot.classList.remove('alert');
-      
-      inputEl.disabled = false;
-      sendBtn.disabled = false;
-      inputEl.focus();
-      
-      messagesEl.innerHTML = '<div style="text-align: center; color: var(--text-muted); font-size: 0.75rem; font-family: var(--font-mono); padding: 1rem;">SYNCING_DATA...</div>';
-      loadMessages();
-    }
-
-    async function loadMessages() {
-      if (!currentChannel) return;
-      try {
-        const res = await fetch(`${API_URL}/api/messages?channel=${currentChannel}`);
-        const data = await res.json();
-        
-        messagesEl.innerHTML = '';
-        if (data.length === 0) {
-            messagesEl.innerHTML = '<div style="text-align: center; color: var(--text-muted); font-size: 0.75rem; font-family: var(--font-mono); padding: 1rem;">NO_DATA_FOUND</div>';
+          // Enable chat inputs
+          document.getElementById('message-input').disabled = false;
+          document.getElementById('send-btn').disabled = false;
+          
+          initChatChannels();
+          switchChannel(activeChannel);
         } else {
-            data.forEach(appendMessage);
-            messagesEl.scrollTop = messagesEl.scrollHeight;
+          err.textContent = 'ERR: INVALID_CREDENTIALS';
+          err.style.display = 'block';
         }
-      } catch (err) {
-        messagesEl.innerHTML = '<div style="text-align: center; color: var(--alert); font-size: 0.75rem; font-family: var(--font-mono); padding: 1rem;">CONNECTION_LOST</div>';
-      }
+      })
+      .catch(() => {
+        err.textContent = 'ERR: CONNECTION_FAILED';
+        err.style.display = 'block';
+      });
     }
 
-    function appendMessage(msg) {
-      if (document.querySelector(`[data-id="${msg.id}"]`)) return;
-
-      const div = document.createElement('div');
-      div.className = 'msg';
-      div.dataset.id = msg.id;
+    function initChatChannels() {
+      const listEl = document.getElementById('channel-list');
+      listEl.innerHTML = '';
       
-      const safeContent = msg.content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-      
-      div.innerHTML = `
-        <div class="msg-author">@${msg.author.toUpperCase()}</div>
-        <div class="msg-text">${safeContent}</div>
-      `;
-      messagesEl.appendChild(div);
-      messagesEl.scrollTop = messagesEl.scrollHeight;
+      Object.keys(CHANNELS).forEach(name => {
+        const btn = document.createElement('div');
+        btn.className = `w-channel ${name === activeChannel ? 'active' : ''}`;
+        btn.id = `wch-${name}`;
+        btn.innerHTML = `${name}<div class="unread-dot" id="dot-${name}"></div>`;
+        btn.onclick = () => switchChannel(name);
+        listEl.appendChild(btn);
+      });
     }
 
-    formEl.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const content = inputEl.value.trim();
-      if (!content || !currentChannel) return;
-      
-      inputEl.value = ''; 
-      
-      try {
-        const res = await fetch(`${API_URL}/api/messages`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
-            content, 
-            channel: currentChannel,
-            password: savedPassword 
-          })
+    function switchChannel(name) {
+      activeChannel = name;
+      document.querySelectorAll('.w-channel').forEach(el => el.classList.remove('active'));
+      const activeBtn = document.getElementById(`wch-${name}`);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      // Clear unread dot
+      const dot = document.getElementById(`dot-${name}`);
+      if (dot) dot.classList.remove('show');
+
+      fetchMessages();
+      if (pollInterval) clearInterval(pollInterval);
+      pollInterval = setInterval(fetchMessages, 3000);
+    }
+
+    function fetchMessages() {
+      fetch(API_URL + `/api/messages?channel=${activeChannel}`)
+      .then(res => res.json())
+      .then(data => {
+        const msgContainer = document.getElementById('messages');
+        if (!Array.isArray(data)) return;
+        
+        msgContainer.innerHTML = '';
+        data.forEach(m => {
+          const msgEl = document.createElement('div');
+          msgEl.className = 'msg';
+          msgEl.innerHTML = `
+            <div class="msg-author">${escapeHtml(m.author)}</div>
+            <div class="msg-text">${escapeHtml(m.content)}</div>
+          `;
+          msgContainer.appendChild(msgEl);
         });
-        if (!res.ok) alert("ERR: TRANSMISSION_TIMEOUT");
-      } catch (err) {
-        console.error('Failed to send', err);
-      }
-    });
+        msgContainer.scrollTop = msgContainer.scrollHeight;
+      })
+      .catch(() => {});
+    }
+
+    document.getElementById('send-form').onsubmit = (e) => {
+      e.preventDefault();
+      const input = document.getElementById('message-input');
+      const content = input.value.trim();
+      const pass = document.getElementById('auth-password').value;
+      const usernameInput = document.getElementById('auth-username').value.trim() || 'Farkie';
+
+      if (!content) return;
+
+      fetch(API_URL + '/api/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          password: pass,
+          channel: activeChannel,
+          content: content,
+          username: usernameInput
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.ok) {
+          input.value = '';
+          fetchMessages();
+        } else {
+          alert('Failed to send: ' + (data.error || 'Unknown error'));
+        }
+      })
+      .catch(() => alert('ERR: FAILED_TO_TRANSMIT'));
+    };
+
+    function escapeHtml(text) {
+      const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+      return text.replace(/[&<>"']/g, m => map[m]);
+    }
+
+    // Initialize homepage on load
+    loadHomepage();
   </script>
 </body>
 </html>
