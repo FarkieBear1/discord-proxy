@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FixIt | MacBook Pro Teardown</title>
+  <title>FixIt Guides | Laptop Repair Database</title>
   <style>
     :root {
       --bg-base: #121212;
@@ -14,62 +14,69 @@
       --text-muted: #a0a0a0;
       --accent: #007bff;
       --accent-hover: #0056b3;
-      --warning: #ff9900;
       --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: var(--bg-base); color: var(--text-main); font-family: var(--font-ui); overflow: hidden; }
+    body { background: var(--bg-base); color: var(--text-main); font-family: var(--font-ui); overflow: hidden; display: flex; height: 100vh; }
     
-    /* --- TOP NAV --- */
-    #top-nav { background: var(--bg-panel); border-bottom: 1px solid var(--border); padding: 0 2rem; height: 60px; display: flex; align-items: center; justify-content: space-between; z-index: 100; position: relative; }
-    .logo { font-size: 1.4rem; font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
-    .logo-icon { color: var(--accent); font-size: 1.6rem; }
-    .search-bar { background: var(--bg-card); border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: 4px; color: var(--text-muted); width: 300px; outline: none; }
+    /* --- SIDEBAR --- */
+    #sidebar { width: 260px; background: var(--bg-panel); border-right: 1px solid var(--border); display: flex; flex-direction: column; }
+    .logo-area { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); font-size: 1.4rem; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+    .logo-icon { color: var(--accent); }
+    .nav-header { padding: 1.5rem 1.5rem 0.5rem; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px; }
+    .nav-list { overflow-y: auto; flex: 1; }
+    .nav-item { padding: 0.6rem 1.5rem; cursor: pointer; color: var(--text-muted); font-size: 0.9rem; transition: all 0.1s; border-left: 3px solid transparent; }
+    .nav-item:hover { background: var(--bg-card); color: var(--text-main); }
+    .nav-item.active { background: rgba(0, 123, 255, 0.1); color: var(--accent); border-left-color: var(--accent); font-weight: 600; }
 
-    /* --- MAIN ARTICLE (THE BAIT) --- */
-    #article-container { max-width: 900px; margin: 2rem auto; padding: 0 2rem; height: calc(100vh - 100px); overflow-y: auto; padding-bottom: 100px; }
+    /* --- MAIN ARTICLE AREA --- */
+    #main-content { flex: 1; overflow-y: auto; padding: 2rem 3rem; position: relative; padding-bottom: 120px; }
+    .article-container { max-width: 800px; margin: 0 auto; }
     
     .breadcrumb { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; }
-    .breadcrumb span { color: var(--accent); cursor: pointer; }
+    .breadcrumb span { color: var(--accent); }
     
-    .article-title { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; line-height: 1.2; }
-    .article-meta { display: flex; gap: 1rem; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
+    .article-title { font-size: 2.2rem; font-weight: 800; margin-bottom: 0.75rem; line-height: 1.2; }
+    .article-meta { display: flex; gap: 1rem; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
     
-    .hero-image { width: 100%; height: 400px; background: url('https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1200&auto=format&fit=crop') center/cover; border-radius: 8px; margin-bottom: 2rem; border: 1px solid var(--border); }
-    
-    .step { margin-bottom: 3rem; }
-    .step-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
-    .step-num { background: var(--accent); color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.1rem; }
-    .step-title { font-size: 1.5rem; font-weight: 700; }
-    .step-content { background: var(--bg-card); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border); line-height: 1.6; color: #d1d5db; }
-    .step-content img { width: 100%; border-radius: 4px; margin-top: 1rem; border: 1px solid var(--border); }
+    .hero-image { width: 100%; height: 300px; background-size: cover; background-position: center; border-radius: 8px; margin-bottom: 2rem; border: 1px solid var(--border); background-color: #000; }
 
-    /* --- CHAT WIDGET (BOTTOM RIGHT) --- */
-    #chat-widget { position: fixed; bottom: 20px; right: 20px; width: 340px; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column; z-index: 1000; transition: transform 0.3s ease; }
-    
-    .widget-header { background: var(--bg-card); padding: 1rem; border-bottom: 1px solid var(--border); border-radius: 8px 8px 0 0; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-    .widget-title { font-weight: 600; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; }
+    .spec-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem; }
+    .spec-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: var(--accent); }
+    .spec-row { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #2d3139; font-size: 0.9rem; }
+    .spec-row:last-child { border-bottom: none; }
+    .spec-label { color: var(--text-muted); }
+    .spec-value { font-family: var(--font-mono); font-weight: 600; }
+
+    .step { margin-bottom: 2rem; }
+    .step-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 10px; }
+    .step-num { background: var(--accent); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: bold; }
+    .step-body { background: var(--bg-card); padding: 1.25rem; border-radius: 8px; border: 1px solid var(--border); line-height: 1.6; color: #d1d5db; font-size: 0.95rem; }
+    .step-body img { width: 100%; border-radius: 4px; margin-top: 1rem; border: 1px solid var(--border); }
+
+    /* --- CHAT WIDGET --- */
+    #chat-widget { position: fixed; bottom: 20px; right: 20px; width: 320px; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); display: flex; flex-direction: column; z-index: 1000; }
+    .widget-header { background: var(--bg-card); padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); border-radius: 8px 8px 0 0; display: flex; justify-content: space-between; align-items: center; }
+    .widget-title { font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; }
     .status-dot { width: 8px; height: 8px; background: #10b981; border-radius: 50%; box-shadow: 0 0 8px #10b981; }
     
-    .widget-body { display: flex; flex-direction: column; height: 350px; }
-    
-    /* Channel Selector inside widget */
+    .widget-body { display: flex; flex-direction: column; height: 300px; }
     .widget-channels { display: flex; gap: 4px; padding: 0.5rem; border-bottom: 1px solid var(--border); overflow-x: auto; background: var(--bg-base); }
     .w-channel { font-size: 0.7rem; padding: 4px 8px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px; color: var(--text-muted); cursor: pointer; white-space: nowrap; }
     .w-channel.active { background: var(--accent); color: white; border-color: var(--accent); }
     
-    #messages { flex: 1; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; }
+    #messages { flex: 1; overflow-y: auto; padding: 0.75rem; display: flex; flex-direction: column; gap: 0.5rem; }
     .msg { display: flex; flex-direction: column; }
-    .msg-author { font-size: 0.75rem; font-weight: 600; color: var(--accent); margin-bottom: 2px; }
-    .msg-text { font-size: 0.85rem; background: var(--bg-base); padding: 0.5rem 0.75rem; border-radius: 4px; border: 1px solid var(--border); color: var(--text-main); word-wrap: break-word; }
+    .msg-author { font-size: 0.7rem; font-weight: 600; color: var(--accent); margin-bottom: 2px; }
+    .msg-text { font-size: 0.8rem; background: var(--bg-base); padding: 0.4rem 0.6rem; border-radius: 4px; border: 1px solid var(--border); color: var(--text-main); word-wrap: break-word; }
     
-    #composer { padding: 0.75rem; border-top: 1px solid var(--border); background: var(--bg-card); border-radius: 0 0 8px 8px; }
+    #composer { padding: 0.5rem; border-top: 1px solid var(--border); background: var(--bg-card); border-radius: 0 0 8px 8px; }
     #composer form { display: flex; gap: 0.5rem; }
-    #composer input { flex: 1; background: var(--bg-base); border: 1px solid var(--border); color: var(--text-main); padding: 0.5rem; border-radius: 4px; outline: none; font-size: 0.85rem; }
+    #composer input { flex: 1; background: var(--bg-base); border: 1px solid var(--border); color: var(--text-main); padding: 0.4rem; border-radius: 4px; outline: none; font-size: 0.8rem; }
     #composer input:focus { border-color: var(--accent); }
-    #composer button { background: var(--accent); color: white; border: none; border-radius: 4px; padding: 0 1rem; font-weight: 600; cursor: pointer; font-size: 0.85rem; }
+    #composer button { background: var(--accent); color: white; border: none; border-radius: 4px; padding: 0 0.75rem; font-weight: 600; cursor: pointer; font-size: 0.8rem; }
     #composer button:hover { background: var(--accent-hover); }
     #composer button:disabled { background: var(--border); color: var(--text-muted); cursor: not-allowed; }
 
@@ -81,52 +88,27 @@
 </head>
 <body>
 
-  <div id="top-nav">
-    <div class="logo"><span class="logo-icon">🛠️</span> FixIt Guides</div>
-    <input type="text" class="search-bar" placeholder="Search 10,000+ repair guides..." disabled>
-  </div>
-
-  <!-- THE BAIT: Fake iFixit Article -->
-  <div id="article-container">
-    <div class="breadcrumb">Home / Laptop / MacBook Pro 14" / <span>Teardown</span></div>
-    <h1 class="article-title">MacBook Pro 14" 2023 Teardown: A Deep Dive into the M3 Architecture</h1>
-    <div class="article-meta">
-      <span>Written By: FixIt Staff</span>
-      <span>|</span>
-      <span>Difficulty: Moderate</span>
-      <span>|</span>
-      <span>Time Required: 45 Minutes</span>
-    </div>
-
-    <div class="hero-image"></div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num">1</div>
-        <div class="step-title">Remove the bottom case</div>
-      </div>
-      <div class="step-content">
-        Before you begin, power down your MacBook and disconnect all external cables. Use a P5 Pentalobe screwdriver to remove the six screws securing the bottom case. Note that two of the screws are longer than the others; keep track of their locations. Once the screws are removed, use a suction cup to lift the bottom case and release the clips.
-        <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?q=80&w=800&auto=format&fit=crop" alt="Screws">
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-header">
-        <div class="step-num">2</div>
-        <div class="step-title">Disconnect the battery</div>
-      </div>
-      <div class="step-content">
-        The battery connector is located near the center of the logic board. Use a spudger to carefully lift the black retaining bar, then disconnect the battery ribbon cable. This is a crucial safety step to prevent short circuits while you work on the rest of the components.
-      </div>
+  <!-- SIDEBAR -->
+  <div id="sidebar">
+    <div class="logo-area"><span class="logo-icon">🛠️</span> FixIt Guides</div>
+    <div class="nav-header">Laptop Brands</div>
+    <div class="nav-list" id="brand-list">
+      <!-- Brands injected here -->
     </div>
   </div>
 
-  <!-- THE HIDDEN CHAT: Live Support Widget -->
+  <!-- MAIN CONTENT -->
+  <div id="main-content">
+    <div class="article-container" id="article-content">
+      <!-- Article injected here -->
+    </div>
+  </div>
+
+  <!-- CHAT WIDGET -->
   <div id="chat-widget">
     <div class="widget-header">
       <div class="widget-title"><div class="status-dot"></div> Live Repair Support</div>
-      <div style="font-size: 0.8rem; color: var(--text-muted);">Online</div>
+      <div style="font-size: 0.75rem; color: var(--text-muted);">Online</div>
     </div>
     
     <div class="widget-body">
@@ -135,7 +117,7 @@
       </div>
       
       <div id="messages">
-        <div style="text-align: center; color: var(--text-muted); font-size: 0.8rem; padding: 1rem;">Select a channel to connect to a technician.</div>
+        <div style="text-align: center; color: var(--text-muted); font-size: 0.8rem; padding: 1rem;">Select a channel to connect.</div>
       </div>
       
       <div id="composer">
@@ -149,6 +131,10 @@
 
   <script>
     const API_URL = '';
+    
+    // ==========================================
+    // 1. DISCORD CHANNELS (For the Chat Widget)
+    // ==========================================
     const CHANNELS = {
       "general": "1295177296080142360",
       "gaming": "1295177296080142361",
@@ -159,6 +145,163 @@
       "gen": "1009221242487832656"
     };
 
+    // ==========================================
+    // 2. STATIC REPAIR GUIDES (The Bait)
+    // ==========================================
+    const REPAIR_GUIDES = {
+      "lenovo": {
+        title: "Lenovo ThinkPad / Yoga Repair Guide & Boot Keys",
+        image: "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?q=80&w=1200&auto=format&fit=crop",
+        bios: "F2 (or Fn + F2)",
+        boot: "F12 (or F8, F10)",
+        steps: [
+          { title: "Enter BIOS / UEFI", text: "Turn on or restart the computer. When the Lenovo logo appears, press F2 repeatedly. Alternatively, use the Novo button menu and select UEFI/BIOS Setup [citation:2]." },
+          { title: "Change Boot Device", text: "Press F12 during startup to open the boot menu. Select your USB device or network location to boot from. To make a permanent change, enter BIOS and use the Boot menu to move devices to the top [citation:2]." },
+          { title: "Access Hidden Options", text: "On some Lenovo models, pressing F1 provides General Help, F9 sets Setup Defaults, and F10 saves and exits [citation:11]." }
+        ]
+      },
+      "asus": {
+        title: "ASUS ROG / ZenBook Repair Guide & Boot Keys",
+        image: "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?q=80&w=1200&auto=format&fit=crop",
+        bios: "F2 (or Delete)",
+        boot: "Esc (hold) + Power button, or F8 inside BIOS",
+        steps: [
+          { title: "Enter Boot Menu (Hotkey)", text: "When the device is completely shut down, persistently hold the [Esc] key and press the [Power button]. Once the Boot menu appears, release Esc and select your USB device [citation:3]." },
+          { title: "Enter BIOS via Advanced Mode", text: "If the hotkey fails, press F2 during startup to enter BIOS. Press F7 to enter Advanced Mode, then go to the Boot tab. Disable Fast Boot and set Secure Boot Control to Disabled [citation:3]." },
+          { title: "Boot from USB inside BIOS", text: "Inside the BIOS, press F8 to open the Boot Menu. Select your USB flash drive or CD-ROM and press Enter [citation:3]." }
+        ]
+      },
+      "dell": {
+        title: "Dell XPS / Inspiron Repair Guide & Boot Keys",
+        image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?q=80&w=1200&auto=format&fit=crop",
+        bios: "F2",
+        boot: "F12",
+        steps: [
+          { title: "Access System Setup (BIOS)", text: "Press F2 immediately after a power-on or reboot to enter the System Setup menu [citation:10]." },
+          { title: "Access Boot Menu", text: "Press F12 immediately after power-on to open the one-time boot menu. From here, you can select a different boot device without changing the permanent boot order [citation:4]." },
+          { title: "Modify Boot Options", text: "Inside the BIOS, navigate to the Boot menu to add or delete boot options, toggle UEFI boot, or change the boot sequence [citation:4]." }
+        ]
+      },
+      "hp": {
+        title: "HP Pavilion / Omen Repair Guide & Boot Keys",
+        image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1200&auto=format&fit=crop",
+        bios: "F10 (or F2, F6)",
+        boot: "Esc, then F9",
+        steps: [
+          { title: "Open BIOS Setup Utility", text: "Turn on the computer and immediately press the esc key repeatedly until the Startup Menu opens. Press f10 to open the BIOS Setup Utility [citation:14]." },
+          { title: "Access Boot Menu", text: "From the Startup Menu (accessed via Esc), press F9 to open the Boot Menu and select your desired boot device [citation:1]." },
+          { title: "Save and Exit", text: "Press f10 to save the current values and return to the previous menu, or use the arrow keys to navigate to Exit and save changes [citation:14]." }
+        ]
+      },
+      "acer": {
+        title: "Acer Aspire / Nitro Repair Guide & Boot Keys",
+        image: "https://images.unsplash.com/photo-1555617981-dac3880eac6e?q=80&w=1200&auto=format&fit=crop",
+        bios: "F2 (or Delete)",
+        boot: "F12 (or Esc, F9)",
+        steps: [
+          { title: "Enter BIOS", text: "Press F2 or Delete during startup to enter the BIOS configuration [citation:10]." },
+          { title: "Access Boot Menu", text: "Press F12 during startup to open the Boot Menu. On some models, you can also try Esc or F9 [citation:1]." },
+          { title: "Adjust Boot Settings", text: "Inside the BIOS, go to the Boot tab. Ensure Secure Boot is Disabled if you are booting from a non-Windows USB. Use F5/F6 to change the boot priority order [citation:6]." }
+        ]
+      },
+      "razer": {
+        title: "Razer Blade Repair Guide & Boot Keys",
+        image: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?q=80&w=1200&auto=format&fit=crop",
+        bios: "F1 (or Del)",
+        boot: "F12",
+        steps: [
+          { title: "Enter BIOS Setup", text: "Restart your Blade. When the Razer logo appears, tap F1 or Del repeatedly. Ensure you press it fast enough to trigger the setting [citation:7]." },
+          { title: "Access Boot Menu", text: "When the Razer logo appears, repeatedly press F12 to access the boot menu before the Secure Boot warning appears [citation:16]." },
+          { title: "Windows Advanced Startup", text: "If the keys fail, go to Windows Settings > System > Recovery > Advanced startup > Restart now. Select Troubleshoot > Advanced options > UEFI Firmware Settings [citation:7]." }
+        ]
+      },
+      "samsung": {
+        title: "Samsung Notebook / Galaxy Book Repair Guide & Boot Keys",
+        image: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?q=80&w=1200&auto=format&fit=crop",
+        bios: "F2",
+        boot: "F2 (inside BIOS) or F10",
+        steps: [
+          { title: "Enter BIOS Setup", text: "Press F2 when the Samsung logo appears in the booting sequence to enter the BIOS Setup [citation:8]." },
+          { title: "Change Boot Priority", text: "Connect your bootable USB device. Restart and press F2 repeatedly. Enter the BIOS, select the Boot menu, and set Fast BIOS Mode to Off. Then change Boot Device Priority to your USB device [citation:17]." },
+          { title: "Save and Restart", text: "Select Save and then Yes to save your changes and restart the computer [citation:17]." }
+        ]
+      },
+      "surface": {
+        title: "Microsoft Surface Repair Guide & Boot Keys",
+        image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1200&auto=format&fit=crop",
+        bios: "Hold Volume Up + Power",
+        boot: "Hold Volume Up + Power (UEFI Menu)",
+        steps: [
+          { title: "Access UEFI Firmware", text: "Power off the device completely. Press and hold the Volume Up button, then press and release the Power button. Continue holding Volume Up until the Surface logo appears and disappears, revealing the UEFI menu [citation:9][citation:10]." },
+          { title: "Configure Boot Order", text: "Navigate to 'Configure Alternate System Boot Order' using the arrow keys. Press Enter to load the submenu, then select your first boot device [citation:18]." },
+          { title: "Exit and Save", text: "Navigate to the Exit setup menu, press Enter, and use the arrow keys to select Yes to save and restart [citation:18]." }
+        ]
+      }
+    };
+
+    // ==========================================
+    // 3. RENDERING LOGIC
+    // ==========================================
+    
+    // Render Sidebar
+    const brandListEl = document.getElementById('brand-list');
+    Object.keys(REPAIR_GUIDES).forEach((brand, index) => {
+      const div = document.createElement('div');
+      div.className = `nav-item ${index === 0 ? 'active' : ''}`;
+      div.textContent = brand.charAt(0).toUpperCase() + brand.slice(1);
+      div.onclick = () => loadGuide(brand, div);
+      brandListEl.appendChild(div);
+    });
+
+    // Load initial guide
+    function loadGuide(brandKey, element) {
+      // Update sidebar active state
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      if (element) element.classList.add('active');
+
+      const guide = REPAIR_GUIDES[brandKey];
+      const articleContainer = document.getElementById('article-content');
+
+      // Build the fake article HTML
+      let stepsHtml = '';
+      guide.steps.forEach((step, index) => {
+        stepsHtml += `
+          <div class="step">
+            <div class="step-title"><span class="step-num">${index + 1}</span> ${step.title}</div>
+            <div class="step-body">${step.text}</div>
+          </div>
+        `;
+      });
+
+      articleContainer.innerHTML = `
+        <div class="breadcrumb">Home / Laptop Repair / <span>${guide.title}</span></div>
+        <h1 class="article-title">${guide.title}</h1>
+        <div class="article-meta">
+          <span>Written By: FixIt Staff</span>
+          <span>|</span>
+          <span>Difficulty: Moderate</span>
+        </div>
+        <div class="hero-image" style="background-image: url('${guide.image}');"></div>
+
+        <div class="spec-box">
+          <div class="spec-title">Essential Boot Keys</div>
+          <div class="spec-row"><span class="spec-label">BIOS / UEFI Setup Key</span><span class="spec-value">${guide.bios}</span></div>
+          <div class="spec-row"><span class="spec-label">Boot Menu Key</span><span class="spec-value">${guide.boot}</span></div>
+        </div>
+
+        ${stepsHtml}
+      `;
+      
+      // Scroll main content to top
+      document.getElementById('main-content').scrollTop = 0;
+    }
+
+    // Initialize first guide
+    loadGuide('lenovo', document.querySelector('.nav-item'));
+
+    // ==========================================
+    // 4. CHAT WIDGET LOGIC
+    // ==========================================
     let currentChannel = null;
     let eventSource = null;
 
@@ -168,11 +311,11 @@
     const formEl = document.getElementById('send-form');
     const sendBtn = document.getElementById('send-btn');
 
-    // Render sidebar (as small widget tabs)
+    // Render chat widget channels (shortened names)
     Object.keys(CHANNELS).forEach(channelName => {
       const div = document.createElement('div');
       div.className = 'w-channel';
-      const formattedName = channelName.substring(0, 8); // shorten names for widget
+      const formattedName = channelName.substring(0, 6); 
       div.textContent = formattedName;
       div.title = channelName;
       div.onclick = () => selectChannel(channelName, div);
@@ -190,7 +333,7 @@
       sendBtn.disabled = false;
       inputEl.focus();
       
-      messagesEl.innerHTML = '<div style="text-align: center; color: var(--text-muted); font-size: 0.8rem; padding: 1rem;">Connecting to technician...</div>';
+      messagesEl.innerHTML = '<div style="text-align: center; color: var(--text-muted); font-size: 0.8rem; padding: 1rem;">Connecting...</div>';
       loadMessages();
 
       if (!eventSource) {
