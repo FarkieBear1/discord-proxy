@@ -14,6 +14,7 @@
       --text-muted: #a0a0a0;
       --accent: #007bff;
       --accent-hover: #0056b3;
+      --alert: #ef4444;
       --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
     }
@@ -25,9 +26,9 @@
     #sidebar { width: 260px; background: var(--bg-panel); border-right: 1px solid var(--border); display: flex; flex-direction: column; }
     .logo-area { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); font-size: 1.4rem; font-weight: 800; display: flex; align-items: center; gap: 8px; }
     .logo-icon { color: var(--accent); }
-    .nav-header { padding: 1.5rem 1.5rem 0.5rem; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px; }
-    .nav-list { overflow-y: auto; flex: 1; }
-    .nav-item { padding: 0.6rem 1.5rem; cursor: pointer; color: var(--text-muted); font-size: 0.9rem; transition: all 0.1s; border-left: 3px solid transparent; }
+    
+    .nav-list { overflow-y: auto; flex: 1; padding-top: 1rem; }
+    .nav-item { padding: 0.6rem 1.5rem; cursor: pointer; color: var(--text-muted); font-size: 0.9rem; transition: all 0.1s; border-left: 3px solid transparent; display: flex; justify-content: space-between; align-items: center; }
     .nav-item:hover { background: var(--bg-card); color: var(--text-main); }
     .nav-item.active { background: rgba(0, 123, 255, 0.1); color: var(--accent); border-left-color: var(--accent); font-weight: 600; }
 
@@ -36,12 +37,12 @@
     .article-container { max-width: 800px; margin: 0 auto; }
     
     .breadcrumb { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; }
-    .breadcrumb span { color: var(--accent); }
+    .breadcrumb span { color: var(--accent); cursor: pointer; }
+    .breadcrumb span:hover { text-decoration: underline; }
     
     .article-title { font-size: 2.2rem; font-weight: 800; margin-bottom: 0.75rem; line-height: 1.2; }
     .article-meta { display: flex; gap: 1rem; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
     
-    /* Fixed Hero Image */
     .hero-image { width: 100%; height: 350px; background-size: cover; background-position: center; border-radius: 8px; margin-bottom: 2rem; border: 1px solid var(--border); background-color: #000; }
 
     .spec-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem; }
@@ -56,10 +57,13 @@
     .step-num { background: var(--accent); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: bold; flex-shrink: 0; }
     .step-body { background: var(--bg-card); padding: 1.25rem; border-radius: 8px; border: 1px solid var(--border); line-height: 1.6; color: #d1d5db; font-size: 0.95rem; }
 
+    /* Sub-guide links */
+    .guide-links { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
+    .guide-btn { background: var(--bg-card); border: 1px solid var(--border); padding: 0.75rem 1rem; border-radius: 6px; cursor: pointer; flex: 1; text-align: center; font-weight: 600; color: var(--text-main); transition: all 0.2s; min-width: 150px; }
+    .guide-btn:hover { border-color: var(--accent); background: rgba(0, 123, 255, 0.05); }
+
     /* --- CHAT WIDGET --- */
     #chat-widget { position: fixed; bottom: 20px; right: 20px; width: 320px; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); display: flex; flex-direction: column; z-index: 1000; transition: all 0.2s ease-in-out; }
-    
-    /* Minimized State */
     #chat-widget.minimized { height: 46px; overflow: hidden; cursor: pointer; }
     #chat-widget.minimized .widget-body { display: none; }
     #chat-widget.minimized #login-screen { display: none; }
@@ -67,13 +71,18 @@
     .widget-header { background: var(--bg-card); padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); border-radius: 8px 8px 0 0; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
     .widget-title { font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; }
     .status-dot { width: 8px; height: 8px; background: #10b981; border-radius: 50%; box-shadow: 0 0 8px #10b981; }
+    .status-dot.alert { background: var(--alert); box-shadow: 0 0 8px var(--alert); }
+    
     .minimize-btn { font-size: 1.2rem; color: var(--text-muted); font-weight: bold; line-height: 1; }
     
     .widget-body { display: flex; flex-direction: column; height: 300px; }
     .widget-channels { display: flex; gap: 4px; padding: 0.5rem; border-bottom: 1px solid var(--border); overflow-x: auto; background: var(--bg-base); }
-    .w-channel { font-size: 0.7rem; padding: 4px 8px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px; color: var(--text-muted); cursor: pointer; white-space: nowrap; }
+    .w-channel { font-size: 0.7rem; padding: 4px 8px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px; color: var(--text-muted); cursor: pointer; white-space: nowrap; position: relative; }
     .w-channel.active { background: var(--accent); color: white; border-color: var(--accent); }
     
+    .unread-dot { position: absolute; top: -4px; right: -4px; width: 8px; height: 8px; background: var(--alert); border-radius: 50%; display: none; }
+    .unread-dot.show { display: block; }
+
     #messages { flex: 1; overflow-y: auto; padding: 0.75rem; display: flex; flex-direction: column; gap: 0.5rem; }
     .msg { display: flex; flex-direction: column; }
     .msg-author { font-size: 0.7rem; font-weight: 600; color: var(--accent); margin-bottom: 2px; }
@@ -98,7 +107,6 @@
   <!-- SIDEBAR -->
   <div id="sidebar">
     <div class="logo-area"><span class="logo-icon">🛠️</span> FixIt Guides</div>
-    <div class="nav-header">Laptop Brands</div>
     <div class="nav-list" id="brand-list">
       <!-- Brands injected here -->
     </div>
@@ -114,7 +122,7 @@
   <!-- CHAT WIDGET -->
   <div id="chat-widget" class="minimized">
     <div class="widget-header" onclick="toggleWidget()">
-      <div class="widget-title"><div class="status-dot"></div> Live Repair Support</div>
+      <div class="widget-title"><div class="status-dot" id="main-status-dot"></div> Live Support</div>
       <div class="minimize-btn" id="toggle-icon">+</div>
     </div>
     
@@ -166,159 +174,122 @@
     };
 
     // ==========================================
-    // 2. STATIC REPAIR GUIDES (With Fixed Images)
+    // 2. STATIC REPAIR GUIDES
     // ==========================================
     const REPAIR_GUIDES = {
       "lenovo": {
-        title: "Lenovo ThinkPad / Yoga Repair Guide & Boot Keys",
-        image: "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?q=80&w=1200&auto=format&fit=crop",
-        bios: "F2 (or Fn + F2)",
-        boot: "F12 (or F8, F10)",
-        steps: [
-          { title: "Enter BIOS / UEFI Setup", text: "Turn on or restart the computer. When the Lenovo logo appears on the screen, press F2 repeatedly. Alternatively, if your laptop has a Novo button (a tiny pinhole button usually next to the power button), press it with a paperclip while the laptop is off. The Novo button menu will appear, and you can select 'BIOS Setup'." },
-          { title: "Change Boot Device Temporarily", text: "Press F12 during startup to open the boot menu. This is a one-time boot menu, meaning it won't change your permanent boot order. Use the arrow keys to select your USB drive or network location and press Enter to boot from it." },
-          { title: "Permanent Boot Order Change", text: "Enter the BIOS (using F2). Navigate to the 'Startup' tab. Use the F5/F6 keys to move your USB device to the top of the boot priority list. Press F10 to save your changes and exit." }
-        ]
+        name: "Lenovo", image: "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?q=80&w=1200&auto=format&fit=crop",
+        battery: { title: "Lenovo Battery Replacement", text: "Remove the bottom cover (P5 Pentalobe screws). Disconnect the battery ribbon cable from the motherboard by lifting the black retaining bar. Remove the 6 Phillips screws holding the battery in place and lift it out." },
+        screen: { title: "Lenovo Screen Replacement", text: "Remove the rubber screw covers on the bezel. Unscrew the bezel and use a plastic pry tool to pop it off. Unscrew the hinges holding the LCD panel. Carefully disconnect the display ribbon cable and remove the panel." },
+        drive: { title: "Lenovo Hard Drive Replacement", text: "Remove the bottom cover. Locate the M.2 SSD slot. Unscrew the single retaining screw at the end of the drive. The drive will pop up at an angle; pull it straight out to remove it." }
       },
       "asus": {
-        title: "ASUS ROG / ZenBook Repair Guide & Boot Keys",
-        image: "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?q=80&w=1200&auto=format&fit=crop",
-        bios: "F2 (or Delete)",
-        boot: "Esc (hold) + Power button",
-        steps: [
-          { title: "Enter Boot Menu (Hardware Hotkey)", text: "Ensure the device is completely shut down (not sleeping). Persistently hold the [Esc] key and press the [Power button]. Keep holding Esc until the Boot menu appears." },
-          { title: "Enter BIOS via Advanced Mode", text: "If the hotkey fails, press F2 during startup to enter BIOS. Press F7 to enter Advanced Mode. Go to the 'Boot' tab, disable Fast Boot, and set Secure Boot Control to Disabled." },
-          { title: "Boot from USB inside BIOS", text: "While inside the BIOS, press F8 to open the Boot Menu. Select your USB flash drive or CD-ROM and press Enter." }
-        ]
+        name: "ASUS", image: "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?q=80&w=1200&auto=format&fit=crop",
+        battery: { title: "ASUS Battery Replacement", text: "Remove the bottom panel (10-12 Phillips screws). Carefully unplug the battery connector from the motherboard. Remove the screws securing the battery and lift it out." },
+        screen: { title: "ASUS Screen Replacement", text: "Pry off the bottom bezel and then the side bezels. Remove the screws around the panel. Tilt the screen forward and disconnect the display cable. Lift the panel out." },
+        drive: { title: "ASUS Hard Drive Replacement", text: "Remove the bottom panel. The M.2 SSD is usually wrapped in a black thermal shield. Remove the screw, peel back the shield, and slide the drive out." }
       },
       "dell": {
-        title: "Dell XPS / Inspiron Repair Guide & Boot Keys",
-        image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?q=80&w=1200&auto=format&fit=crop",
-        bios: "F2",
-        boot: "F12",
-        steps: [
-          { title: "Access System Setup (BIOS)", text: "Press F2 immediately after a power-on or reboot (tap it repeatedly) to enter the System Setup menu. This gives you access to hardware configuration and security settings." },
-          { title: "Access One-Time Boot Menu", text: "Press F12 immediately after power-on to open the one-time boot menu. This allows you to select a different boot device for this session only." },
-          { title: "Modify Permanent Boot Options", text: "Inside the BIOS (F2), navigate to the 'Boot' menu. Here you can add or delete boot options, toggle UEFI boot, or change the boot sequence." }
-        ]
+        name: "Dell", image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?q=80&w=1200&auto=format&fit=crop",
+        battery: { title: "Dell Battery Replacement", text: "Loosen the captive screws on the bottom (they stay attached to the cover). Lift the cover. Unplug the battery cable and remove the 4-6 screws holding the battery down." },
+        screen: { title: "Dell Screen Replacement", text: "Use a plastic pry tool to separate the bezel from the LCD panel. Remove the 4 corner screws holding the panel. Lay the panel face down and disconnect the video cable." },
+        drive: { title: "Dell Hard Drive Replacement", text: "Remove the bottom cover. The SSD is located under a metal shield. Remove the shield screw, lift the shield, and unscrew the M.2 drive." }
       },
       "hp": {
-        title: "HP Pavilion / Omen Repair Guide & Boot Keys",
-        image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1200&auto=format&fit=crop",
-        bios: "F10 (or F2, F6)",
-        boot: "Esc, then F9",
-        steps: [
-          { title: "Open Startup Menu", text: "Turn on the computer and immediately press the Esc key repeatedly until the Startup Menu opens." },
-          { title: "Open BIOS Setup Utility", text: "From the Startup Menu, press F10 to open the BIOS Setup Utility." },
-          { title: "Access Boot Menu", text: "From the Startup Menu, press F9 to open the Boot Device Options menu. Select your desired boot device." }
-        ]
+        name: "HP", image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1200&auto=format&fit=crop",
+        battery: { title: "HP Battery Replacement", text: "Remove the bottom cover screws. Use a pry tool to pop the case open. Disconnect the battery connector from the motherboard. Remove the mounting screws and lift the battery." },
+        screen: { title: "HP Screen Replacement", text: "Remove the display bezel by prying around the edges. Unscrew the LCD panel. Carefully disconnect the display cable and remove the panel." },
+        drive: { title: "HP Hard Drive Replacement", text: "Remove the bottom panel. Locate the M.2 slot. Remove the retention screw and pull the drive out at a 30-degree angle." }
       },
       "acer": {
-        title: "Acer Aspire / Nitro Repair Guide & Boot Keys",
-        image: "https://images.unsplash.com/photo-1555617981-dac3880eac6e?q=80&w=1200&auto=format&fit=crop",
-        bios: "F2 (or Delete)",
-        boot: "F12 (or Esc, F9)",
-        steps: [
-          { title: "Enter BIOS", text: "Press F2 or Delete during startup to enter the BIOS configuration." },
-          { title: "Access Boot Menu", text: "Press F12 during startup to open the Boot Menu. If it doesn't open, enable 'F12 Boot Menu' in the BIOS first." },
-          { title: "Adjust Boot Settings", text: "Inside the BIOS, go to the 'Boot' tab. Ensure Secure Boot is Disabled if booting a non-Windows USB." }
-        ]
+        name: "Acer", image: "https://images.unsplash.com/photo-1555617981-dac3880eac6e?q=80&w=1200&auto=format&fit=crop",
+        battery: { title: "Acer Battery Replacement", text: "Remove all bottom case screws. Pry the bottom case off. Disconnect the battery cable and remove the screws holding the battery in place." },
+        screen: { title: "Acer Screen Replacement", text: "Pop the bezel off using a guitar pick. Remove the hinge screws and disconnect the display cable. Lift the screen assembly out." },
+        drive: { title: "Acer Hard Drive Replacement", text: "Open the bottom case. Remove the single screw holding the M.2 SSD. Pull it out to replace it." }
       },
       "razer": {
-        title: "Razer Blade Repair Guide & Boot Keys",
-        image: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?q=80&w=1200&auto=format&fit=crop",
-        bios: "F1 (or Del)",
-        boot: "F12",
-        steps: [
-          { title: "Enter BIOS Setup", text: "Restart your Blade. When the Razer logo appears, tap F1 or Del repeatedly." },
-          { title: "Access Boot Menu", text: "When the Razer logo appears, repeatedly press F12 to access the boot menu." },
-          { title: "Windows Advanced Startup", text: "If keys fail, go to Settings > System > Recovery > Advanced startup > Restart now > Troubleshoot > UEFI Firmware Settings." }
-        ]
+        name: "Razer", image: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?q=80&w=1200&auto=format&fit=crop",
+        battery: { title: "Razer Battery Replacement", text: "Remove the 10 T5 Torx screws on the bottom. Carefully lift the bottom panel from the front edge. Disconnect the battery cable and remove the 6 screws holding the massive battery." },
+        screen: { title: "Razer Screen Replacement", text: "Remove the rubber bezel carefully. Unscrew the hinges and disconnect the display cable. Remove the panel and replace." },
+        drive: { title: "Razer Hard Drive Replacement", text: "Remove the bottom case. The SSD is covered by a black shield. Peel the shield back, remove the screw, and replace the drive." }
       },
       "samsung": {
-        title: "Samsung Notebook / Galaxy Book Repair Guide",
-        image: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?q=80&w=1200&auto=format&fit=crop",
-        bios: "F2",
-        boot: "F2 (inside BIOS) or F10",
-        steps: [
-          { title: "Enter BIOS Setup", text: "Press F2 when the Samsung logo appears in the booting sequence." },
-          { title: "Change Boot Priority", text: "Connect your USB. Restart and press F2. In BIOS, set 'Fast BIOS Mode' to Off, then change 'Boot Device Priority' to USB." },
-          { title: "Save and Restart", text: "Select 'Save' and then 'Yes' to save your changes and restart." }
-        ]
+        name: "Samsung", image: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?q=80&w=1200&auto=format&fit=crop",
+        battery: { title: "Samsung Battery Replacement", text: "Remove the bottom cover screws. Use a plastic tool to pop the clips around the edge. Disconnect the battery and remove the screws." },
+        screen: { title: "Samsung Screen Replacement", text: "Pry off the display bezel. Disconnect the display cable. Unscrew the panel and remove it." },
+        drive: { title: "Samsung Hard Drive Replacement", text: "Remove the back panel. Unscrew the SSD retention screw and pull the drive out." }
       },
       "surface": {
-        title: "Microsoft Surface Repair Guide & Boot Keys",
-        image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1200&auto=format&fit=crop",
-        bios: "Hold Volume Up + Power",
-        boot: "Hold Volume Up + Power (UEFI)",
-        steps: [
-          { title: "Access UEFI Firmware", text: "Power off completely. Press and hold Volume Up, then press and release Power. Keep holding Volume Up until the UEFI menu appears." },
-          { title: "Configure Boot Order", text: "Navigate to 'Configure Alternate System Boot Order' and press Enter. Select your first boot device." },
-          { title: "Exit and Save", text: "Navigate to the 'Exit' menu and select 'Yes' to save and restart." }
-        ]
+        name: "Surface", image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1200&auto=format&fit=crop",
+        battery: { title: "Surface Battery Replacement", text: "WARNING: Surface devices are glued shut. You must use a heat gun to soften the adhesive. Pry the screen off carefully, disconnect the battery, and use a solvent to remove the battery." },
+        screen: { title: "Surface Screen Replacement", text: "Heat the edges of the screen. Use a suction cup and plastic cards to cut through the adhesive. Disconnect the screen cables and remove the display." },
+        drive: { title: "Surface Hard Drive Replacement", text: "Remove the kickstand. Under the kickstand, there is a small door. Pry it open to access the M.2 SSD. Remove the single screw and swap the drive." }
       }
     };
 
     // ==========================================
-    // 3. RENDERING LOGIC
+    // 3. RENDERING LOGIC (Sub-guides)
     // ==========================================
     
     const brandListEl = document.getElementById('brand-list');
     Object.keys(REPAIR_GUIDES).forEach((brand, index) => {
       const div = document.createElement('div');
       div.className = `nav-item ${index === 0 ? 'active' : ''}`;
-      div.textContent = brand.charAt(0).toUpperCase() + brand.slice(1);
-      div.onclick = () => loadGuide(brand, div);
+      div.textContent = REPAIR_GUIDES[brand].name;
+      div.onclick = () => loadBrandOverview(brand, div);
       brandListEl.appendChild(div);
     });
 
-    function loadGuide(brandKey, element) {
+    function loadBrandOverview(brandKey, element) {
       document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
       if (element) element.classList.add('active');
 
       const guide = REPAIR_GUIDES[brandKey];
       const articleContainer = document.getElementById('article-content');
 
-      let stepsHtml = '';
-      guide.steps.forEach((step, index) => {
-        stepsHtml += `
-          <div class="step">
-            <div class="step-title"><span class="step-num">${index + 1}</span> ${step.title}</div>
-            <div class="step-body">${step.text}</div>
-          </div>
-        `;
-      });
-
       articleContainer.innerHTML = `
-        <div class="breadcrumb">Home / Laptop Repair / <span>${guide.title}</span></div>
-        <h1 class="article-title">${guide.title}</h1>
-        <div class="article-meta">
-          <span>Written By: FixIt Staff</span>
-          <span>|</span>
-          <span>Difficulty: Moderate</span>
-        </div>
+        <div class="breadcrumb">Home / Laptop Repair / <span>${guide.name}</span></div>
+        <h1 class="article-title">${guide.name} Repair Guides</h1>
+        <div class="article-meta"><span>Written By: FixIt Staff</span><span>|</span><span>Select a guide below</span></div>
         <div class="hero-image" style="background-image: url('${guide.image}');"></div>
 
-        <div class="spec-box">
-          <div class="spec-title">Essential Boot Keys</div>
-          <div class="spec-row"><span class="spec-label">BIOS / UEFI Setup Key</span><span class="spec-value">${guide.bios}</span></div>
-          <div class="spec-row"><span class="spec-label">Boot Menu Key</span><span class="spec-value">${guide.boot}</span></div>
+        <div class="guide-links">
+          <div class="guide-btn" onclick="loadSubGuide('${brandKey}', 'battery', this)">🔋 Battery Replacement</div>
+          <div class="guide-btn" onclick="loadSubGuide('${brandKey}', 'screen', this)">🖥️ Screen Replacement</div>
+          <div class="guide-btn" onclick="loadSubGuide('${brandKey}', 'drive', this)">💾 Hard Drive Replacement</div>
         </div>
-
-        ${stepsHtml}
       `;
-      
       document.getElementById('main-content').scrollTop = 0;
     }
 
-    loadGuide('lenovo', document.querySelector('.nav-item'));
+    function loadSubGuide(brandKey, partKey, element) {
+      const guide = REPAIR_GUIDES[brandKey][partKey];
+      const brandData = REPAIR_GUIDES[brandKey];
+      const articleContainer = document.getElementById('article-content');
+
+      articleContainer.innerHTML = `
+        <div class="breadcrumb">Home / Laptop Repair / <span onclick="loadBrandOverview('${brandKey}')">${brandData.name}</span> / ${guide.title}</div>
+        <h1 class="article-title">${guide.title}</h1>
+        <div class="article-meta"><span>Written By: FixIt Staff</span><span>|</span><span>Difficulty: Moderate</span></div>
+        <div class="hero-image" style="background-image: url('${brandData.image}');"></div>
+
+        <div class="step">
+          <div class="step-title"><span class="step-num">1</span> Repair Instructions</div>
+          <div class="step-body">${guide.text}</div>
+        </div>
+      `;
+      document.getElementById('main-content').scrollTop = 0;
+    }
+
+    loadBrandOverview('lenovo', document.querySelector('.nav-item'));
 
     // ==========================================
-    // 4. CHAT WIDGET LOGIC
+    // 4. CHAT WIDGET LOGIC (With Unread Indicators)
     // ==========================================
     let currentChannel = null;
     let eventSource = null;
     let savedPassword = ""; 
+    const unreadCounts = {};
 
     const channelListEl = document.getElementById('channel-list');
     const messagesEl = document.getElementById('messages');
@@ -327,12 +298,10 @@
     const sendBtn = document.getElementById('send-btn');
     const widgetEl = document.getElementById('chat-widget');
     const toggleIcon = document.getElementById('toggle-icon');
+    const mainStatusDot = document.getElementById('main-status-dot');
 
-    // --- MINIMIZE / MAXIMIZE LOGIC ---
     function toggleWidget() {
-      // Don't toggle if the user is actively typing in the input
       if (document.activeElement === inputEl) return;
-
       if (widgetEl.classList.contains('minimized')) {
         widgetEl.classList.remove('minimized');
         toggleIcon.textContent = '-';
@@ -342,10 +311,8 @@
       }
     }
 
-    // --- LOGIN LOGIC ---
     function login() {
       const pwd = document.getElementById('auth-password').value;
-      
       fetch(`${API_URL}/api/verify`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -357,7 +324,6 @@
           savedPassword = pwd;
           document.getElementById('login-screen').style.display = 'none';
           document.getElementById('chat-interface').style.display = 'flex';
-          // Automatically expand widget on successful login
           widgetEl.classList.remove('minimized');
           toggleIcon.textContent = '-';
           initChat(); 
@@ -368,19 +334,28 @@
       });
     }
 
-    // --- CHAT LOGIC ---
     function initChat() {
       Object.keys(CHANNELS).forEach(channelName => {
         const div = document.createElement('div');
         div.className = 'w-channel';
-        div.textContent = channelName.substring(0, 6);
+        div.id = `chan-${channelName}`;
+        
+        const nameSpan = document.createElement('span');
+        nameSpan.textContent = channelName.substring(0, 6);
+        
+        const dot = document.createElement('div');
+        dot.className = 'unread-dot';
+        dot.id = `dot-${channelName}`;
+        
+        div.appendChild(nameSpan);
+        div.appendChild(dot);
         div.title = channelName;
         div.onclick = () => selectChannel(channelName, div);
         channelListEl.appendChild(div);
       });
 
       const firstChannel = Object.keys(CHANNELS)[0];
-      selectChannel(firstChannel, channelListEl.firstChild);
+      selectChannel(firstChannel, document.getElementById(`chan-${firstChannel}`));
     }
 
     function selectChannel(channelName, element) {
@@ -389,6 +364,9 @@
       document.querySelectorAll('.w-channel').forEach(el => {
         el.classList.toggle('active', el === element);
       });
+      
+      // Clear unread dot for this channel
+      document.getElementById(`dot-${channelName}`).classList.remove('show');
       
       inputEl.disabled = false;
       sendBtn.disabled = false;
@@ -403,6 +381,11 @@
           const msg = JSON.parse(e.data);
           if (msg.channel === currentChannel) {
              appendMessage(msg);
+          } else {
+             // Show unread dot for other channels
+             const dot = document.getElementById(`dot-${msg.channel}`);
+             if (dot) dot.classList.add('show');
+             mainStatusDot.classList.add('alert');
           }
         };
       }
@@ -460,10 +443,7 @@
             password: savedPassword 
           })
         });
-        
-        if (!res.ok) {
-          alert("Error: Connection timed out.");
-        }
+        if (!res.ok) alert("Error: Connection timed out.");
       } catch (err) {
         console.error('Failed to send', err);
       }
