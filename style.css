@@ -26,7 +26,8 @@
 }
 
 body {
-  background: var(--bg-overlay), url('./images/background.jpg') no-repeat center center fixed;
+  /* Remove 'images/' from the url path */
+  background: var(--bg-overlay), url('images/background.jpg') no-repeat center center fixed;
   background-size: cover;
   color: var(--text-main);
   padding: 24px;
