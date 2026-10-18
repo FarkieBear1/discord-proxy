@@ -41,7 +41,6 @@
         <li><a href="#bench-tips"><span>▸</span> General Benchtop Protocols</a></li>
         <li><a href="#commands"><span>▸</span> System Audit Commands</a></li>
         <li><a href="#storage-battery"><span>▸</span> Storage & Battery Safety</a></li>
-        <li><a href="#help-chat-portal"><span>▸</span> Help Chat Access Portal</a></li>
       </ul>
     </aside>
 
@@ -198,29 +197,33 @@
         </ol>
       </div>
 
-      <!-- HELP CHAT PORTAL ACCESS CARD -->
-      <div class="guide-card" id="help-chat-portal" style="border-color: var(--accent-purple); box-shadow: 0 0 16px var(--accent-glow);">
-        <h3>Help Chat Portal Login</h3>
-        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 14px;">
-          Log in with your access credentials to enable live cross-brand Help Chat and internal stream access.
-        </p>
-        
-        <div id="login-form-container" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
-          <input type="text" id="portal-username" placeholder="Your Handle (e.g., User_01)" style="flex: 1; min-width: 180px; background: var(--bg-input); border: 1px solid var(--border-subtle); padding: 8px 12px; border-radius: 5px; color: var(--text-main); font-size: 0.85rem;">
-          <input type="password" id="portal-password" placeholder="Access Password" style="flex: 1; min-width: 180px; background: var(--bg-input); border: 1px solid var(--border-subtle); padding: 8px 12px; border-radius: 5px; color: var(--text-main); font-size: 0.85rem;">
-          <button onclick="unlockPortalLogin()" style="background: var(--accent-purple); color: #fff; border: none; padding: 8px 20px; border-radius: 5px; font-weight: 600; cursor: pointer; font-size: 0.85rem;">Authenticate</button>
-        </div>
+      <!-- HIDDEN LOGIN MODAL (Only opens via secret trigger) -->
+      <div id="secret-login-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(5, 3, 12, 0.85); backdrop-filter: blur(10px); z-index: 2000; align-items: center; justify-content: center;">
+        <div class="guide-card" style="width: 380px; border-color: var(--accent-purple); box-shadow: 0 0 30px var(--accent-glow); position: relative;">
+          <button onclick="closeSecretPortal()" style="position: absolute; top: 12px; right: 14px; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1rem;">✕</button>
+          
+          <h3 style="margin-bottom: 8px;">System Terminal</h3>
+          <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 16px;">Enter authentication key to initiate stream connection.</p>
 
-        <div id="logged-in-badge" style="display: none; align-items: center; justify-content: space-between;">
-          <span style="color: #4ade80; font-size: 0.88rem; font-weight: 600;">✓ Active Session: <span id="active-user-display" style="color: var(--text-main);"></span></span>
-          <button onclick="logoutPortal()" style="background: transparent; border: 1px solid var(--border-color); color: var(--text-muted); padding: 4px 12px; border-radius: 4px; cursor: pointer; font-size: 0.78rem;">Logout</button>
+          <div id="login-form-container" style="display: flex; flex-direction: column; gap: 10px;">
+            <input type="text" id="portal-username" placeholder="Handle" style="background: var(--bg-input); border: 1px solid var(--border-subtle); padding: 8px 12px; border-radius: 5px; color: var(--text-main); font-size: 0.85rem;">
+            <input type="password" id="portal-password" placeholder="Passkey" style="background: var(--bg-input); border: 1px solid var(--border-subtle); padding: 8px 12px; border-radius: 5px; color: var(--text-main); font-size: 0.85rem;">
+            <button onclick="unlockPortalLogin()" style="background: var(--accent-purple); color: #fff; border: none; padding: 8px; border-radius: 5px; font-weight: 600; cursor: pointer; font-size: 0.85rem;">Connect</button>
+          </div>
         </div>
       </div>
 
     </main>
   </div>
 
-  <!-- FLOATING HELP CHAT WIDGET (Hidden until logged in) -->
+  <!-- INNOCENT LOOKING FOOTER WITH HIDDEN TRIGGER -->
+  <footer style="text-align: center; padding: 40px 0 20px 0; color: var(--text-dim); font-size: 0.75rem;">
+    <span>FixIt Core Hardware Wiki &copy; 2026</span>
+    <!-- Triple-clicking this period opens the secret login window -->
+    <span id="secret-trigger" onclick="handleSecretClick()" style="cursor: default; user-select: none;">.</span>
+  </footer>
+
+  <!-- FLOATING HELP CHAT WIDGET (Hidden by default) -->
   <div class="chat-widget-container" id="chat-widget-root" style="display: none;">
     <button class="chat-toggle-btn" onclick="toggleChat()">Help Chat</button>
     
@@ -257,7 +260,9 @@
     let activeChannel = "GEN";
     let activePassword = "";
     let activeUsername = "WebUser";
+    let clickCount = 0;
 
+    // Check saved session on startup
     window.addEventListener('DOMContentLoaded', () => {
       const savedPass = localStorage.getItem('chat_pass');
       const savedUser = localStorage.getItem('chat_user');
@@ -265,6 +270,24 @@
         verifyAndActivate(savedPass, savedUser, true);
       }
     });
+
+    // Hidden trigger: Click the period at the end of "2026." 3 times fast to reveal login
+    function handleSecretClick() {
+      clickCount++;
+      if (clickCount >= 3) {
+        openSecretPortal();
+        clickCount = 0;
+      }
+      setTimeout(() => { clickCount = 0; }, 2000);
+    }
+
+    function openSecretPortal() {
+      document.getElementById('secret-login-modal').style.display = 'flex';
+    }
+
+    function closeSecretPortal() {
+      document.getElementById('secret-login-modal').style.display = 'none';
+    }
 
     function toggleChat() {
       const panel = document.getElementById('chat-panel');
@@ -293,11 +316,10 @@
           localStorage.setItem('chat_pass', password);
           localStorage.setItem('chat_user', username);
 
+          // Reveal floating chat button
           document.getElementById('chat-widget-root').style.display = 'block';
-          document.getElementById('login-form-container').style.display = 'none';
-          document.getElementById('logged-in-badge').style.display = 'flex';
-          document.getElementById('active-user-display').textContent = username;
           document.getElementById('chat-header-title').textContent = `Help Chat (${username})`;
+          closeSecretPortal();
 
           fetchHistory();
           initStream();
@@ -307,17 +329,6 @@
       } catch (err) {
         console.error('Auth error:', err);
       }
-    }
-
-    function logoutPortal() {
-      localStorage.removeItem('chat_pass');
-      localStorage.removeItem('chat_user');
-      activePassword = "";
-      document.getElementById('chat-widget-root').style.display = 'none';
-      document.getElementById('chat-panel').style.display = 'none';
-      document.getElementById('login-form-container').style.display = 'flex';
-      document.getElementById('logged-in-badge').style.display = 'none';
-      document.getElementById('portal-password').value = '';
     }
 
     function selectChannel(code) {
