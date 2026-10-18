@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FixIt Core | Hardware Repair Tips & Commands</title>
+  <title>FixIt Core | Master Hardware Wiki & Reference</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -30,68 +30,170 @@
     <h1>FixIt Core Technical Wiki</h1>
     <p>Hardware Repair Tips and Useful Commands</p>
   </header>
-  
-  <!-- Rest of your wiki container... -->
 
   <div class="wiki-container">
     <!-- LEFT SIDEBAR: Index Navigation -->
     <aside class="wiki-sidebar">
       <div class="sidebar-title">Article Index</div>
       <ul class="sidebar-links">
-        <li><a href="#commands"><span>▸</span> System Commands</a></li>
-        <li><a href="#battery"><span>▸</span> Battery Servicing</a></li>
-        <li><a href="#display"><span>▸</span> Display Assemblies</a></li>
-        <li><a href="#storage"><span>▸</span> NVMe & Storage</a></li>
+        <li><a href="#master-table"><span>▸</span> Master BIOS & Boot Matrix</a></li>
+        <li><a href="#tier-guide"><span>▸</span> Consumer vs. Business Guide</a></li>
+        <li><a href="#bench-tips"><span>▸</span> General Benchtop Protocols</a></li>
+        <li><a href="#commands"><span>▸</span> System Audit Commands</a></li>
+        <li><a href="#storage-battery"><span>▸</span> Storage & Battery Safety</a></li>
       </ul>
     </aside>
 
     <!-- RIGHT CONTENT: Wiki Guides -->
     <main class="wiki-content">
-      <div class="wiki-section-header">General Technical Protocols</div>
+      <div class="wiki-section-header">Central Hardware Reference</div>
 
+      <!-- MASTER CHEAT SHEET TABLE -->
+      <div class="guide-card" id="master-table">
+        <h3>Master Brand Key & Firmware Matrix</h3>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 14px;">Quick startup key reference across all major OEM hardware families.</p>
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--text-muted);">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--border-color); text-align: left; color: var(--text-main);">
+              <th style="padding: 10px 8px;">Brand</th>
+              <th style="padding: 10px 8px;">BIOS Setup Key</th>
+              <th style="padding: 10px 8px;">Boot Menu Key</th>
+              <th style="padding: 10px 8px;">Diagnostic / Recovery Shortcut</th>
+              <th style="padding: 10px 8px;">Battery Cutoff / Reset</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Dell</td>
+              <td style="padding: 8px;"><code>F2</code></td>
+              <td style="padding: 8px;"><code>F12</code></td>
+              <td style="padding: 8px;">Hold <code>D</code> + Power (BIST Display Test)</td>
+              <td style="padding: 8px;">Hold Power 25-30s (RTC Reset)</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">HP</td>
+              <td style="padding: 8px;"><code>F10</code></td>
+              <td style="padding: 8px;"><code>F9</code></td>
+              <td style="padding: 8px;"><code>F2</code> (HP Hardware Diagnostics) / <code>Win + B</code></td>
+              <td style="padding: 8px;">Isolate battery for 60 seconds</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Lenovo</td>
+              <td style="padding: 8px;"><code>F1</code> / <code>Enter</code></td>
+              <td style="padding: 8px;"><code>F12</code></td>
+              <td style="padding: 8px;">Novo Button / Lenovo App Diagnostics</td>
+              <td style="padding: 8px;">BIOS Cutoff / Emergency Pinhole</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">ASUS</td>
+              <td style="padding: 8px;"><code>F2</code> / <code>Del</code></td>
+              <td style="padding: 8px;"><code>Esc</code></td>
+              <td style="padding: 8px;">EZ Flash inside UEFI</td>
+              <td style="padding: 8px;">Hold Power button for 40s</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Acer</td>
+              <td style="padding: 8px;"><code>F2</code></td>
+              <td style="padding: 8px;"><code>F12</code> (Enable in BIOS)</td>
+              <td style="padding: 8px;"><code>Alt + F10</code> (eRecovery Management)</td>
+              <td style="padding: 8px;">Bottom pinhole button (4s)</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Razer</td>
+              <td style="padding: 8px;"><code>F2</code> / <code>Del</code></td>
+              <td style="padding: 8px;"><code>F12</code></td>
+              <td style="padding: 8px;"><code>F9</code> (System Recovery)</td>
+              <td style="padding: 8px;">Unplug AC, hold Power 15s</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Samsung</td>
+              <td style="padding: 8px;"><code>F2</code></td>
+              <td style="padding: 8px;"><code>F10</code></td>
+              <td style="padding: 8px;"><code>F4</code> (Samsung Recovery)</td>
+              <td style="padding: 8px;">Power + Vol Down 10s (2-in-1s)</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Surface</td>
+              <td style="padding: 8px;"><code>Vol Up</code> + Power</td>
+              <td style="padding: 8px;"><code>Vol Down</code> + Power</td>
+              <td style="padding: 8px;">Surface Diagnostic Toolkit (SDT)</td>
+              <td style="padding: 8px;">Hold Power button 20s</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- CONSUMER VS BUSINESS IDENTIFICATION GUIDE -->
+      <div class="guide-card" id="tier-guide">
+        <h3>Consumer vs. Business Tier Identification Guide</h3>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 12px;">How to quickly assess chassis construction, repairability, and hardware features upon intake.</p>
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 14px;">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--border-color); text-align: left; color: var(--text-main);">
+              <th style="padding: 8px;">Feature</th>
+              <th style="padding: 8px;">Consumer Class (Inspiron, Pavilion, IdeaPad)</th>
+              <th style="padding: 8px;">Business Class (Latitude, EliteBook, ThinkPad)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Base Fasteners</td>
+              <td style="padding: 8px;">Standard Phillips, varying lengths; fragile plastic clips.</td>
+              <td style="padding: 8px;">Captive screws (won't drop out), reinforced metal chassis standoffs.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Memory / RAM</td>
+              <td style="padding: 8px;">Often fully soldered LPDDR or single SODIMM expansion slot.</td>
+              <td style="padding: 8px;">Dual SODIMM slots or CAMM2 modules; easy access.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">OS / Security</td>
+              <td style="padding: 8px;">Windows Home Edition; standard firmware security controls.</td>
+              <td style="padding: 8px;">Windows Pro license embedded in ACPI table; hardware dTPM 2.0.</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Thermal & I/O</td>
+              <td style="padding: 8px;">Single fan, soldered power jacks; shared CPU/GPU heatpipes.</td>
+              <td style="padding: 8px;">Modular DC jacks, spill-resistant decks, independent thermal paths.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- BENCHTOP REPAIR PROTOCOLS -->
+      <div class="guide-card" id="bench-tips">
+        <img src="images/battery-replacement.jpg" alt="Benchtop Servicing" class="guide-img">
+        <h3>Essential Benchtop Repair Best Practices</h3>
+        <ul>
+          <li><strong>ESD Discharges First:</strong> Always touch a grounded metal frame or wear an anti-static wrist strap before handling unshielded logic boards.</li>
+          <li><strong>Screw Map Organization:</strong> Track screw locations on a magnetic mat—mixing long screws into short screw posts can cause board-level trace damage ("long-screw damage").</li>
+          <li><strong>BitLocker Key Safeguard:</strong> Before pulling storage or flashing BIOS firmware, confirm the customer has their 48-digit Microsoft BitLocker recovery key or suspend encryption (<code>manage-bde -protectors -disable C:</code>).</li>
+          <li><strong>Thermal Paste Application:</strong> Clean old thermal compound using 99% Isopropyl Alcohol (IPA). Apply a pea-sized dot on small dies or an 'X' pattern on large heatspreaders; avoid over-torquing heatsink spring screws.</li>
+          <li><strong>Residual Power Drain:</strong> After removing the primary battery, press and hold the power button for 15–20 seconds to completely discharge board capacitors before handling display connectors.</li>
+        </ul>
+      </div>
+
+      <!-- SYSTEM COMMANDS -->
       <div class="guide-card" id="commands">
         <h3>System Audit & Terminal Commands</h3>
         <ul>
           <li><strong>Battery Health Report:</strong> <code>powercfg /batteryreport /output "C:\battery_report.html"</code></li>
-          <li><strong>System File Repair:</strong> <code>sfc /scannow</code> (Scans and fixes corrupted system files)</li>
+          <li><strong>System File Repair:</strong> <code>sfc /scannow</code> (Scans and restores corrupted Windows system binaries)</li>
           <li><strong>DISM Image Servicing:</strong> <code>DISM /Online /Cleanup-Image /RestoreHealth</code></li>
-          <li><strong>Disk Error Check:</strong> <code>chkdsk C: /f /r</code> (Identifies sector defects and file system issues)</li>
+          <li><strong>Disk Error Check:</strong> <code>chkdsk C: /f /r</code> (Identifies bad sectors and repairs file structures)</li>
           <li><strong>SMART Drive Health:</strong> <code>wmic diskdrive get status</code> or <code>Get-PhysicalDisk</code> in PowerShell</li>
-          <li><strong>Winsock Reset:</strong> <code>netsh winsock reset</code> & <code>ipconfig /flushdns</code></li>
+          <li><strong>Network Stack Reset:</strong> <code>netsh winsock reset</code> & <code>ipconfig /flushdns</code></li>
         </ul>
       </div>
 
-      <div class="guide-card" id="battery">
-        <img src="images/battery-replacement.jpg" alt="Battery Servicing" class="guide-img">
-        <h3>Battery Replacement Protocols</h3>
-        <ol>
-          <li><strong>Health Audit:</strong> Verify hardware capacity degradation and cycle counts using OS battery logs.</li>
-          <li><strong>Safe De-Energization:</strong> Shut down system completely, remove AC power adapter, and unplug peripherals.</li>
-          <li><strong>ESD Protection:</strong> Work on a grounded ESD anti-static mat before unfastening bottom chassis screws.</li>
-          <li><strong>Circuit Isolation:</strong> Disconnect the internal battery connector straight and parallel before touching logic board components.</li>
-          <li><strong>Residual Drain:</strong> Hold the system power button down for 15 seconds after battery detachment to deplete circuit capacitors.</li>
-        </ol>
-      </div>
-
-      <div class="guide-card" id="display">
-        <img src="images/screen-replacement.jpg" alt="Display Servicing" class="guide-img">
-        <h3>Display Assembly Protocols</h3>
-        <ol>
-          <li><strong>Isolation Test:</strong> Confirm whether screen failure originates in panel matrix or eDP ribbon cable using external display output.</li>
-          <li><strong>Power Isolation:</strong> Always isolate main battery power prior to disconnecting eDP display cables to prevent blown backlight fuses.</li>
-          <li><strong>Bezel Disassembly:</strong> Unclip plastic bezels carefully using non-marring nylon pry spudgers.</li>
-          <li><strong>Pre-Closure Test:</strong> Temporarily reconnect battery to test pixel matrix and backlight integrity before final reassembly.</li>
-        </ol>
-      </div>
-
-      <div class="guide-card" id="storage">
+      <!-- STORAGE & BATTERY SAFETY -->
+      <div class="guide-card" id="storage-battery">
         <img src="images/drive-replacement.jpg" alt="Storage Servicing" class="guide-img">
-        <h3>NVMe & Storage Replacement Protocols</h3>
+        <h3>NVMe & Battery Servicing Rules</h3>
         <ol>
-          <li><strong>BitLocker Verification:</strong> Suspend BitLocker or verify recovery key availability prior to updating storage hardware.</li>
-          <li><strong>Thermal Pads:</strong> Re-apply or preserve thermal pads on M.2 metal heatsinks to avoid thermal throttling.</li>
-          <li><strong>Extraction Angle:</strong> Remove M.2 retention screw at a 30-degree angle and pull straight out from slot.</li>
-          <li><strong>Validation Checks:</strong> Confirm PCIe link speeds and check SMART status post-installation.</li>
+          <li><strong>Swollen Battery Handling:</strong> Never puncture inflated lithium-ion cells. Store degraded batteries in fireproof containment boxes immediately.</li>
+          <li><strong>NVMe Thermal Pads:</strong> Ensure M.2 thermal pads make firm contact with metal bottom covers or heatsinks to prevent high-load throttling.</li>
+          <li><strong>Display Assembly eDP Fuses:</strong> Never plug or unplug an eDP screen cable while the battery is connected; doing so frequently blows the mainboard backlight fuse.</li>
         </ol>
       </div>
     </main>
