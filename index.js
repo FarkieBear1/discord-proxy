@@ -95,16 +95,17 @@ app.get('/api/messages', async (req, res) => {
   }
 });
 
-// Send message (Now with a super basic hardcoded password for testing)
+// Send message (Password Protected)
 app.post('/api/messages', async (req, res) => {
   const { content, channel: channelName, password } = req.body; 
-  
-  // 🛑 SECURITY CHECK
-  if (password !== "mypassword123") {
-    return res.status(401).json({ error: 'Unauthorized. Wrong password.' });
+  const channelId = channelMap[channelName];
+
+  // 🛑 THE PASSWORD CHECK
+  // Change "TechSupport2026!" to whatever password you want.
+  if (password !== "TechSupport2026!") {
+    return res.status(403).json({ error: 'Access Denied: Invalid Technician ID.' });
   }
 
-  const channelId = channelMap[channelName];
   if (!content || !channelId) return res.status(400).json({ error: 'content and valid channel required' });
 
   try {

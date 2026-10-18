@@ -108,10 +108,19 @@
   <div id="chat-widget">
     <div class="widget-header">
       <div class="widget-title"><div class="status-dot"></div> Live Repair Support</div>
-      <div style="font-size: 0.75rem; color: var(--text-muted);">Online</div>
     </div>
     
-    <div class="widget-body">
+    <!-- LOGIN SCREEN -->
+    <div id="login-screen" style="padding: 2rem 1rem; display: flex; flex-direction: column; gap: 1rem; align-items: center; background: var(--bg-base);">
+      <div style="font-size: 1.5rem;">🔒</div>
+      <p style="font-size: 0.85rem; color: var(--text-muted); text-align: center;">You must be logged in to use this feature.</p>
+      <input type="password" id="auth-password" placeholder="Enter Technician ID..." style="width: 100%; padding: 0.6rem; border-radius: 4px; border: 1px solid var(--border); background: var(--bg-card); color: white; font-size: 0.85rem; outline: none;" />
+      <button onclick="login()" style="width: 100%; background: var(--accent); color: white; border: none; padding: 0.6rem; border-radius: 4px; font-weight: bold; cursor: pointer;">Log In</button>
+      <p id="login-error" style="color: #ef4444; font-size: 0.75rem; display: none;">Invalid password.</p>
+    </div>
+
+    <!-- CHAT INTERFACE (Hidden by default) -->
+    <div class="widget-body" id="chat-interface" style="display: none;">
       <div class="widget-channels" id="channel-list">
         <!-- Channels injected here -->
       </div>
@@ -155,9 +164,9 @@
         bios: "F2 (or Fn + F2)",
         boot: "F12 (or F8, F10)",
         steps: [
-          { title: "Enter BIOS / UEFI", text: "Turn on or restart the computer. When the Lenovo logo appears, press F2 repeatedly. Alternatively, use the Novo button menu and select UEFI/BIOS Setup [citation:2]." },
-          { title: "Change Boot Device", text: "Press F12 during startup to open the boot menu. Select your USB device or network location to boot from. To make a permanent change, enter BIOS and use the Boot menu to move devices to the top [citation:2]." },
-          { title: "Access Hidden Options", text: "On some Lenovo models, pressing F1 provides General Help, F9 sets Setup Defaults, and F10 saves and exits [citation:11]." }
+          { title: "Enter BIOS / UEFI", text: "Turn on or restart the computer. When the Lenovo logo appears, press F2 repeatedly. Alternatively, use the Novo button menu and select UEFI/BIOS Setup." },
+          { title: "Change Boot Device", text: "Press F12 during startup to open the boot menu. Select your USB device or network location to boot from. To make a permanent change, enter BIOS and use the Boot menu to move devices to the top." },
+          { title: "Access Hidden Options", text: "On some Lenovo models, pressing F1 provides General Help, F9 sets Setup Defaults, and F10 saves and exits." }
         ]
       },
       "asus": {
@@ -166,9 +175,9 @@
         bios: "F2 (or Delete)",
         boot: "Esc (hold) + Power button, or F8 inside BIOS",
         steps: [
-          { title: "Enter Boot Menu (Hotkey)", text: "When the device is completely shut down, persistently hold the [Esc] key and press the [Power button]. Once the Boot menu appears, release Esc and select your USB device [citation:3]." },
-          { title: "Enter BIOS via Advanced Mode", text: "If the hotkey fails, press F2 during startup to enter BIOS. Press F7 to enter Advanced Mode, then go to the Boot tab. Disable Fast Boot and set Secure Boot Control to Disabled [citation:3]." },
-          { title: "Boot from USB inside BIOS", text: "Inside the BIOS, press F8 to open the Boot Menu. Select your USB flash drive or CD-ROM and press Enter [citation:3]." }
+          { title: "Enter Boot Menu (Hotkey)", text: "When the device is completely shut down, persistently hold the [Esc] key and press the [Power button]. Once the Boot menu appears, release Esc and select your USB device." },
+          { title: "Enter BIOS via Advanced Mode", text: "If the hotkey fails, press F2 during startup to enter BIOS. Press F7 to enter Advanced Mode, then go to the Boot tab. Disable Fast Boot and set Secure Boot Control to Disabled." },
+          { title: "Boot from USB inside BIOS", text: "Inside the BIOS, press F8 to open the Boot Menu. Select your USB flash drive or CD-ROM and press Enter." }
         ]
       },
       "dell": {
@@ -177,9 +186,9 @@
         bios: "F2",
         boot: "F12",
         steps: [
-          { title: "Access System Setup (BIOS)", text: "Press F2 immediately after a power-on or reboot to enter the System Setup menu [citation:10]." },
-          { title: "Access Boot Menu", text: "Press F12 immediately after power-on to open the one-time boot menu. From here, you can select a different boot device without changing the permanent boot order [citation:4]." },
-          { title: "Modify Boot Options", text: "Inside the BIOS, navigate to the Boot menu to add or delete boot options, toggle UEFI boot, or change the boot sequence [citation:4]." }
+          { title: "Access System Setup (BIOS)", text: "Press F2 immediately after a power-on or reboot to enter the System Setup menu." },
+          { title: "Access Boot Menu", text: "Press F12 immediately after power-on to open the one-time boot menu. From here, you can select a different boot device without changing the permanent boot order." },
+          { title: "Modify Boot Options", text: "Inside the BIOS, navigate to the Boot menu to add or delete boot options, toggle UEFI boot, or change the boot sequence." }
         ]
       },
       "hp": {
@@ -188,9 +197,9 @@
         bios: "F10 (or F2, F6)",
         boot: "Esc, then F9",
         steps: [
-          { title: "Open BIOS Setup Utility", text: "Turn on the computer and immediately press the esc key repeatedly until the Startup Menu opens. Press f10 to open the BIOS Setup Utility [citation:14]." },
-          { title: "Access Boot Menu", text: "From the Startup Menu (accessed via Esc), press F9 to open the Boot Menu and select your desired boot device [citation:1]." },
-          { title: "Save and Exit", text: "Press f10 to save the current values and return to the previous menu, or use the arrow keys to navigate to Exit and save changes [citation:14]." }
+          { title: "Open BIOS Setup Utility", text: "Turn on the computer and immediately press the esc key repeatedly until the Startup Menu opens. Press f10 to open the BIOS Setup Utility." },
+          { title: "Access Boot Menu", text: "From the Startup Menu (accessed via Esc), press F9 to open the Boot Menu and select your desired boot device." },
+          { title: "Save and Exit", text: "Press f10 to save the current values and return to the previous menu, or use the arrow keys to navigate to Exit and save changes." }
         ]
       },
       "acer": {
@@ -199,9 +208,9 @@
         bios: "F2 (or Delete)",
         boot: "F12 (or Esc, F9)",
         steps: [
-          { title: "Enter BIOS", text: "Press F2 or Delete during startup to enter the BIOS configuration [citation:10]." },
-          { title: "Access Boot Menu", text: "Press F12 during startup to open the Boot Menu. On some models, you can also try Esc or F9 [citation:1]." },
-          { title: "Adjust Boot Settings", text: "Inside the BIOS, go to the Boot tab. Ensure Secure Boot is Disabled if you are booting from a non-Windows USB. Use F5/F6 to change the boot priority order [citation:6]." }
+          { title: "Enter BIOS", text: "Press F2 or Delete during startup to enter the BIOS configuration." },
+          { title: "Access Boot Menu", text: "Press F12 during startup to open the Boot Menu. On some models, you can also try Esc or F9." },
+          { title: "Adjust Boot Settings", text: "Inside the BIOS, go to the Boot tab. Ensure Secure Boot is Disabled if you are booting from a non-Windows USB. Use F5/F6 to change the boot priority order." }
         ]
       },
       "razer": {
@@ -210,9 +219,9 @@
         bios: "F1 (or Del)",
         boot: "F12",
         steps: [
-          { title: "Enter BIOS Setup", text: "Restart your Blade. When the Razer logo appears, tap F1 or Del repeatedly. Ensure you press it fast enough to trigger the setting [citation:7]." },
-          { title: "Access Boot Menu", text: "When the Razer logo appears, repeatedly press F12 to access the boot menu before the Secure Boot warning appears [citation:16]." },
-          { title: "Windows Advanced Startup", text: "If the keys fail, go to Windows Settings > System > Recovery > Advanced startup > Restart now. Select Troubleshoot > Advanced options > UEFI Firmware Settings [citation:7]." }
+          { title: "Enter BIOS Setup", text: "Restart your Blade. When the Razer logo appears, tap F1 or Del repeatedly. Ensure you press it fast enough to trigger the setting." },
+          { title: "Access Boot Menu", text: "When the Razer logo appears, repeatedly press F12 to access the boot menu before the Secure Boot warning appears." },
+          { title: "Windows Advanced Startup", text: "If the keys fail, go to Windows Settings > System > Recovery > Advanced startup > Restart now. Select Troubleshoot > Advanced options > UEFI Firmware Settings." }
         ]
       },
       "samsung": {
@@ -221,9 +230,9 @@
         bios: "F2",
         boot: "F2 (inside BIOS) or F10",
         steps: [
-          { title: "Enter BIOS Setup", text: "Press F2 when the Samsung logo appears in the booting sequence to enter the BIOS Setup [citation:8]." },
-          { title: "Change Boot Priority", text: "Connect your bootable USB device. Restart and press F2 repeatedly. Enter the BIOS, select the Boot menu, and set Fast BIOS Mode to Off. Then change Boot Device Priority to your USB device [citation:17]." },
-          { title: "Save and Restart", text: "Select Save and then Yes to save your changes and restart the computer [citation:17]." }
+          { title: "Enter BIOS Setup", text: "Press F2 when the Samsung logo appears in the booting sequence to enter the BIOS Setup." },
+          { title: "Change Boot Priority", text: "Connect your bootable USB device. Restart and press F2 repeatedly. Enter the BIOS, select the Boot menu, and set Fast BIOS Mode to Off. Then change Boot Device Priority to your USB device." },
+          { title: "Save and Restart", text: "Select Save and then Yes to save your changes and restart the computer." }
         ]
       },
       "surface": {
@@ -232,18 +241,17 @@
         bios: "Hold Volume Up + Power",
         boot: "Hold Volume Up + Power (UEFI Menu)",
         steps: [
-          { title: "Access UEFI Firmware", text: "Power off the device completely. Press and hold the Volume Up button, then press and release the Power button. Continue holding Volume Up until the Surface logo appears and disappears, revealing the UEFI menu [citation:9][citation:10]." },
-          { title: "Configure Boot Order", text: "Navigate to 'Configure Alternate System Boot Order' using the arrow keys. Press Enter to load the submenu, then select your first boot device [citation:18]." },
-          { title: "Exit and Save", text: "Navigate to the Exit setup menu, press Enter, and use the arrow keys to select Yes to save and restart [citation:18]." }
+          { title: "Access UEFI Firmware", text: "Power off the device completely. Press and hold the Volume Up button, then press and release the Power button. Continue holding Volume Up until the Surface logo appears and disappears, revealing the UEFI menu." },
+          { title: "Configure Boot Order", text: "Navigate to 'Configure Alternate System Boot Order' using the arrow keys. Press Enter to load the submenu, then select your first boot device." },
+          { title: "Exit and Save", text: "Navigate to the Exit setup menu, press Enter, and use the arrow keys to select Yes to save and restart." }
         ]
       }
     };
 
     // ==========================================
-    // 3. RENDERING LOGIC
+    // 3. RENDERING LOGIC (Fake Articles)
     // ==========================================
     
-    // Render Sidebar
     const brandListEl = document.getElementById('brand-list');
     Object.keys(REPAIR_GUIDES).forEach((brand, index) => {
       const div = document.createElement('div');
@@ -253,16 +261,13 @@
       brandListEl.appendChild(div);
     });
 
-    // Load initial guide
     function loadGuide(brandKey, element) {
-      // Update sidebar active state
       document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
       if (element) element.classList.add('active');
 
       const guide = REPAIR_GUIDES[brandKey];
       const articleContainer = document.getElementById('article-content');
 
-      // Build the fake article HTML
       let stepsHtml = '';
       guide.steps.forEach((step, index) => {
         stepsHtml += `
@@ -292,18 +297,17 @@
         ${stepsHtml}
       `;
       
-      // Scroll main content to top
       document.getElementById('main-content').scrollTop = 0;
     }
 
-    // Initialize first guide
     loadGuide('lenovo', document.querySelector('.nav-item'));
 
     // ==========================================
-    // 4. CHAT WIDGET LOGIC
+    // 4. CHAT WIDGET LOGIC (Secure Login)
     // ==========================================
     let currentChannel = null;
     let eventSource = null;
+    let savedPassword = ""; 
 
     const channelListEl = document.getElementById('channel-list');
     const messagesEl = document.getElementById('messages');
@@ -311,16 +315,47 @@
     const formEl = document.getElementById('send-form');
     const sendBtn = document.getElementById('send-btn');
 
-    // Render chat widget channels (shortened names)
-    Object.keys(CHANNELS).forEach(channelName => {
-      const div = document.createElement('div');
-      div.className = 'w-channel';
-      const formattedName = channelName.substring(0, 6); 
-      div.textContent = formattedName;
-      div.title = channelName;
-      div.onclick = () => selectChannel(channelName, div);
-      channelListEl.appendChild(div);
-    });
+    // --- LOGIN LOGIC ---
+    function login() {
+      const pwd = document.getElementById('auth-password').value;
+      
+      fetch(`${API_URL}/api/messages`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          content: "AUTHENTICATION_CHECK", 
+          channel: "general",
+          password: pwd 
+        })
+      }).then(res => {
+        if (res.status === 403) {
+          document.getElementById('login-error').style.display = 'block';
+        } else {
+          savedPassword = pwd;
+          document.getElementById('login-screen').style.display = 'none';
+          document.getElementById('chat-interface').style.display = 'flex';
+          initChat(); 
+        }
+      }).catch(err => {
+        document.getElementById('login-error').textContent = "Server error. Try again.";
+        document.getElementById('login-error').style.display = 'block';
+      });
+    }
+
+    // --- CHAT LOGIC ---
+    function initChat() {
+      Object.keys(CHANNELS).forEach(channelName => {
+        const div = document.createElement('div');
+        div.className = 'w-channel';
+        div.textContent = channelName.substring(0, 6);
+        div.title = channelName;
+        div.onclick = () => selectChannel(channelName, div);
+        channelListEl.appendChild(div);
+      });
+
+      const firstChannel = Object.keys(CHANNELS)[0];
+      selectChannel(firstChannel, channelListEl.firstChild);
+    }
 
     function selectChannel(channelName, element) {
       currentChannel = channelName;
@@ -366,6 +401,7 @@
     }
 
     function appendMessage(msg) {
+      if (msg.content === "AUTHENTICATION_CHECK") return;
       if (document.querySelector(`[data-id="${msg.id}"]`)) return;
 
       const div = document.createElement('div');
@@ -396,13 +432,12 @@
           body: JSON.stringify({ 
             content, 
             channel: currentChannel,
-            password: "mypassword123" // Make sure this matches index.js!
+            password: savedPassword 
           })
         });
         
         if (!res.ok) {
-          const err = await res.json();
-          alert(err.error);
+          alert("Error: Connection timed out.");
         }
       } catch (err) {
         console.error('Failed to send', err);
