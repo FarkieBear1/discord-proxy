@@ -3,83 +3,100 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FixIt Core | Central Hub & Diagnostics</title>
+  <title>FixIt Core | Hardware Repair Tips and Useful Commands</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <!-- Top Navigation Bar -->
   <nav class="site-nav">
-    <a href="index.html" class="active">Hub & Chat</a>
+    <a href="index.html" class="active">Home</a>
     <a href="dell.html">Dell</a>
     <a href="hp.html">HP</a>
     <a href="lenovo.html">Lenovo</a>
     <a href="asus.html">ASUS</a>
   </nav>
 
-  <!-- Banner Section -->
+  <!-- Centered Banner Section -->
   <div class="banner-container">
     <img src="images/banner.jpg" alt="FixIt Core Banner" class="site-banner">
   </div>
 
   <header>
-    <h1>FixIt Core Diagnostics</h1>
-    <p>Professional Hardware Repair Protocols & Secure Network Bridge</p>
+    <h1>FixIt Core</h1>
+    <p>Hardware Repair Tips and Useful Commands</p>
   </header>
 
   <div class="container">
-    <!-- LEFT COLUMN: Repair Protocols Overview -->
+    <!-- Guides Section -->
     <div class="guides-section">
-      <h2>General Hardware Protocols</h2>
-      
+      <h2>Useful Technician Commands & Protocols</h2>
+
+      <div class="guide-card">
+        <h3>💻 System Audit Commands</h3>
+        <ul>
+          <li><strong>Battery Report:</strong> <code>powercfg /batteryreport /output "C:\battery_report.html"</code></li>
+          <li><strong>System File Checker:</strong> <code>sfc /scannow</code> (Repairs corrupted Windows system files)</li>
+          <li><strong>DISM Image Repair:</strong> <code>DISM /Online /Cleanup-Image /RestoreHealth</code></li>
+          <li><strong>Check Disk Utility:</strong> <code>chkdsk C: /f /r</code> (Scans for sector corruption and file system faults)</li>
+          <li><strong>Drive SMART Health:</strong> <code>wmic diskdrive get status</code> or <code>Get-PhysicalDisk</code> in PowerShell</li>
+          <li><strong>Network Socket Reset:</strong> <code>netsh winsock reset</code> & <code>ipconfig /flushdns</code></li>
+        </ul>
+      </div>
+
       <div class="guide-card">
         <img src="images/battery-replacement.jpg" alt="Battery Replacement" class="guide-img">
-        <h3>🔋 Battery Replacement Protocol</h3>
+        <h3>🔋 Battery Replacement Tips</h3>
         <ol>
-          <li><strong>Preliminary Health Audit:</strong> Verify hardware failure via OS battery reports (`powercfg /batteryreport`) and cycle counts.</li>
-          <li><strong>Safe De-Energization:</strong> Power down completely, disconnect AC power, and remove all peripherals.</li>
+          <li><strong>Preliminary Health Audit:</strong> Verify capacity degradation and cycle counts using OS battery logs.</li>
+          <li><strong>Safe De-Energization:</strong> Power down completely, disconnect AC power, and unplug all external peripherals.</li>
           <li><strong>ESD Isolation:</strong> Work on a grounded ESD mat and remove bottom cover fasteners.</li>
           <li><strong>Primary Circuit Isolation:</strong> Disconnect the internal battery connector straight and parallel before touching logic board components.</li>
-          <li><strong>Fastener Extraction:</strong> Remove securing screws or pull stretch-release adhesive tabs safely.</li>
-          <li><strong>Post-Installation:</strong> Power on via AC adapter first to verify system charge recognition.</li>
+          <li><strong>Residual Drain:</strong> Hold down the power button for 15 seconds after disconnecting the battery to clear capacitors.</li>
         </ol>
       </div>
 
       <div class="guide-card">
         <img src="images/screen-replacement.jpg" alt="Screen Replacement" class="guide-img">
-        <h3>💻 Display Assembly Protocol</h3>
+        <h3>💻 Display Assembly Tips</h3>
         <ol>
-          <li><strong>Failure Isolation:</strong> Confirm fault originates in panel matrix or eDP cable using an external monitor.</li>
-          <li><strong>Power Shutdown:</strong> Shut down system and disconnect internal battery before touching display connectors.</li>
-          <li><strong>Hinge & Antenna Exposure:</strong> Detach hinge covers and unseat Wi-Fi/webcam ribbon cables.</li>
-          <li><strong>Lid Separation:</strong> Carefully unclip snap-fit bezels using non-marring plastic spudgers.</li>
-          <li><strong>Pre-Closure Test:</strong> Reconnect battery temporarily to verify pixel and backlight integrity.</li>
+          <li><strong>Failure Isolation:</strong> Confirm whether fault originates in the panel matrix or eDP ribbon cable via external display test.</li>
+          <li><strong>Power Isolation:</strong> Always remove main battery power before disconnecting eDP display ribbons to avoid blowing backlight fuses.</li>
+          <li><strong>Bezel Extraction:</strong> Carefully unclip snap-fit bezels using non-marring plastic spudgers.</li>
+          <li><strong>Pre-Closure Test:</strong> Reconnect battery temporarily to verify pixel array and backlight integrity prior to final screw assembly.</li>
         </ol>
       </div>
 
       <div class="guide-card">
         <img src="images/drive-replacement.jpg" alt="NVMe Drive Replacement" class="guide-img">
-        <h3>💾 NVMe / Storage Protocol</h3>
+        <h3>💾 NVMe / Storage Upgrade Tips</h3>
         <ol>
-          <li><strong>Interface Identification:</strong> Check form factor (M.2 2280 NVMe, SATA, etc.).</li>
-          <li><strong>Data Backup & Safety:</strong> Secure BitLocker recovery keys and disconnect internal battery power.</li>
-          <li><strong>Thermal Shield Removal:</strong> Lift away metallic heat shields, preserving thermal pads.</li>
-          <li><strong>Drive Extraction:</strong> Remove retention screw at a 30-degree angle and slide out.</li>
-          <li><strong>Validation:</strong> Run SMART health checks and read/write benchmarks post-install.</li>
+          <li><strong>BitLocker Check:</strong> Always suspend BitLocker encryption or back up recovery keys before swapping drives or updating firmware.</li>
+          <li><strong>Thermal Pad Placement:</strong> Re-use or install thermal pads on M.2 heat spreaders to prevent controller throttling.</li>
+          <li><strong>Drive Extraction:</strong> Remove the retention screw at a 30-degree angle and pull straight out.</li>
+          <li><strong>Benchmark & SMART Verification:</strong> Confirm NVMe PCIe link speed and read/write health status post-install.</li>
         </ol>
       </div>
     </div>
+  </div>
 
-    <!-- RIGHT COLUMN: Secure Live Chat Widget (Password Protected) -->
-    <div class="chat-section">
-      <div class="chat-header" id="chat-header-title">SECURE CHAT BRIDGE [LOCKED]</div>
-      
+  <!-- FLOATING SUPPORT CHAT WIDGET (BOTTOM RIGHT) -->
+  <div class="chat-widget-container">
+    <button class="chat-toggle-btn" onclick="toggleChat()">Support Chat</button>
+    
+    <div class="chat-popup-panel" id="chat-panel">
+      <div class="chat-header">
+        <span id="chat-header-title">Support Chat [Locked]</span>
+        <button class="close-btn" onclick="toggleChat()">✕</button>
+      </div>
+
       <!-- PASSWORD GATEWAY -->
-      <div id="auth-gate" style="padding: 30px; text-align: center; display: flex; flex-direction: column; gap: 15px; justify-content: center; height: 100%;">
-        <h3 style="color: var(--accent-cyan);">Restricted Access</h3>
-        <p style="color: var(--text-muted); font-size: 0.9rem;">Enter Technician Password to unlock live transmission feeds.</p>
-        <input type="password" id="gateway-password" placeholder="Technician Password" style="background: #111; border: 1px solid #333; color: #fff; padding: 10px; border-radius: 4px; text-align: center;">
-        <button onclick="unlockChat()" style="background: var(--accent-cyan); color: #000; border: none; padding: 10px; border-radius: 4px; font-weight: bold; cursor: pointer;">Unlock Bridge</button>
+      <div id="auth-gate" style="padding: 20px; text-align: center; display: flex; flex-direction: column; gap: 12px; justify-content: center; height: 100%;">
+        <h4 style="color: #a78bfa;">Restricted Access</h4>
+        <p style="color: var(--text-muted); font-size: 0.85rem;">Please log in to receive support.</p>
+        <input type="text" id="gateway-username" placeholder="Username (Any)" style="background: var(--bg-input); border: 1px solid var(--border-color); color: #fff; padding: 8px; border-radius: 4px; text-align: center; font-size: 0.85rem;">
+        <input type="password" id="gateway-password" placeholder="Password" style="background: var(--bg-input); border: 1px solid var(--border-color); color: #fff; padding: 8px; border-radius: 4px; text-align: center; font-size: 0.85rem;">
+        <button onclick="unlockChat()" style="background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue)); color: #fff; border: none; padding: 8px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.85rem;">Login</button>
       </div>
 
       <!-- CHAT INTERFACE (Hidden until authenticated) -->
@@ -95,13 +112,12 @@
         </div>
 
         <div class="chat-messages" id="message-container">
-          <div class="message"><span class="author">[System]</span> Authenticated. Secure stream active.</div>
+          <div class="message"><span class="author">[System]</span> Logged in. Support stream active.</div>
         </div>
 
         <div class="chat-input-area">
-          <input type="text" id="username-input" placeholder="Technician Name" value="WebUser">
-          <textarea id="message-input" rows="2" placeholder="Type transmission..."></textarea>
-          <button onclick="handleSend()">Transmit Message</button>
+          <textarea id="message-input" rows="2" placeholder="Type message..."></textarea>
+          <button onclick="handleSend()">Send Message</button>
         </div>
       </div>
     </div>
@@ -110,9 +126,18 @@
   <script>
     let activeChannel = "GEN";
     let activePassword = "";
+    let activeUsername = "WebUser";
+
+    function toggleChat() {
+      const panel = document.getElementById('chat-panel');
+      panel.style.display = panel.style.display === 'flex' ? 'none' : 'flex';
+    }
 
     async function unlockChat() {
       const pwdInput = document.getElementById('gateway-password').value;
+      const userInput = document.getElementById('gateway-username').value;
+      if (userInput) activeUsername = userInput;
+
       try {
         const res = await fetch('/api/verify', {
           method: 'POST',
@@ -124,7 +149,7 @@
           activePassword = pwdInput;
           document.getElementById('auth-gate').style.display = 'none';
           document.getElementById('chat-interface').style.display = 'flex';
-          document.getElementById('chat-header-title').textContent = 'SECURE CHAT BRIDGE [UNLOCKED]';
+          document.getElementById('chat-header-title').textContent = `Support Chat (${activeUsername})`;
           fetchHistory();
           initStream();
         } else {
@@ -160,7 +185,7 @@
       }
     }
 
-    async function sendMessage(content, username) {
+    async function sendMessage(content) {
       try {
         const res = await fetch('/api/messages', {
           method: 'POST',
@@ -168,7 +193,7 @@
           body: JSON.stringify({
             content: content,
             password: activePassword,
-            username: username,
+            username: activeUsername,
             channel: activeChannel
           })
         });
@@ -181,9 +206,8 @@
 
     function handleSend() {
       const content = document.getElementById('message-input').value;
-      const username = document.getElementById('username-input').value;
       if (!content) return;
-      sendMessage(content, username);
+      sendMessage(content);
       document.getElementById('message-input').value = '';
     }
 

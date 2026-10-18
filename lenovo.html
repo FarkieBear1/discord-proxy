@@ -3,47 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FixIt Core | Lenovo Reference Guide</title>
+  <title>FixIt Core | Lenovo Repair Reference</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <!-- Top Navigation Bar -->
   <nav class="site-nav">
-    <a href="index.html">Hub & Chat</a>
+    <a href="index.html">Home</a>
     <a href="dell.html">Dell</a>
     <a href="hp.html">HP</a>
     <a href="lenovo.html" class="active">Lenovo</a>
     <a href="asus.html">ASUS</a>
   </nav>
 
-  <!-- Banner Section -->
+  <!-- Centered Banner Section -->
   <div class="banner-container">
     <img src="images/banner.jpg" alt="FixIt Core Banner" class="site-banner">
   </div>
 
   <header>
     <h1>Lenovo Hardware Reference</h1>
-    <p>BIOS Keys, Diagnostic Tone Sequences, & Servicing Protocols</p>
+    <p>Hardware Repair Tips and Useful Commands</p>
   </header>
 
   <div class="container">
     <div class="guides-section">
-      <h2>Lenovo Repair Protocols</h2>
+      <h2>Lenovo Repair Protocols & Keys</h2>
       
       <div class="guide-card">
         <img src="images/lenovo-main.jpg" alt="Lenovo Hardware" class="guide-img">
         <h3>🔑 Lenovo Firmware & Boot Keys</h3>
         <ul>
-          <li><strong>BIOS / UEFI Setup:</strong> Tap <strong style="color: var(--accent-cyan);">F1</strong> or <strong style="color: var(--accent-cyan);">Enter</strong> repeatedly on startup.</li>
-          <li><strong>One-Time Boot Menu:</strong> Tap <strong style="color: var(--accent-cyan);">F12</strong> repeatedly on startup.</li>
+          <li><strong>BIOS / UEFI Setup:</strong> Tap <strong style="color: #60a5fa;">F1</strong> or <strong style="color: #60a5fa;">Enter</strong> repeatedly on startup.</li>
+          <li><strong>One-Time Boot Menu:</strong> Tap <strong style="color: #60a5fa;">F12</strong> repeatedly on startup.</li>
           <li><strong>Emergency Reset Hole:</strong> Insert a paperclip into the reset pinhole on the bottom cover for 10 seconds to cut power during hard lockups.</li>
         </ul>
       </div>
 
       <div class="guide-card">
-        <h3>🚨 Lenovo Diagnostic Beeps & Power LED Tones</h3>
-        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 10px;">Format: Audio Beep Sequences & Smart Beep Codes</p>
+        <h3>🚨 Lenovo Beeps & Power LED Codes</h3>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 10px;">Format: Audio Beep Sequences & Smart Beep Patterns</p>
         <ul>
           <li><strong>1-3-3-1 Beep Pattern:</strong> EEPROM or memory error / unseated RAM modules.</li>
           <li><strong>3 Short + 1 Long Beep:</strong> System board memory controller failure.</li>
@@ -62,16 +62,26 @@
         </ol>
       </div>
     </div>
+  </div>
 
-    <!-- RIGHT COLUMN: Secure Live Chat Widget -->
-    <div class="chat-section">
-      <div class="chat-header" id="chat-header-title">SECURE CHAT BRIDGE [LOCKED]</div>
-      <div id="auth-gate" style="padding: 30px; text-align: center; display: flex; flex-direction: column; gap: 15px; justify-content: center; height: 100%;">
-        <h3 style="color: var(--accent-cyan);">Restricted Access</h3>
-        <p style="color: var(--text-muted); font-size: 0.9rem;">Enter Technician Password to unlock live transmission feeds.</p>
-        <input type="password" id="gateway-password" placeholder="Technician Password" style="background: #111; border: 1px solid #333; color: #fff; padding: 10px; border-radius: 4px; text-align: center;">
-        <button onclick="unlockChat()" style="background: var(--accent-cyan); color: #000; border: none; padding: 10px; border-radius: 4px; font-weight: bold; cursor: pointer;">Unlock Bridge</button>
+  <!-- FLOATING SUPPORT CHAT WIDGET -->
+  <div class="chat-widget-container">
+    <button class="chat-toggle-btn" onclick="toggleChat()">Support Chat</button>
+    
+    <div class="chat-popup-panel" id="chat-panel">
+      <div class="chat-header">
+        <span id="chat-header-title">Support Chat [Locked]</span>
+        <button class="close-btn" onclick="toggleChat()">✕</button>
       </div>
+
+      <div id="auth-gate" style="padding: 20px; text-align: center; display: flex; flex-direction: column; gap: 12px; justify-content: center; height: 100%;">
+        <h4 style="color: #a78bfa;">Restricted Access</h4>
+        <p style="color: var(--text-muted); font-size: 0.85rem;">Please log in to receive support.</p>
+        <input type="text" id="gateway-username" placeholder="Username (Any)" style="background: var(--bg-input); border: 1px solid var(--border-color); color: #fff; padding: 8px; border-radius: 4px; text-align: center; font-size: 0.85rem;">
+        <input type="password" id="gateway-password" placeholder="Password" style="background: var(--bg-input); border: 1px solid var(--border-color); color: #fff; padding: 8px; border-radius: 4px; text-align: center; font-size: 0.85rem;">
+        <button onclick="unlockChat()" style="background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue)); color: #fff; border: none; padding: 8px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.85rem;">Login</button>
+      </div>
+
       <div id="chat-interface" style="display: none; flex-direction: column; height: 100%;">
         <div class="channel-selector">
           <button class="channel-btn active" data-channel="GEN" onclick="selectChannel('GEN')">GEN</button>
@@ -82,13 +92,14 @@
           <button class="channel-btn" data-channel="S" onclick="selectChannel('S')">S</button>
           <button class="channel-btn" data-channel="SEC" onclick="selectChannel('SEC')">SEC</button>
         </div>
+
         <div class="chat-messages" id="message-container">
-          <div class="message"><span class="author">[System]</span> Authenticated. Lenovo stream active.</div>
+          <div class="message"><span class="author">[System]</span> Logged in. Lenovo stream active.</div>
         </div>
+
         <div class="chat-input-area">
-          <input type="text" id="username-input" placeholder="Technician Name" value="WebUser">
-          <textarea id="message-input" rows="2" placeholder="Type transmission..."></textarea>
-          <button onclick="handleSend()">Transmit Message</button>
+          <textarea id="message-input" rows="2" placeholder="Type message..."></textarea>
+          <button onclick="handleSend()">Send Message</button>
         </div>
       </div>
     </div>
@@ -97,9 +108,18 @@
   <script>
     let activeChannel = "GEN";
     let activePassword = "";
+    let activeUsername = "WebUser";
+
+    function toggleChat() {
+      const panel = document.getElementById('chat-panel');
+      panel.style.display = panel.style.display === 'flex' ? 'none' : 'flex';
+    }
 
     async function unlockChat() {
       const pwdInput = document.getElementById('gateway-password').value;
+      const userInput = document.getElementById('gateway-username').value;
+      if (userInput) activeUsername = userInput;
+
       try {
         const res = await fetch('/api/verify', {
           method: 'POST',
@@ -111,7 +131,7 @@
           activePassword = pwdInput;
           document.getElementById('auth-gate').style.display = 'none';
           document.getElementById('chat-interface').style.display = 'flex';
-          document.getElementById('chat-header-title').textContent = 'SECURE CHAT BRIDGE [UNLOCKED]';
+          document.getElementById('chat-header-title').textContent = `Support Chat (${activeUsername})`;
           fetchHistory();
           initStream();
         } else {
@@ -147,7 +167,7 @@
       }
     }
 
-    async function sendMessage(content, username) {
+    async function sendMessage(content) {
       try {
         const res = await fetch('/api/messages', {
           method: 'POST',
@@ -155,7 +175,7 @@
           body: JSON.stringify({
             content: content,
             password: activePassword,
-            username: username,
+            username: activeUsername,
             channel: activeChannel
           })
         });
@@ -168,9 +188,8 @@
 
     function handleSend() {
       const content = document.getElementById('message-input').value;
-      const username = document.getElementById('username-input').value;
       if (!content) return;
-      sendMessage(content, username);
+      sendMessage(content);
       document.getElementById('message-input').value = '';
     }
 

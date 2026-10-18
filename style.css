@@ -1,17 +1,17 @@
 /* ==========================================
-   FIXIT CORE | CORPORATE TECH STYLING
+   FIXIT CORE | PURPLE & BLUE CORPORATE THEME
    ========================================== */
 
 :root {
-  --bg-core: #0b0f19;
-  --bg-card: #131b2e;
-  --bg-input: #1a233a;
-  --border-color: #22304f;
-  --text-main: #f1f5f9;
-  --text-muted: #94a3b8;
-  --accent-cyan: #0ea5e9;
-  --accent-cyan-hover: #38bdf8;
-  --accent-glow: rgba(14, 165, 233, 0.15);
+  --bg-core: #0d0f1a;
+  --bg-card: #151930;
+  --bg-input: #1e2442;
+  --border-color: #2a3463;
+  --text-main: #f3f4f6;
+  --text-muted: #9ca3af;
+  --accent-blue: #3b82f6;
+  --accent-purple: #8b5cf6;
+  --accent-glow: rgba(139, 92, 246, 0.2);
 }
 
 * {
@@ -29,7 +29,7 @@ body {
 }
 
 /* ==========================================
-   PROFESSIONAL NAVIGATION BAR
+   NAVIGATION BAR
    ========================================== */
 .site-nav {
   display: flex;
@@ -42,7 +42,7 @@ body {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: 8px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .site-nav a {
@@ -53,7 +53,6 @@ body {
   padding: 8px 16px;
   border-radius: 6px;
   transition: all 0.2s ease;
-  letter-spacing: 0.5px;
 }
 
 .site-nav a:hover {
@@ -62,13 +61,14 @@ body {
 }
 
 .site-nav a.active {
-  color: var(--accent-cyan);
-  background: var(--accent-glow);
-  border: 1px solid rgba(14, 165, 233, 0.3);
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  box-shadow: 0 0 10px var(--accent-glow);
 }
 
 /* ==========================================
-   CENTERED BANNER CONTAINER
+   BANNER CONTAINER
    ========================================== */
 .banner-container {
   width: 100%;
@@ -85,11 +85,11 @@ body {
   object-fit: cover;
   border-radius: 8px;
   border: 1px solid var(--border-color);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
 }
 
 /* ==========================================
-   HEADER / TITLES
+   HEADER
    ========================================== */
 header {
   text-align: center;
@@ -100,8 +100,10 @@ header h1 {
   font-size: 2rem;
   font-weight: 700;
   color: var(--text-main);
-  letter-spacing: 0.5px;
   margin-bottom: 5px;
+  background: linear-gradient(135deg, #a78bfa, #60a5fa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 header p {
@@ -110,25 +112,13 @@ header p {
 }
 
 /* ==========================================
-   LAYOUT CONTAINER (2-COLUMN GRID)
+   LAYOUT CONTAINER (Single column since chat is floating)
    ========================================== */
 .container {
-  display: grid;
-  grid-template-columns: 1fr 420px;
-  gap: 25px;
-  max-width: 1200px;
+  max-width: 900px;
   margin: 0 auto;
 }
 
-@media (max-width: 900px) {
-  .container {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ==========================================
-   GUIDES & CARDS SECTION
-   ========================================== */
 .guides-section {
   display: flex;
   flex-direction: column;
@@ -149,12 +139,12 @@ header p {
   border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 20px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .guide-img {
   width: 100%;
-  height: 160px;
+  height: 180px;
   object-fit: cover;
   border-radius: 6px;
   margin-bottom: 15px;
@@ -165,9 +155,6 @@ header p {
   font-size: 1.1rem;
   color: var(--text-main);
   margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
 
 .guide-card ul, .guide-card ol {
@@ -183,31 +170,80 @@ header p {
   color: var(--text-main);
 }
 
+code {
+  background: var(--bg-input);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: #60a5fa;
+  font-family: monospace;
+}
+
 /* ==========================================
-   SECURE CHAT BRIDGE WIDGET
+   FLOATING SUPPORT CHAT WIDGET (BOTTOM RIGHT)
    ========================================== */
-.chat-section {
+.chat-widget-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.chat-toggle-btn {
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+  color: white;
+  border: none;
+  padding: 14px 22px;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.chat-toggle-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+}
+
+.chat-popup-panel {
+  position: absolute;
+  bottom: 70px;
+  right: 0;
+  width: 380px;
+  height: 500px;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  border-radius: 8px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
-  height: 650px;
-  position: sticky;
-  top: 20px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
   overflow: hidden;
+  display: none; /* toggled via JS */
 }
 
 .chat-header {
-  background: var(--bg-input);
+  background: linear-gradient(135deg, #1e1b4b, #172554);
   padding: 14px;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 700;
-  letter-spacing: 1px;
-  color: var(--accent-cyan);
+  color: #a78bfa;
   border-bottom: 1px solid var(--border-color);
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-header button.close-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.chat-header button.close-btn:hover {
+  color: var(--text-main);
 }
 
 /* Channel Selector Tabs */
@@ -215,7 +251,7 @@ header p {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
-  padding: 10px;
+  padding: 8px;
   background: var(--bg-core);
   border-bottom: 1px solid var(--border-color);
 }
@@ -224,8 +260,8 @@ header p {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   color: var(--text-muted);
-  padding: 6px 10px;
-  font-size: 0.75rem;
+  padding: 5px 8px;
+  font-size: 0.7rem;
   font-weight: 600;
   border-radius: 4px;
   cursor: pointer;
@@ -238,45 +274,45 @@ header p {
 }
 
 .channel-btn.active {
-  background: var(--accent-cyan);
-  color: #0b0f19;
-  border-color: var(--accent-cyan);
+  background: var(--accent-blue);
+  color: #fff;
+  border-color: var(--accent-blue);
 }
 
 /* Messages Feed */
 .chat-messages {
   flex: 1;
-  padding: 15px;
+  padding: 12px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   background: var(--bg-core);
 }
 
 .message {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  padding: 10px 12px;
+  padding: 8px 10px;
   border-radius: 6px;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--text-main);
 }
 
 .message .author {
-  color: var(--accent-cyan);
+  color: var(--accent-purple);
   font-weight: 600;
   margin-right: 6px;
 }
 
 /* Input Area */
 .chat-input-area {
-  padding: 12px;
+  padding: 10px;
   background: var(--bg-card);
   border-top: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .chat-input-area input[type="text"],
@@ -285,32 +321,30 @@ header p {
   background: var(--bg-input);
   border: 1px solid var(--border-color);
   border-radius: 6px;
-  padding: 8px 12px;
+  padding: 6px 10px;
   color: var(--text-main);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   resize: none;
 }
 
 .chat-input-area input:focus,
 .chat-input-area textarea:focus {
   outline: none;
-  border-color: var(--accent-cyan);
+  border-color: var(--accent-purple);
 }
 
 .chat-input-area button {
-  background: var(--accent-cyan);
-  color: #0b0f19;
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+  color: #fff;
   border: none;
-  padding: 8px;
+  padding: 7px;
   border-radius: 6px;
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   cursor: pointer;
-  transition: background 0.2s;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  transition: opacity 0.2s;
 }
 
 .chat-input-area button:hover {
-  background: var(--accent-cyan-hover);
+  opacity: 0.9;
 }

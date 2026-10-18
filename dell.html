@@ -3,43 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FixIt Core | Dell Reference Guide</title>
+  <title>FixIt Core | Dell Repair Reference</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <!-- Top Navigation Bar -->
   <nav class="site-nav">
-    <a href="index.html">Hub & Chat</a>
+    <a href="index.html">Home</a>
     <a href="dell.html" class="active">Dell</a>
     <a href="hp.html">HP</a>
     <a href="lenovo.html">Lenovo</a>
     <a href="asus.html">ASUS</a>
   </nav>
 
-  <!-- Banner Section -->
+  <!-- Centered Banner Section -->
   <div class="banner-container">
     <img src="images/banner.jpg" alt="FixIt Core Banner" class="site-banner">
   </div>
 
   <header>
     <h1>Dell Hardware Reference</h1>
-    <p>BIOS Keys, Amber/White LED Codes, & Servicing Protocols</p>
+    <p>Hardware Repair Tips and Useful Commands</p>
   </header>
 
   <div class="container">
-    <!-- LEFT COLUMN: Dell Specific Guides & Diagnostics -->
     <div class="guides-section">
-      <h2>Dell Repair Protocols</h2>
+      <h2>Dell Repair Protocols & Keys</h2>
       
       <div class="guide-card">
         <img src="images/dell-main.jpg" alt="Dell Laptop Hardware" class="guide-img">
         <h3>🔑 Dell Firmware & Boot Keys</h3>
         <ul>
-          <li><strong>BIOS / UEFI Setup:</strong> Tap <strong style="color: var(--accent-cyan);">F2</strong> repeatedly on startup.</li>
-          <li><strong>One-Time Boot Menu:</strong> Tap <strong style="color: var(--accent-cyan);">F12</strong> repeatedly on startup.</li>
-          <li><strong>Built-in LCD Self-Test (BIST):</strong> Hold down the <strong style="color: var(--accent-cyan);">D</strong> key while powering on.</li>
-          <li><strong>SupportAssist Diagnostics:</strong> Triggered via F12 menu or auto fault detection.</li>
+          <li><strong>BIOS / UEFI Setup:</strong> Tap <strong style="color: #60a5fa;">F2</strong> repeatedly on startup.</li>
+          <li><strong>One-Time Boot Menu:</strong> Tap <strong style="color: #60a5fa;">F12</strong> repeatedly on startup.</li>
+          <li><strong>Built-in LCD Self-Test (BIST):</strong> Hold down the <strong style="color: #60a5fa;">D</strong> key while powering on.</li>
+          <li><strong>Hardware Support Menu:</strong> Accessible via the F12 one-time boot menu.</li>
         </ul>
       </div>
 
@@ -49,7 +48,7 @@
         <ul>
           <li><strong>2, 1:</strong> Processor (CPU) failure or motherboard socket fault</li>
           <li><strong>2, 3:</strong> System board, memory, or CMOS battery failure</li>
-          <li><strong>2, 4:</strong> RAM memory detection failure (Reseat or swap DIMMs)</li>
+          <li><strong>2, 4:</strong> RAM memory failure (Reseat or swap SODIMMs)</li>
           <li><strong>2, 7:</strong> Display failure (LCD connection or eDP ribbon cable)</li>
           <li><strong>3, 1:</strong> Real-Time Clock (RTC) power failure / Dead CMOS coin cell</li>
           <li><strong>3, 6:</strong> Flash corruption detected / BIOS recovery needed</li>
@@ -60,24 +59,34 @@
         <img src="images/battery-replacement.jpg" alt="Dell Battery Servicing" class="guide-img">
         <h3>🔋 Dell Battery Replacement Procedure</h3>
         <ol>
-          <li><strong>Health Check:</strong> Run `powercfg /batteryreport` via administrative CMD.</li>
+          <li><strong>Health Audit:</strong> Run <code>powercfg /batteryreport</code> via administrative Command Prompt.</li>
           <li><strong>Safe Shutdown:</strong> Power down completely and disconnect AC adapter.</li>
-          <li><strong>Chassis Access:</strong> Remove base screws and use plastic spudgers.</li>
-          <li><strong>Primary Isolation:</strong> Disconnect internal battery connector parallel to board.</li>
-          <li><strong>Residual Discharge:</strong> Hold power button for 15 seconds to drain capacitors.</li>
+          <li><strong>Chassis Access:</strong> Remove bottom cover screws and unclip edges with plastic spudgers.</li>
+          <li><strong>Primary Isolation:</strong> Disconnect internal battery connector parallel to board before touching components.</li>
+          <li><strong>Residual Discharge:</strong> Hold power button for 15 seconds to drain logic board capacitors.</li>
         </ol>
       </div>
     </div>
+  </div>
 
-    <!-- RIGHT COLUMN: Secure Live Chat Widget -->
-    <div class="chat-section">
-      <div class="chat-header" id="chat-header-title">SECURE CHAT BRIDGE [LOCKED]</div>
-      <div id="auth-gate" style="padding: 30px; text-align: center; display: flex; flex-direction: column; gap: 15px; justify-content: center; height: 100%;">
-        <h3 style="color: var(--accent-cyan);">Restricted Access</h3>
-        <p style="color: var(--text-muted); font-size: 0.9rem;">Enter Technician Password to unlock live transmission feeds.</p>
-        <input type="password" id="gateway-password" placeholder="Technician Password" style="background: #111; border: 1px solid #333; color: #fff; padding: 10px; border-radius: 4px; text-align: center;">
-        <button onclick="unlockChat()" style="background: var(--accent-cyan); color: #000; border: none; padding: 10px; border-radius: 4px; font-weight: bold; cursor: pointer;">Unlock Bridge</button>
+  <!-- FLOATING SUPPORT CHAT WIDGET -->
+  <div class="chat-widget-container">
+    <button class="chat-toggle-btn" onclick="toggleChat()">Support Chat</button>
+    
+    <div class="chat-popup-panel" id="chat-panel">
+      <div class="chat-header">
+        <span id="chat-header-title">Support Chat [Locked]</span>
+        <button class="close-btn" onclick="toggleChat()">✕</button>
       </div>
+
+      <div id="auth-gate" style="padding: 20px; text-align: center; display: flex; flex-direction: column; gap: 12px; justify-content: center; height: 100%;">
+        <h4 style="color: #a78bfa;">Restricted Access</h4>
+        <p style="color: var(--text-muted); font-size: 0.85rem;">Please log in to receive support.</p>
+        <input type="text" id="gateway-username" placeholder="Username (Any)" style="background: var(--bg-input); border: 1px solid var(--border-color); color: #fff; padding: 8px; border-radius: 4px; text-align: center; font-size: 0.85rem;">
+        <input type="password" id="gateway-password" placeholder="Password" style="background: var(--bg-input); border: 1px solid var(--border-color); color: #fff; padding: 8px; border-radius: 4px; text-align: center; font-size: 0.85rem;">
+        <button onclick="unlockChat()" style="background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue)); color: #fff; border: none; padding: 8px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.85rem;">Login</button>
+      </div>
+
       <div id="chat-interface" style="display: none; flex-direction: column; height: 100%;">
         <div class="channel-selector">
           <button class="channel-btn active" data-channel="GEN" onclick="selectChannel('GEN')">GEN</button>
@@ -88,13 +97,14 @@
           <button class="channel-btn" data-channel="S" onclick="selectChannel('S')">S</button>
           <button class="channel-btn" data-channel="SEC" onclick="selectChannel('SEC')">SEC</button>
         </div>
+
         <div class="chat-messages" id="message-container">
-          <div class="message"><span class="author">[System]</span> Authenticated. Dell stream active.</div>
+          <div class="message"><span class="author">[System]</span> Logged in. Dell stream active.</div>
         </div>
+
         <div class="chat-input-area">
-          <input type="text" id="username-input" placeholder="Technician Name" value="WebUser">
-          <textarea id="message-input" rows="2" placeholder="Type transmission..."></textarea>
-          <button onclick="handleSend()">Transmit Message</button>
+          <textarea id="message-input" rows="2" placeholder="Type message..."></textarea>
+          <button onclick="handleSend()">Send Message</button>
         </div>
       </div>
     </div>
@@ -103,9 +113,18 @@
   <script>
     let activeChannel = "GEN";
     let activePassword = "";
+    let activeUsername = "WebUser";
+
+    function toggleChat() {
+      const panel = document.getElementById('chat-panel');
+      panel.style.display = panel.style.display === 'flex' ? 'none' : 'flex';
+    }
 
     async function unlockChat() {
       const pwdInput = document.getElementById('gateway-password').value;
+      const userInput = document.getElementById('gateway-username').value;
+      if (userInput) activeUsername = userInput;
+
       try {
         const res = await fetch('/api/verify', {
           method: 'POST',
@@ -117,7 +136,7 @@
           activePassword = pwdInput;
           document.getElementById('auth-gate').style.display = 'none';
           document.getElementById('chat-interface').style.display = 'flex';
-          document.getElementById('chat-header-title').textContent = 'SECURE CHAT BRIDGE [UNLOCKED]';
+          document.getElementById('chat-header-title').textContent = `Support Chat (${activeUsername})`;
           fetchHistory();
           initStream();
         } else {
@@ -153,7 +172,7 @@
       }
     }
 
-    async function sendMessage(content, username) {
+    async function sendMessage(content) {
       try {
         const res = await fetch('/api/messages', {
           method: 'POST',
@@ -161,7 +180,7 @@
           body: JSON.stringify({
             content: content,
             password: activePassword,
-            username: username,
+            username: activeUsername,
             channel: activeChannel
           })
         });
@@ -174,9 +193,8 @@
 
     function handleSend() {
       const content = document.getElementById('message-input').value;
-      const username = document.getElementById('username-input').value;
       if (!content) return;
-      sendMessage(content, username);
+      sendMessage(content);
       document.getElementById('message-input').value = '';
     }
 
