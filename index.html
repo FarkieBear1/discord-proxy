@@ -3,695 +3,201 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FixIt Core | Hardware Diagnostics & Teardowns</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
-
-    :root {
-      --bg-deep: #050505;
-      --bg-panel: #0a0c10;
-      --bg-card: #12161f;
-      --border: #1f2430;
-      --text-main: #e2e8f0;
-      --text-muted: #8b949e;
-      --accent: #00f0ff;
-      --accent-dim: rgba(0, 240, 255, 0.1);
-      --alert: #ff3366;
-      --warning: #ffb703;
-      --success: #00ff88;
-      
-      --font-ui: 'Inter', -apple-system, sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    
-    body { 
-      background: var(--bg-deep); 
-      color: var(--text-main); 
-      font-family: var(--font-ui); 
-      overflow: hidden; 
-      display: flex; 
-      flex-direction: column;
-      height: 100vh; 
-    }
-
-    body::before {
-      content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background-image: 
-        linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
-      background-size: 30px 30px;
-      z-index: -1; pointer-events: none;
-    }
-
-    /* --- TOP NAV BAR --- */
-    #top-nav { 
-      height: 60px; 
-      background: var(--bg-panel); 
-      border-bottom: 1px solid var(--border); 
-      display: flex; 
-      align-items: center; 
-      justify-content: space-between; 
-      padding: 0 2rem; 
-      z-index: 100; 
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-    }
-    .nav-logo { font-size: 1.2rem; font-weight: 800; font-family: var(--font-mono); display: flex; align-items: center; gap: 10px; letter-spacing: 1px; color: var(--text-main); text-decoration: none; cursor: pointer; }
-    .nav-logo span { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
-    .nav-links { display: flex; gap: 2rem; font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-muted); }
-    .nav-links a { color: var(--text-muted); text-decoration: none; transition: all 0.2s; cursor: pointer; }
-    .nav-links a:hover { color: var(--accent); text-shadow: 0 0 8px var(--accent-dim); }
-    .nav-links a.active { color: var(--accent); font-weight: bold; }
-
-    /* --- MAIN LAYOUT --- */
-    #app-layout { display: flex; flex: 1; overflow: hidden; }
-    
-    /* --- SIDEBAR --- */
-    #sidebar { width: 280px; background: var(--bg-panel); border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 10; }
-    .sidebar-header { padding: 1.5rem 1.5rem 0.5rem; font-size: 0.75rem; font-family: var(--font-mono); color: var(--text-muted); letter-spacing: 1px; }
-    
-    .nav-list { overflow-y: auto; flex: 1; padding-bottom: 1rem; }
-    .nav-item { padding: 0.8rem 1.5rem; cursor: pointer; color: var(--text-muted); font-size: 0.85rem; font-family: var(--font-mono); transition: all 0.2s; border-left: 2px solid transparent; position: relative; }
-    .nav-item:hover { color: var(--text-main); background: rgba(255,255,255,0.03); }
-    .nav-item.active { color: var(--accent); border-left-color: var(--accent); background: var(--accent-dim); }
-    .nav-item.active::after { content: ''; position: absolute; right: 1.5rem; top: 50%; transform: translateY(-50%); width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 8px var(--accent); }
-
-    /* --- MAIN CONTENT --- */
-    #main-content { flex: 1; overflow-y: auto; position: relative; padding-bottom: 120px; }
-    
-    /* --- BANNER --- */
-    #hero-banner { 
-      width: 100%; 
-      height: 350px; 
-      border-bottom: 1px solid var(--border);
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      background-color: #0d1117;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
-    #hero-banner::after {
-      content: ''; position: absolute; inset: 0;
-      background: rgba(5, 5, 5, 0.7);
-      pointer-events: none;
-    }
-    .banner-content { position: relative; z-index: 2; padding: 2rem; }
-    .banner-title { font-size: 3rem; font-weight: 800; letter-spacing: -1px; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.8); margin-bottom: 0.5rem; }
-    .banner-subtitle { font-family: var(--font-mono); color: var(--accent); font-size: 1.1rem; letter-spacing: 2px; text-shadow: 0 0 8px rgba(0, 240, 255, 0.5); }
-
-    /* --- HOMEPAGE GRID --- */
-    .home-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; padding: 3rem; max-width: 1200px; margin: 0 auto; }
-    .home-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-    .home-card:hover { border-color: var(--accent); transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0, 240, 255, 0.15); }
-    .home-card-img { width: 100%; height: 180px; background-size: cover; background-position: center; background-color: #000; border-bottom: 1px solid var(--border); }
-    .home-card-body { padding: 1.5rem; }
-    .home-card-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; font-family: var(--font-mono); }
-    .home-card-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
-
-    .article-container { max-width: 900px; margin: 0 auto; padding: 2rem 3rem; animation: fadeIn 0.3s ease-out; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    
-    .breadcrumb { font-size: 0.75rem; font-family: var(--font-mono); color: var(--text-muted); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 8px; }
-    .breadcrumb span { color: var(--accent); cursor: pointer; transition: all 0.2s; }
-    .breadcrumb span:hover { text-shadow: 0 0 8px var(--accent); }
-    
-    .article-title { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; line-height: 1.1; letter-spacing: -1px; }
-    .article-meta { display: flex; gap: 1.5rem; font-size: 0.8rem; font-family: var(--font-mono); color: var(--text-muted); margin-bottom: 2.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 1px; }
-    
-    .hero-image { width: 100%; height: 380px; background-size: cover; background-position: center; border-radius: 8px; margin-bottom: 2.5rem; border: 1px solid var(--border); background-color: #000; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-    .hero-image::after { content: ''; position: absolute; inset: 0; box-shadow: inset 0 0 50px rgba(0,0,0,0.8); }
-
-    .spec-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; margin-bottom: 2.5rem; border-top: 2px solid var(--accent); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
-    .spec-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 1rem; color: var(--accent); text-transform: uppercase; letter-spacing: 1.5px; font-family: var(--font-mono); display: flex; align-items: center; gap: 8px; }
-    .spec-title::before { content: '>'; }
-    
-    .step { margin-bottom: 3rem; }
-    .step-title { font-size: 1.4rem; font-weight: 600; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 12px; }
-    .step-num { background: var(--accent-dim); color: var(--accent); border: 1px solid var(--accent); width: 32px; height: 32px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: bold; font-family: var(--font-mono); box-shadow: 0 0 10px var(--accent-dim); }
-    .step-body { background: var(--bg-panel); padding: 2rem; border-radius: 8px; border: 1px solid var(--border); line-height: 1.8; color: #c9d1d9; font-size: 0.95rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-    .step-body ol { margin-left: 1.5rem; margin-top: 0.5rem; }
-    .step-body li { margin-bottom: 0.8rem; padding-left: 0.5rem; }
-    .step-body a { color: var(--accent); text-decoration: none; border-bottom: 1px dashed var(--accent); padding-bottom: 2px; transition: all 0.2s; }
-    .step-body a:hover { text-shadow: 0 0 8px var(--accent); border-bottom-style: solid; }
-    
-    .danger-box { background: rgba(255, 51, 102, 0.05); border: 1px solid rgba(255, 51, 102, 0.3); border-left: 4px solid var(--alert); padding: 1.5rem; margin-bottom: 2rem; border-radius: 4px; color: #fca5a5; font-size: 0.9rem; font-family: var(--font-mono); }
-
-    .guide-links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
-    .guide-btn { background: var(--bg-card); border: 1px solid var(--border); padding: 1.5rem 1rem; border-radius: 6px; cursor: pointer; text-align: center; font-weight: 600; color: var(--text-main); transition: all 0.2s; display: flex; flex-direction: column; align-items: center; gap: 10px; font-size: 0.9rem; }
-    .guide-btn span { font-size: 1.5rem; filter: grayscale(100%) opacity(0.7); transition: all 0.2s; }
-    .guide-btn:hover { border-color: var(--accent); background: var(--accent-dim); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 240, 255, 0.1); }
-    .guide-btn:hover span { filter: grayscale(0%) opacity(1); transform: scale(1.1); }
-
-    /* --- CHAT WIDGET --- */
-    #chat-widget { position: fixed; bottom: 25px; right: 25px; width: 360px; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 15px 40px rgba(0,0,0,0.8), 0 0 20px rgba(0, 240, 255, 0.05); display: flex; flex-direction: column; z-index: 1000; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden; }
-    #chat-widget.minimized { height: 54px; cursor: pointer; border-color: var(--border); box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
-    #chat-widget.minimized:hover { border-color: var(--accent); }
-    
-    .widget-header { background: var(--bg-card); padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; cursor: pointer; height: 54px; }
-    .widget-title { font-weight: 600; font-size: 0.85rem; font-family: var(--font-mono); display: flex; align-items: center; gap: 10px; letter-spacing: 0.5px; color: var(--text-main); }
-    .status-dot { width: 8px; height: 8px; background: var(--success); border-radius: 50%; box-shadow: 0 0 8px var(--success); }
-    .status-dot.alert { background: var(--alert); box-shadow: 0 0 8px var(--alert); }
-    .minimize-btn { font-size: 1.2rem; color: var(--text-muted); font-family: var(--font-mono); font-weight: bold; line-height: 1; transition: color 0.2s; }
-    .widget-header:hover .minimize-btn { color: var(--accent); }
-    
-    .widget-body { display: flex; flex-direction: column; height: 350px; }
-    .widget-channels { display: flex; flex-wrap: wrap; gap: 6px; padding: 0.75rem; border-bottom: 1px solid var(--border); background: var(--bg-deep); }
-    .w-channel { font-size: 0.7rem; font-family: var(--font-mono); padding: 5px 8px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px; color: var(--text-muted); cursor: pointer; position: relative; transition: all 0.2s; }
-    .w-channel:hover { border-color: var(--text-muted); }
-    .w-channel.active { background: var(--accent-dim); color: var(--accent); border-color: var(--accent); }
-    
-    .unread-dot { position: absolute; top: -4px; right: -4px; width: 8px; height: 8px; background: var(--alert); border-radius: 50%; display: none; box-shadow: 0 0 8px var(--alert); }
-    .unread-dot.show { display: block; }
-
-    #messages { flex: 1; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; background: var(--bg-deep); }
-    .msg { display: flex; flex-direction: column; }
-    .msg-author { font-size: 0.7rem; font-family: var(--font-mono); font-weight: 600; color: var(--accent); margin-bottom: 4px; }
-    .msg-text { font-size: 0.85rem; background: var(--bg-card); padding: 0.6rem 0.8rem; border-radius: 4px; border: 1px solid var(--border); color: var(--text-main); word-wrap: break-word; }
-    
-    #composer { padding: 0.75rem; border-top: 1px solid var(--border); background: var(--bg-card); }
-    #composer form { display: flex; gap: 0.5rem; }
-    #composer input { flex: 1; background: var(--bg-deep); border: 1px solid var(--border); color: var(--text-main); padding: 0.6rem 0.8rem; border-radius: 4px; outline: none; font-size: 0.85rem; font-family: var(--font-mono); transition: border-color 0.2s; }
-    #composer input:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(0, 240, 255, 0.1); }
-    #composer button { background: var(--accent-dim); color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0 1rem; font-weight: 600; cursor: pointer; font-size: 0.8rem; font-family: var(--font-mono); transition: all 0.2s; }
-    #composer button:hover { background: var(--accent); color: #000; box-shadow: 0 0 15px var(--accent); }
-    #composer button:disabled { background: var(--border); color: var(--text-muted); border-color: var(--border); cursor: not-allowed; box-shadow: none; }
-
-    #login-screen input { background: var(--bg-deep); border: 1px solid var(--border); color: white; font-family: var(--font-mono); font-size: 0.85rem; outline: none; transition: border 0.2s; }
-    #login-screen input:focus { border-color: var(--accent); }
-    #login-screen button { background: var(--accent); color: #000; font-family: var(--font-mono); font-weight: bold; transition: all 0.2s; cursor: pointer; }
-    #login-screen button:hover { box-shadow: 0 0 15px var(--accent); }
-
-    ::-webkit-scrollbar { width: 8px; height: 8px; }
-    ::-webkit-scrollbar-track { background: var(--bg-deep); }
-    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
-  </style>
+  <title>FixIt Core | Hardware Diagnostics & Bridge</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- TOP NAVIGATION -->
-  <header id="top-nav">
-    <a href="#" class="nav-logo" onclick="loadHomepage()">
-      <span>⚡</span> FIXIT_CORE
-    </a>
-    <nav class="nav-links">
-      <a onclick="loadHomepage()" id="nav-home" class="active">HOME</a>
-      <a onclick="alert('Database module currently locked.')">DATABASE</a>
-      <a onclick="alert('Diagnostic tools currently offline.')">TOOLS</a>
-    </nav>
+  <header>
+    <h1>FixIt Core Diagnostics</h1>
+    <p>Professional Hardware Repair Protocols & Secure Network Bridge</p>
   </header>
 
-  <!-- MAIN APP LAYOUT -->
-  <div id="app-layout">
-    
-    <!-- SIDEBAR -->
-    <aside id="sidebar">
-      <div class="sidebar-header">// HARDWARE_NODES</div>
-      <div class="nav-list" id="brand-list">
-        <!-- Brands injected here -->
-      </div>
-    </aside>
-
-    <!-- MAIN CONTENT -->
-    <main id="main-content">
-      <div id="content-area"></div>
-    </main>
-
-  </div>
-
-  <!-- CHAT WIDGET -->
-  <div id="chat-widget" class="minimized">
-    <div class="widget-header" onclick="toggleWidget()">
-      <div class="widget-title"><div class="status-dot" id="main-status-dot"></div> SYS_SUPPORT</div>
-      <div class="minimize-btn" id="toggle-icon">[+]</div>
-    </div>
-    
-    <div id="login-screen" style="padding: 2rem 1.5rem; display: flex; flex-direction: column; gap: 1rem; align-items: center; background: var(--bg-deep); height: 350px; justify-content: center;">
-      <div style="font-size: 2rem; text-shadow: 0 0 10px var(--accent);">🔒</div>
-      <p style="font-size: 0.75rem; color: var(--text-muted); text-align: center; font-family: var(--font-mono); letter-spacing: 1px;">AUTHENTICATION REQUIRED</p>
+  <div class="container">
+    <!-- LEFT COLUMN: Repair Guides & Diagnostics -->
+    <div class="guides-section">
+      <h2>Repair Protocols</h2>
       
-      <input type="text" id="auth-username" placeholder="USER_ID" style="width: 100%; padding: 0.75rem; border-radius: 4px;" />
-      <input type="password" id="auth-password" placeholder="ACCESS_KEY" style="width: 100%; padding: 0.75rem; border-radius: 4px;" />
-      
-      <button onclick="login()" style="width: 100%; padding: 0.75rem; border-radius: 4px; margin-top: 0.5rem;">INITIALIZE</button>
-      <p id="login-error" style="color: var(--alert); font-size: 0.75rem; display: none; font-family: var(--font-mono);">ERR: INVALID_CREDENTIALS</p>
+      <div class="guide-card">
+        <h3>🔋 Battery Replacement Protocol</h3>
+        <ol>
+          <li><strong>Preliminary Health Audit:</strong> Verify hardware failure via OS battery reports and cycle counts.</li>
+          <li><strong>Safe De-Energization:</strong> Power down completely, disconnect AC power, and remove all peripherals.</li>
+          <li><strong>ESD Isolation:</strong> Work on a grounded ESD mat and remove bottom cover fasteners.</li>
+          <li><strong>Primary Circuit Isolation:</strong> Disconnect the internal battery connector straight and parallel.</li>
+          <li><strong>Fastener Extraction:</strong> Remove securing screws or pull stretch-release adhesive tabs safely.</li>
+          <li><strong>Post-Installation:</strong> Power on via AC adapter first to verify system charge recognition.</li>
+        </ol>
+      </div>
+
+      <div class="guide-card">
+        <h3>💻 Display Assembly Protocol</h3>
+        <ol>
+          <li><strong>Failure Isolation:</strong> Confirm fault originates in panel matrix or eDP cable.</li>
+          <li><strong>Power Shutdown:</strong> Shut down system and disconnect internal battery before touching cables.</li>
+          <li><strong>Hinge & Antenna Exposure:</strong> Detach hinge covers and unseat Wi-Fi/webcam ribbon cables.</li>
+          <li><strong>Lid Separation:</strong> Carefully unclip snap-fit bezels using non-marring plastic spudgers.</li>
+          <li><strong>Pre-Closure Test:</strong> Reconnect battery temporarily to verify pixel and backlight integrity.</li>
+        </ol>
+      </div>
+
+      <div class="guide-card">
+        <h3>💾 NVMe / Storage Protocol</h3>
+        <ol>
+          <li><strong>Interface Identification:</strong> Check form factor (M.2 2280 NVMe, SATA, etc.).</li>
+          <li><strong>Data Backup & Safety:</strong> Secure recovery keys and disconnect internal battery power.</li>
+          <li><strong>Thermal Shield Removal:</strong> Lift away metallic heat shields, preserving thermal pads.</li>
+          <li><strong>Drive Extraction:</strong> Remove retention screw at a 30-degree angle and slide out.</li>
+          <li><strong>Validation:</strong> Run SMART health checks and read/write benchmarks post-install.</li>
+        </ol>
+      </div>
+
+      <!-- NEW: Beep & Light Codes Card -->
+      <div class="guide-card">
+        <h3>🚨 Diagnostic Beep & Light Codes Reference</h3>
+        
+        <h4>Dell (Amber / White Power LED Flashes)</h4>
+        <ul>
+          <li><strong>2, 1:</strong> System board failure / Processor failure</li>
+          <li><strong>2, 3:</strong> System board or RAM detection failure</li>
+          <li><strong>2, 4:</strong> Memory / RAM failure</li>
+          <li><strong>2, 7:</strong> Display failure (LCD connection or GPU)</li>
+          <li><strong>3, 3:</strong> Recovery image not found</li>
+        </ul>
+
+        <h4>HP (Caps Lock / Num Lock Flashes & Beeps)</h4>
+        <ul>
+          <li><strong>1 Flash / Beep:</strong> CPU not functional</li>
+          <li><strong>2 Flashes / Beeps:</strong> BIOS corruption or failure</li>
+          <li><strong>3 Flashes / Beeps:</strong> Memory / RAM module error or unseated</li>
+          <li><strong>4 Flashes / Beeps:</strong> Graphics controller / GPU failure</li>
+          <li><strong>5 Flashes / Beeps:</strong> System board general failure</li>
+        </ul>
+
+        <h4>Lenovo ThinkPad (Diagnostic Tones & LEDs)</h4>
+        <ul>
+          <li><strong>3 Short + 1 Long Beep:</strong> System board / RAM failure</li>
+          <li><strong>4 Cycles of 4 Short Beeps:</strong> Security chip error / System board issue</li>
+          <li><strong>5 Short Beeps:</strong> System board failure (CMOS / Power circuit)</li>
+        </ul>
+
+        <h4>ASUS / Standard AMI BIOS (POST Beeps)</h4>
+        <ul>
+          <li><strong>1 Short Beep:</strong> Normal POST successful (System OK)</li>
+          <li><strong>1 Long, 2 Short Beeps:</strong> RAM memory module error</li>
+          <li><strong>1 Long, 3 Short Beeps:</strong> Display / Graphics card error</li>
+        </ul>
+      </div>
     </div>
 
-    <div class="widget-body" id="chat-interface" style="display: none;">
-      <div class="widget-channels" id="channel-list">
-        <!-- Channels injected here -->
+    <!-- RIGHT COLUMN: Secure Live Chat Widget -->
+    <div class="chat-section">
+      <div class="chat-header">SECURE CHAT BRIDGE</div>
+      
+      <!-- Shorthand Channel Selector -->
+      <div class="channel-selector">
+        <button class="channel-btn active" data-channel="GEN" onclick="selectChannel('GEN')">GEN</button>
+        <button class="channel-btn" data-channel="IGC" onclick="selectChannel('IGC')">IGC</button>
+        <button class="channel-btn" data-channel="JL" onclick="selectChannel('JL')">JL</button>
+        <button class="channel-btn" data-channel="COM" onclick="selectChannel('COM')">COM</button>
+        <button class="channel-btn" data-channel="L" onclick="selectChannel('L')">L</button>
+        <button class="channel-btn" data-channel="S" onclick="selectChannel('S')">S</button>
+        <button class="channel-btn" data-channel="SEC" onclick="selectChannel('SEC')">SEC</button>
       </div>
-      <div id="messages">
-        <div style="text-align: center; color: var(--text-muted); font-size: 0.75rem; font-family: var(--font-mono); padding: 1rem;">AWAITING CONNECTION...</div>
+
+      <!-- Messages Feed -->
+      <div class="chat-messages" id="message-container">
+        <div class="message">
+          <span class="author">[System]</span> Secure stream initialized. Select a channel above.
+        </div>
       </div>
-      <div id="composer">
-        <form id="send-form">
-          <input id="message-input" type="text" placeholder="INPUT_CMD..." autocomplete="off" disabled />
-          <button type="submit" id="send-btn" disabled>EXEC</button>
-        </form>
+
+      <!-- Input Controls -->
+      <div class="chat-input-area">
+        <input type="text" id="username-input" placeholder="Technician Name" value="WebUser">
+        <input type="password" id="password-input" placeholder="Technician ID / Password">
+        <textarea id="message-input" rows="2" placeholder="Type transmission..."></textarea>
+        <button onclick="handleSend()">Transmit Message</button>
       </div>
     </div>
   </div>
 
   <script>
-    const API_URL = '';
-    
-    // ==========================================
-    // 1. CHANNELS (Obfuscated Shorthand Codes)
-    // ==========================================
-    const CHANNELS = {
-      "GEN": "GEN",
-      "IGC": "IGC",
-      "JL":  "JL",
-      "COM": "COM",
-      "L":   "L",
-      "S":   "S",
-      "SEC": "SEC"
-    };
+    let activeChannel = "GEN";
 
-    // ==========================================
-    // 2. UNIVERSAL GUIDE SECTIONS
-    // ==========================================
-    const SAFETY_BOX = `
-      <div class="danger-box">
-        <strong>[!] SAFETY_AND_BENCH_SETUP:</strong><br>
-        Back up user data and confirm recovery keys. Shut down fully—not sleep or hibernate. Disconnect AC, docks, USB devices, and all peripherals. Work on a clean, stable, nonconductive surface with ESD protection. Use correctly sized precision drivers, plastic opening picks, tweezers, and a parts tray. Avoid metal tools near batteries and display cables. Keep screws sorted by location and length. After removing the bottom cover, disconnect the internal battery as instructed before touching other internal components. Never work on a powered device.
-      </div>
-    `;
+    function selectChannel(code) {
+      activeChannel = code;
+      document.querySelectorAll('.channel-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-channel') === code);
+      });
+      fetchHistory();
+    }
 
-    const BATTERY_STEPS = `
-      <ol>
-        <li>Confirm the battery is actually the failed component. Review the OS battery report and manufacturer diagnostics.</li>
-        <li>Shut down, unplug, remove accessories, and open the bottom cover using the exact model's instructions.</li>
-        <li>Disconnect the internal battery connector by its plug or latch as designed. Pull parallel to the connector.</li>
-        <li>Remove any brackets, speaker/SSD covers, or cables that block access. Document their positions.</li>
-        <li>Remove battery fasteners. For adhesive-mounted batteries, use only the specified pull tabs or approved method.</li>
-        <li>Lift the battery out without bending it. If it resists, stop and check for hidden screws or adhesive.</li>
-        <li>Inspect the bay for corrosion, debris, or liquid damage. Compare the replacement's part number.</li>
-        <li>Install the new battery flat and in its intended orientation. Replace specified adhesive strips.</li>
-        <li>Reconnect the battery only after tools and loose fasteners are removed. Refit the bottom cover.</li>
-        <li>Power on, confirm charging and battery detection, and check manufacturer diagnostics.</li>
-      </ol>
-    `;
-
-    const SCREEN_STEPS = `
-      <ol>
-        <li>Confirm the fault is the panel/display assembly rather than graphics, firmware, or backlight.</li>
-        <li>Power off and disconnect AC. Open the base and disconnect the internal battery.</li>
-        <li>Follow the model service guide to remove the display bezel or entire display assembly.</li>
-        <li>If the procedure requires base disassembly, remove hinge covers and disconnect antenna/camera cables.</li>
-        <li>Support the lid and chassis before removing hinge screws.</li>
-        <li>Remove the display assembly or panel using the manufacturer's sequence. Avoid twisting the lid.</li>
-        <li>Transfer only the parts the service guide specifies (camera modules, brackets, antennas).</li>
-        <li>Install the matching replacement, route cables exactly as original, and seat connectors fully.</li>
-        <li>Before closing completely, reconnect the battery and perform a controlled power-on test.</li>
-        <li>Power off again before final closure. Replace bezel adhesives and inspect hinge movement.</li>
-      </ol>
-    `;
-
-    const DRIVE_STEPS = `
-      <ol>
-        <li>Confirm whether the device has a replaceable M.2 NVMe SSD, 2.5-inch SATA drive, or soldered storage.</li>
-        <li>Back up data, confirm encryption recovery information, and record BIOS/UEFI settings.</li>
-        <li>Shut down, unplug, open the bottom cover, and disconnect the internal battery.</li>
-        <li>Locate the drive and remove its shield, thermal pad, bracket, or retaining screw.</li>
-        <li>Remove an M.2 drive by taking out its retaining screw and sliding it straight out.</li>
-        <li>Install the correct form factor, keying, interface, and capacity supported by the model.</li>
-        <li>Reinstall thermal shields/pads and brackets. Ensure no insulating film is misplaced.</li>
-        <li>Reconnect the battery, close the chassis, and enter BIOS/UEFI to verify drive detection.</li>
-        <li>Install or restore the OS, drivers, firmware, and security tools.</li>
-        <li>If the drive is not detected, power off and recheck compatibility and seating.</li>
-      </ol>
-    `;
-
-    // ==========================================
-    // 3. STATIC REPAIR GUIDES (Absolute URLs)
-    // ==========================================
-    const BASE_URL = "https://stowawaytech.onrender.com/";
-
-    const REPAIR_GUIDES = {
-      "lenovo": {
-        name: "Lenovo", 
-        image: BASE_URL + "images/lenovo-main.jpg?v=4",
-        note: "Common families: ThinkPad, ThinkBook, IdeaPad, Yoga, Legion, LOQ. Identify the machine type/model (MTM) from the underside label. Some ThinkPads use externally removable batteries; most modern systems use an internal pack. ThinkPad business models may have serviceable bezels. Many performance/business models have an M.2 NVMe SSD.",
-        link: "https://pcsupport.lenovo.com/us/en/solutions/ht516547",
-        battery: { title: "Lenovo Battery Replacement", image: BASE_URL + "images/battery-replacement.jpg?v=4", text: BATTERY_STEPS },
-        screen: { title: "Lenovo Screen Replacement", image: BASE_URL + "images/screen-replacement.jpg?v=4", text: SCREEN_STEPS },
-        drive: { title: "Lenovo Hard Drive Replacement", image: BASE_URL + "images/drive-replacement.jpg?v=4", text: DRIVE_STEPS }
-      },
-      "asus": {
-        name: "ASUS", 
-        image: BASE_URL + "images/asus-main.jpg?v=4",
-        note: "Common families: Zenbook, Vivobook, ProArt, ROG, TUF. Use the complete model code on ASUS Support. Thin Zenbook and some Vivobook models commonly use internal batteries. OLED, touchscreen, and high-refresh gaming versions can use different display assemblies even within one chassis family. Many gaming models provide M.2 NVMe slots.",
-        link: "https://www.asus.com/us/support/article/1199/",
-        battery: { title: "ASUS Battery Replacement", image: BASE_URL + "images/battery-replacement.jpg?v=4", text: BATTERY_STEPS },
-        screen: { title: "ASUS Screen Replacement", image: BASE_URL + "images/screen-replacement.jpg?v=4", text: SCREEN_STEPS },
-        drive: { title: "ASUS Hard Drive Replacement", image: BASE_URL + "images/drive-replacement.jpg?v=4", text: DRIVE_STEPS }
-      },
-      "dell": {
-        name: "Dell", 
-        image: BASE_URL + "images/dell-main.jpg?v=4",
-        note: "Common families: XPS, Inspiron, Latitude, Precision, Alienware. Search Dell Support by Service Tag. Dell service manuals often specify a battery screw pattern. Dell uses both individual panels and complete display assemblies depending on model. Identify M.2 2230 versus 2280 and any thermal plate.",
-        link: "https://www.dell.com/support/home",
-        battery: { title: "Dell Battery Replacement", image: BASE_URL + "images/battery-replacement.jpg?v=4", text: BATTERY_STEPS },
-        screen: { title: "Dell Screen Replacement", image: BASE_URL + "images/screen-replacement.jpg?v=4", text: SCREEN_STEPS },
-        drive: { title: "Dell Hard Drive Replacement", image: BASE_URL + "images/drive-replacement.jpg?v=4", text: DRIVE_STEPS }
-      },
-      "hp": {
-        name: "HP", 
-        image: BASE_URL + "images/HP-Main.jpg?v=4",
-        note: "Common families: EliteBook, ProBook, Pavilion, Envy, Spectre, OMEN, Victus. Use the exact product name on HP Support. HP models vary from straightforward screw-secured packs to adhesive-mounted batteries. On some models the LCD panel is separately serviceable. Check whether the system uses M.2 NVMe, 2.5-inch SATA, or soldered storage.",
-        link: "https://support.hp.com/us-en",
-        battery: { title: "HP Battery Replacement", image: BASE_URL + "images/battery-replacement.jpg?v=4", text: BATTERY_STEPS },
-        screen: { title: "HP Screen Replacement", image: BASE_URL + "images/screen-replacement.jpg?v=4", text: SCREEN_STEPS },
-        drive: { title: "HP Hard Drive Replacement", image: BASE_URL + "images/drive-replacement.jpg?v=4", text: DRIVE_STEPS }
-      },
-      "acer": {
-        name: "Acer", 
-        image: BASE_URL + "images/acer%20main.jpg?v=4",
-        note: "Common families: Aspire, Swift, Spin, TravelMate, Predator, Nitro. Use Acer Support's serial number/SNID. Watch for ribbon cables attached to the bottom cover. Swift/Spin convertible lids can be delicate. Nitro/Predator models may offer more than one M.2 slot.",
-        link: "https://www.acer.com/us-en/support",
-        battery: { title: "Acer Battery Replacement", image: BASE_URL + "images/battery-replacement.jpg?v=4", text: BATTERY_STEPS },
-        screen: { title: "Acer Screen Replacement", image: BASE_URL + "images/screen-replacement.jpg?v=4", text: SCREEN_STEPS },
-        drive: { title: "Acer Hard Drive Replacement", image: BASE_URL + "images/drive-replacement.jpg?v=4", text: DRIVE_STEPS }
-      },
-      "razer": {
-        name: "Razer", 
-        image: BASE_URL + "images/Razer-Main.jpg?v=4",
-        note: "Common families: Blade 14, Blade 16, Blade 18. Razer Blade revisions can change significantly. Use the exact model number and year on Razer Support. Blade batteries are internal; inspect for swelling. High-refresh and OLED configurations may use different display assemblies.",
-        link: "https://support.razer.com/",
-        battery: { title: "Razer Battery Replacement", image: BASE_URL + "images/battery-replacement.jpg?v=4", text: BATTERY_STEPS },
-        screen: { title: "Razer Screen Replacement", image: BASE_URL + "images/screen-replacement.jpg?v=4", text: SCREEN_STEPS },
-        drive: { title: "Razer Hard Drive Replacement", image: BASE_URL + "images/drive-replacement.jpg?v=4", text: DRIVE_STEPS }
-      },
-      "samsung": {
-        name: "Samsung", 
-        image: BASE_URL + "images/samsung%20main.jpg?v=4",
-        note: "Common families: Galaxy Book, Galaxy Book Pro, Galaxy Book Ultra, Galaxy Book4/5/6. Search Samsung Support using the full model code. Most Galaxy Books have internal batteries. AMOLED and LCD configurations are not interchangeable. Some models provide an M.2 SSD; others have limited upgrade options.",
-        link: "https://www.samsung.com/us/support/",
-        battery: { title: "Samsung Battery Replacement", image: BASE_URL + "images/battery-replacement.jpg?v=4", text: BATTERY_STEPS },
-        screen: { title: "Samsung Screen Replacement", image: BASE_URL + "images/screen-replacement.jpg?v=4", text: SCREEN_STEPS },
-        drive: { title: "Samsung Hard Drive Replacement", image: BASE_URL + "images/drive-replacement.jpg?v=4", text: DRIVE_STEPS }
-      },
-      "surface": {
-        name: "Surface", 
-        image: BASE_URL + "images/surface%20main.jpg?v=4",
-        note: "Common families: Surface Laptop, Surface Laptop Go, Surface Laptop Studio. Use the Surface Service Guide Center. Surface batteries can be adhered and are model-specific. Many Surface repairs specify replacing the display module/assembly rather than separating the glass. Supported models may use a removable M.2 or service SSD.",
-        link: "https://learn.microsoft.com/en-us/surface/service-guides",
-        battery: { title: "Surface Battery Replacement", image: BASE_URL + "images/battery-replacement.jpg?v=4", text: BATTERY_STEPS },
-        screen: { title: "Surface Screen Replacement", image: BASE_URL + "images/screen-replacement.jpg?v=4", text: SCREEN_STEPS },
-        drive: { title: "Surface Hard Drive Replacement", image: BASE_URL + "images/drive-replacement.jpg?v=4", text: DRIVE_STEPS }
-      }
-    };
-
-    // ==========================================
-    // 4. RENDERING LOGIC
-    // ==========================================
-    
-    const brandListEl = document.getElementById('brand-list');
-    Object.keys(REPAIR_GUIDES).forEach((brand, index) => {
-      const div = document.createElement('div');
-      div.className = `nav-item`;
-      div.id = `nav-${brand}`;
-      div.textContent = REPAIR_GUIDES[brand].name.toUpperCase();
-      div.onclick = () => loadBrandOverview(brand);
-      brandListEl.appendChild(div);
-    });
-
-    // --- HOMEPAGE RENDERER ---
-    function loadHomepage() {
-      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-      document.getElementById('nav-home').classList.add('active');
-      
-      const contentArea = document.getElementById('content-area');
-      
-      let cardsHtml = '';
-      Object.keys(REPAIR_GUIDES).forEach(brandKey => {
-        const guide = REPAIR_GUIDES[brandKey];
-        cardsHtml += `
-          <div class="home-card" onclick="loadBrandOverview('${brandKey}')">
-            <div class="home-card-img" style="background-image: url('${guide.image}');"></div>
-            <div class="home-card-body">
-              <div class="home-card-title">${guide.name.toUpperCase()}</div>
-              <div class="home-card-desc">View teardowns, battery protocols, and display replacements for ${guide.name} systems.</div>
+    async function fetchHistory() {
+      try {
+        const res = await fetch(`/api/messages?channel=${activeChannel}`);
+        const data = await res.json();
+        const container = document.getElementById('message-container');
+        if (Array.isArray(data)) {
+          container.innerHTML = data.map(m => `
+            <div class="message">
+              <span class="author">${m.author}:</span> ${m.content}
             </div>
+          `).join('');
+          container.scrollTop = container.scrollHeight;
+        }
+      } catch (err) {
+        console.error('Failed to load channel history:', err);
+      }
+    }
+
+    async function sendMessage(content, password, username) {
+      try {
+        const res = await fetch('/api/messages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            content: content,
+            password: password,
+            username: username,
+            channel: activeChannel
+          })
+        });
+        const data = await res.json();
+        if (!res.ok) alert('Error: ' + (data.error || 'Failed to transmit'));
+      } catch (err) {
+        console.error('Send error:', err);
+      }
+    }
+
+    function handleSend() {
+      const content = document.getElementById('message-input').value;
+      const password = document.getElementById('password-input').value;
+      const username = document.getElementById('username-input').value;
+      
+      if (!content) return;
+      
+      sendMessage(content, password, username);
+      document.getElementById('message-input').value = '';
+    }
+
+    // Connect to Server-Sent Events (SSE) Stream
+    const eventSource = new EventSource('/api/stream');
+    eventSource.onmessage = (event) => {
+      const msg = JSON.parse(event.data);
+      if (msg.channel === activeChannel) {
+        const container = document.getElementById('message-container');
+        container.innerHTML += `
+          <div class="message">
+            <span class="author">${msg.author}:</span> ${msg.content}
           </div>
         `;
-      });
-
-      contentArea.innerHTML = `
-        <div id="hero-banner" style="background-image: url('${BASE_URL}images/banner.jpg?v=4');">
-          <div class="banner-content">
-            <div class="banner-title">Hardware Diagnostics & Teardowns</div>
-            <div class="banner-subtitle">// FIELD_MANUAL_v2.0.26</div>
-          </div>
-        </div>
-        <div class="home-grid">
-          ${cardsHtml}
-        </div>
-      `;
-      document.getElementById('main-content').scrollTop = 0;
-    }
-
-    // --- BRAND OVERVIEW RENDERER ---
-    function loadBrandOverview(brandKey) {
-      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-      document.getElementById('nav-home').classList.remove('active');
-      
-      const navItem = document.getElementById(`nav-${brandKey}`);
-      if (navItem) navItem.classList.add('active');
-
-      const guide = REPAIR_GUIDES[brandKey];
-      const contentArea = document.getElementById('content-area');
-
-      contentArea.innerHTML = `
-        <div class="article-container">
-          <div class="breadcrumb">SYS_ROOT / HARDWARE / <span>${guide.name.toUpperCase()}</span></div>
-          <h1 class="article-title">${guide.name} Repair Architecture</h1>
-          <div class="article-meta"><span>BY: FIXIT_STAFF</span><span>|</span><span>SELECT MODULE TO INITIATE</span></div>
-          <div class="hero-image" style="background-image: url('${guide.image}');"></div>
-
-          <div class="spec-box">
-            <div class="spec-title">ARCHITECTURE_NOTES</div>
-            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
-              ${guide.note}
-            </p>
-            <div style="margin-top: 1rem; font-size: 0.8rem; font-family: var(--font-mono);">
-              Official Reference Portal: <a href="${guide.link}" target="_blank" style="color: var(--accent); text-decoration: none;">${guide.link}</a>
-            </div>
-          </div>
-
-          <div class="guide-links">
-            <div class="guide-btn" onclick="loadGuideStep('${brandKey}', 'battery')">
-              <span>🔋</span>
-              Battery Protocol
-            </div>
-            <div class="guide-btn" onclick="loadGuideStep('${brandKey}', 'screen')">
-              <span>🖥️</span>
-              Display Assembly
-            </div>
-            <div class="guide-btn" onclick="loadGuideStep('${brandKey}', 'drive')">
-              <span>💾</span>
-              NVMe / Storage
-            </div>
-          </div>
-        </div>
-      `;
-      document.getElementById('main-content').scrollTop = 0;
-    }
-
-    // --- SPECIFIC GUIDE STEP RENDERER ---
-    function loadGuideStep(brandKey, stepType) {
-      const guide = REPAIR_GUIDES[brandKey];
-      const module = guide[stepType];
-      const contentArea = document.getElementById('content-area');
-
-      contentArea.innerHTML = `
-        <div class="article-container">
-          <div class="breadcrumb">
-            <span onclick="loadBrandOverview('${brandKey}')">${guide.name.toUpperCase()}</span> / <span>${stepType.toUpperCase()}_MODULE</span>
-          </div>
-          <h1 class="article-title">${module.title}</h1>
-          <div class="article-meta"><span>TARGET: ${guide.name}</span><span>|</span><span>STANDARD PROCEDURE</span></div>
-          
-          ${SAFETY_BOX}
-
-          <div class="hero-image" style="background-image: url('${module.image}');"></div>
-
-          <div class="step">
-            <div class="step-title">
-              <div class="step-num">01</div>
-              Step-by-Step Procedure
-            </div>
-            <div class="step-body">
-              ${module.text}
-            </div>
-          </div>
-
-          <div style="margin-top: 3rem; display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.85rem;">
-            <a onclick="loadBrandOverview('${brandKey}')" style="color: var(--accent); cursor: pointer; text-decoration: none;">&larr; BACK TO ${guide.name.toUpperCase()} ARCHITECTURE</a>
-            <a onclick="loadHomepage()" style="color: var(--text-muted); cursor: pointer; text-decoration: none;">RETURN TO HOMEPAGE</a>
-          </div>
-        </div>
-      `;
-      document.getElementById('main-content').scrollTop = 0;
-    }
-
-    // ==========================================
-    // 5. CHAT / AUTH LOGIC
-    // ==========================================
-    let isWidgetOpen = false;
-    let activeChannel = "gaming";
-    let pollInterval = null;
-
-    function toggleWidget() {
-      const widget = document.getElementById('chat-widget');
-      const toggleIcon = document.getElementById('toggle-icon');
-      
-      isWidgetOpen = !isWidgetOpen;
-      if (isWidgetOpen) {
-        widget.classList.remove('minimized');
-        toggleIcon.textContent = '[-]';
-      } else {
-        widget.classList.add('minimized');
-        toggleIcon.textContent = '[+]';
+        container.scrollTop = container.scrollHeight;
       }
-    }
-
-    function login() {
-      const user = document.getElementById('auth-username').value.trim();
-      const pass = document.getElementById('auth-password').value;
-      const err = document.getElementById('login-error');
-
-      if (!user) {
-        err.textContent = 'ERR: USER_ID_REQUIRED';
-        err.style.display = 'block';
-        return;
-      }
-
-      fetch(API_URL + '/api/verify', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password: pass })
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          document.getElementById('login-screen').style.display = 'none';
-          document.getElementById('chat-interface').style.display = 'flex';
-          document.getElementById('main-status-dot').style.background = 'var(--success)';
-          
-          // Enable chat inputs
-          document.getElementById('message-input').disabled = false;
-          document.getElementById('send-btn').disabled = false;
-          
-          initChatChannels();
-          switchChannel(activeChannel);
-        } else {
-          err.textContent = 'ERR: INVALID_CREDENTIALS';
-          err.style.display = 'block';
-        }
-      })
-      .catch(() => {
-        err.textContent = 'ERR: CONNECTION_FAILED';
-        err.style.display = 'block';
-      });
-    }
-
-    function initChatChannels() {
-      const listEl = document.getElementById('channel-list');
-      listEl.innerHTML = '';
-      
-      Object.keys(CHANNELS).forEach(name => {
-        const btn = document.createElement('div');
-        btn.className = `w-channel ${name === activeChannel ? 'active' : ''}`;
-        btn.id = `wch-${name}`;
-        btn.innerHTML = `${name}<div class="unread-dot" id="dot-${name}"></div>`;
-        btn.onclick = () => switchChannel(name);
-        listEl.appendChild(btn);
-      });
-    }
-
-    function switchChannel(name) {
-      activeChannel = name;
-      document.querySelectorAll('.w-channel').forEach(el => el.classList.remove('active'));
-      const activeBtn = document.getElementById(`wch-${name}`);
-      if (activeBtn) activeBtn.classList.add('active');
-
-      // Clear unread dot
-      const dot = document.getElementById(`dot-${name}`);
-      if (dot) dot.classList.remove('show');
-
-      fetchMessages();
-      if (pollInterval) clearInterval(pollInterval);
-      pollInterval = setInterval(fetchMessages, 3000);
-    }
-
-    function fetchMessages() {
-      fetch(API_URL + `/api/messages?channel=${activeChannel}`)
-      .then(res => res.json())
-      .then(data => {
-        const msgContainer = document.getElementById('messages');
-        if (!Array.isArray(data)) return;
-        
-        msgContainer.innerHTML = '';
-        data.forEach(m => {
-          const msgEl = document.createElement('div');
-          msgEl.className = 'msg';
-          msgEl.innerHTML = `
-            <div class="msg-author">${escapeHtml(m.author)}</div>
-            <div class="msg-text">${escapeHtml(m.content)}</div>
-          `;
-          msgContainer.appendChild(msgEl);
-        });
-        msgContainer.scrollTop = msgContainer.scrollHeight;
-      })
-      .catch(() => {});
-    }
-
-    document.getElementById('send-form').onsubmit = (e) => {
-      e.preventDefault();
-      const input = document.getElementById('message-input');
-      const content = input.value.trim();
-      const pass = document.getElementById('auth-password').value;
-      const usernameInput = document.getElementById('auth-username').value.trim() || 'Farkie';
-
-      if (!content) return;
-
-      fetch(API_URL + '/api/messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          password: pass,
-          channel: activeChannel,
-          content: content,
-          username: usernameInput
-        })
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (data.ok) {
-          input.value = '';
-          fetchMessages();
-        } else {
-          alert('Failed to send: ' + (data.error || 'Unknown error'));
-        }
-      })
-      .catch(() => alert('ERR: FAILED_TO_TRANSMIT'));
     };
 
-    function escapeHtml(text) {
-      const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
-      return text.replace(/[&<>"']/g, m => map[m]);
-    }
-
-    // Initialize homepage on load
-    loadHomepage();
+    // Load initial messages on page load
+    fetchHistory();
   </script>
 </body>
 </html>
