@@ -6,7 +6,7 @@ const path = require('path');
 const app = express();
 app.use(express.json());
 
-// Serve the index.html file directly from the backend
+// Serve static files (HTML, CSS, images) from the root directory
 app.use(express.static(__dirname));
 
 // Parse channels from .env
@@ -17,9 +17,6 @@ try {
   console.error("Error parsing CHANNELS in .env");
 }
 
-// ==========================================
-// SECURE SERVER-SIDE SHORTHAND MAPPING
-// ==========================================
 const shorthandToEnvMap = {
   "GEN": "gen",
   "IGC": "gaming",
@@ -31,8 +28,6 @@ const shorthandToEnvMap = {
 };
 
 const allowedChannelIds = Object.values(channelMap);
-
-// SSE Clients array
 const sseClients = new Set();
 
 const client = new Client({
@@ -48,14 +43,11 @@ client.once(Events.ClientReady, (c) => {
   console.log(`Monitoring ${allowedChannelIds.length} channels.`);
 });
 
-// Listen for new messages and push them to the browser instantly using shorthand codes
 client.on(Events.MessageCreate, (msg) => {
   if (!allowedChannelIds.includes(msg.channelId)) return;
   if (msg.author.bot) return;
 
   const internalKey = Object.keys(channelMap).find(key => channelMap[key] === msg.channelId);
-  
-  // Find matching shorthand code to send to frontend safely
   const shorthandCode = Object.keys(shorthandToEnvMap).find(
     code => shorthandToEnvMap[code] === internalKey
   ) || 'GEN';
@@ -65,10 +57,9 @@ client.on(Events.MessageCreate, (msg) => {
     author: msg.author.username,
     content: msg.content,
     timestamp: msg.createdAt.toISOString(),
-    channel: shorthandCode // Sends shorthand instead of internal name
+    channel: shorthandCode
   };
 
-  // Send to all connected browsers
   const dataString = `data: ${JSON.stringify(payload)}\n\n`;
   for (const res of sseClients) {
     res.write(dataString);
@@ -77,7 +68,6 @@ client.on(Events.MessageCreate, (msg) => {
 
 client.login(process.env.DISCORD_TOKEN);
 
-// Endpoint for the browser to listen to live updates
 app.get('/api/stream', (req, res) => {
   res.set({
     'Content-Type': 'text/event-stream',
@@ -91,9 +81,8 @@ app.get('/api/stream', (req, res) => {
   req.on('close', () => sseClients.delete(res));
 });
 
-// Get history using shorthand mapping
 app.get('/api/messages', async (req, res) => {
-  const shorthandCode = req.query.channel; // e.g., "S", "GEN"
+  const shorthandCode = req.query.channel;
   const internalKey = shorthandToEnvMap[shorthandCode];
   const channelId = channelMap[internalKey];
 
@@ -115,10 +104,8 @@ app.get('/api/messages', async (req, res) => {
   }
 });
 
-// 1. Endpoint to verify the technician password
 app.post('/api/verify', (req, res) => {
   const { password } = req.body;
-  
   if (password === "T3chRep@ir26!") {
     res.json({ success: true });
   } else {
@@ -126,11 +113,9 @@ app.post('/api/verify', (req, res) => {
   }
 });
 
-// 2. Send message (Password Protected)
 app.post('/api/messages', async (req, res) => {
   const { content, password, username, channel: shorthandCode } = req.body; 
 
-  // 🛑 THE PASSWORD CHECK
   if (password !== "T3chRep@ir26!") {
     return res.status(403).json({ error: 'Access Denied: Invalid Technician ID.' });
   }
@@ -138,15 +123,12 @@ app.post('/api/messages', async (req, res) => {
   if (!content) return res.status(400).json({ error: 'content required' });
 
   try {
-    // Resolve shorthand code securely on the server side
     const internalKey = shorthandToEnvMap[shorthandCode || 'S'];
     const targetChannelId = channelMap[internalKey] || channelMap['Survival'];
     
     const channel = await client.channels.fetch(targetChannelId);
     const sender = username || 'WebUser';
-    
-    // Formatted message matching your CoreChatX trigger requirement
-    const formattedMessage = `!alert [Farkie WebChat]: ${content}`;
+    const formattedMessage = `[Farkie WebChat]: ${content}`;
 
     const sent = await channel.send(formattedMessage);
     res.json({ ok: true, id: sent.id });
