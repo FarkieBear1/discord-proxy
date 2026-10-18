@@ -125,7 +125,7 @@ app.post('/api/messages', async (req, res) => {
     const sender = username || 'WebUser';
     
     // This triggers CoreChatX's console command handler to broadcast into Minecraft instantly
-    const formattedMessage = `!gchat [Web] ${sender}: ${content}`;
+    const formattedMessage = `!alert [Farkie WebChat]: ${content}`;
 
     const sent = await channel.send(formattedMessage);
     res.json({ ok: true, id: sent.id });
