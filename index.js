@@ -95,19 +95,24 @@ app.get('/api/messages', async (req, res) => {
   }
 });
 
-// Endpoint to verify the technician password
+// 1. Endpoint to verify the technician password
 app.post('/api/verify', (req, res) => {
-  res.json({ success: true }); // Accepts everything
+  const { password } = req.body;
+  
+  if (password === "T3chRep@ir26!") {
+    res.json({ success: true });
+  } else {
+    res.status(403).json({ success: false, error: 'Invalid password' });
+  }
 });
 
-// Send message (Password Protected)
+// 2. Send message (Password Protected)
 app.post('/api/messages', async (req, res) => {
   const { content, channel: channelName, password } = req.body; 
   const channelId = channelMap[channelName];
 
   // 🛑 THE PASSWORD CHECK
-  // Change "TechSupport2026!" to whatever password you want.
-  if (password !== "TechSupport2026!") {
+  if (password !== "T3chRep@ir26!") {
     return res.status(403).json({ error: 'Access Denied: Invalid Technician ID.' });
   }
 
@@ -124,4 +129,4 @@ app.post('/api/messages', async (req, res) => {
 
 app.listen(process.env.PORT || 3000, () => {
   console.log(`Backend running on http://localhost:${process.env.PORT || 3000}`);
-});
+});// Force final deployment
