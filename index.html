@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FixIt Guides | Teardown & Repair</title>
+  <title>FixIt | MacBook Pro Teardown</title>
   <style>
     :root {
       --bg-base: #121212;
@@ -12,7 +12,7 @@
       --border: #333333;
       --text-main: #f0f0f0;
       --text-muted: #a0a0a0;
-      --accent: #007bff; /* iFixit-style blue */
+      --accent: #007bff;
       --accent-hover: #0056b3;
       --warning: #ff9900;
       --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -20,103 +20,128 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: var(--bg-base); color: var(--text-main); font-family: var(--font-ui); overflow-y: scroll; }
+    body { background: var(--bg-base); color: var(--text-main); font-family: var(--font-ui); overflow: hidden; }
     
-    /* Top Navigation */
-    #top-nav { background: var(--bg-panel); border-bottom: 1px solid var(--border); padding: 0 2rem; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-    .logo { font-size: 1.4rem; font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 8px; cursor: pointer; }
+    /* --- TOP NAV --- */
+    #top-nav { background: var(--bg-panel); border-bottom: 1px solid var(--border); padding: 0 2rem; height: 60px; display: flex; align-items: center; justify-content: space-between; z-index: 100; position: relative; }
+    .logo { font-size: 1.4rem; font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
     .logo-icon { color: var(--accent); font-size: 1.6rem; }
     .search-bar { background: var(--bg-card); border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: 4px; color: var(--text-muted); width: 300px; outline: none; }
+
+    /* --- MAIN ARTICLE (THE BAIT) --- */
+    #article-container { max-width: 900px; margin: 2rem auto; padding: 0 2rem; height: calc(100vh - 100px); overflow-y: auto; padding-bottom: 100px; }
     
-    /* Layout Container */
-    #container { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; display: flex; gap: 2rem; }
+    .breadcrumb { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; }
+    .breadcrumb span { color: var(--accent); cursor: pointer; }
     
-    /* Sidebar - Guides */
-    #sidebar { width: 260px; flex-shrink: 0; }
-    .sidebar-header { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1rem; letter-spacing: 0.5px; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
-    .channel-list { display: flex; flex-direction: column; gap: 2px; }
-    .channel { padding: 0.6rem 0.75rem; cursor: pointer; color: var(--text-muted); font-size: 0.9rem; border-radius: 4px; font-weight: 500; transition: all 0.1s; display: flex; align-items: center; gap: 10px; }
-    .channel:hover { background: var(--bg-card); color: var(--text-main); }
-    .channel.active { background: rgba(0, 123, 255, 0.1); color: var(--accent); font-weight: 600; border-left: 3px solid var(--accent); border-radius: 0 4px 4px 0; }
-    .channel::before { content: "📄"; font-size: 0.8rem; opacity: 0.7; }
+    .article-title { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; line-height: 1.2; }
+    .article-meta { display: flex; gap: 1rem; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
     
-    /* Main Content Area */
-    #main { flex: 1; min-width: 0; }
+    .hero-image { width: 100%; height: 400px; background: url('https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1200&auto=format&fit=crop') center/cover; border-radius: 8px; margin-bottom: 2rem; border: 1px solid var(--border); }
     
-    /* Header / Hero Area */
-    #header { margin-bottom: 2rem; background: var(--bg-panel); padding: 2rem; border-radius: 6px; border: 1px solid var(--border); }
-    #page-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-main); }
-    .meta-bar { display: flex; gap: 1rem; font-size: 0.85rem; color: var(--text-muted); align-items: center; }
-    .meta-item { display: flex; align-items: center; gap: 4px; }
-    .difficulty { background: var(--warning); color: #000; font-weight: 700; font-size: 0.75rem; padding: 2px 6px; border-radius: 3px; text-transform: uppercase; }
+    .step { margin-bottom: 3rem; }
+    .step-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+    .step-num { background: var(--accent); color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.1rem; }
+    .step-title { font-size: 1.5rem; font-weight: 700; }
+    .step-content { background: var(--bg-card); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border); line-height: 1.6; color: #d1d5db; }
+    .step-content img { width: 100%; border-radius: 4px; margin-top: 1rem; border: 1px solid var(--border); }
+
+    /* --- CHAT WIDGET (BOTTOM RIGHT) --- */
+    #chat-widget { position: fixed; bottom: 20px; right: 20px; width: 340px; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column; z-index: 1000; transition: transform 0.3s ease; }
     
-    /* Step Guide (Messages) */
-    #messages { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 3rem; }
+    .widget-header { background: var(--bg-card); padding: 1rem; border-bottom: 1px solid var(--border); border-radius: 8px 8px 0 0; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+    .widget-title { font-weight: 600; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; }
+    .status-dot { width: 8px; height: 8px; background: #10b981; border-radius: 50%; box-shadow: 0 0 8px #10b981; }
     
-    .step-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; display: flex; gap: 1.5rem; position: relative; }
-    .step-card:hover { border-color: var(--accent); }
+    .widget-body { display: flex; flex-direction: column; height: 350px; }
     
-    /* Step Number */
-    .step-number { font-size: 2rem; font-weight: 800; color: var(--border); line-height: 1; }
+    /* Channel Selector inside widget */
+    .widget-channels { display: flex; gap: 4px; padding: 0.5rem; border-bottom: 1px solid var(--border); overflow-x: auto; background: var(--bg-base); }
+    .w-channel { font-size: 0.7rem; padding: 4px 8px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px; color: var(--text-muted); cursor: pointer; white-space: nowrap; }
+    .w-channel.active { background: var(--accent); color: white; border-color: var(--accent); }
     
-    /* Step Content */
-    .step-content-wrapper { flex: 1; }
-    .step-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem; }
-    .step-author { font-weight: 700; color: var(--text-main); font-size: 1rem; display: flex; align-items: center; gap: 8px; }
-    .author-badge { font-size: 0.7rem; background: var(--border); color: var(--text-muted); padding: 2px 6px; border-radius: 3px; text-transform: uppercase; }
-    .step-time { font-size: 0.8rem; color: var(--text-muted); font-family: var(--font-mono); }
+    #messages { flex: 1; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; }
+    .msg { display: flex; flex-direction: column; }
+    .msg-author { font-size: 0.75rem; font-weight: 600; color: var(--accent); margin-bottom: 2px; }
+    .msg-text { font-size: 0.85rem; background: var(--bg-base); padding: 0.5rem 0.75rem; border-radius: 4px; border: 1px solid var(--border); color: var(--text-main); word-wrap: break-word; }
     
-    .step-body { font-size: 0.95rem; color: #d1d5db; line-height: 1.6; background: var(--bg-base); padding: 1rem; border-radius: 4px; border: 1px solid var(--border); }
-    
-    /* Composer - Submit Guide */
-    #composer { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; margin-bottom: 2rem; }
-    #composer h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
-    #composer h3::before { content: "✎"; color: var(--accent); }
-    #composer form { display: flex; flex-direction: column; gap: 0.75rem; }
-    #composer input { width: 100%; padding: 0.8rem 1rem; border: 1px solid var(--border); border-radius: 4px; background: var(--bg-base); color: var(--text-main); outline: none; font-family: var(--font-ui); font-size: 0.95rem; transition: border-color 0.2s; }
+    #composer { padding: 0.75rem; border-top: 1px solid var(--border); background: var(--bg-card); border-radius: 0 0 8px 8px; }
+    #composer form { display: flex; gap: 0.5rem; }
+    #composer input { flex: 1; background: var(--bg-base); border: 1px solid var(--border); color: var(--text-main); padding: 0.5rem; border-radius: 4px; outline: none; font-size: 0.85rem; }
     #composer input:focus { border-color: var(--accent); }
-    #composer button { align-self: flex-start; background: var(--accent); color: white; border: none; border-radius: 4px; padding: 0.6rem 1.5rem; font-weight: 600; cursor: pointer; font-size: 0.9rem; transition: background 0.2s; }
+    #composer button { background: var(--accent); color: white; border: none; border-radius: 4px; padding: 0 1rem; font-weight: 600; cursor: pointer; font-size: 0.85rem; }
     #composer button:hover { background: var(--accent-hover); }
     #composer button:disabled { background: var(--border); color: var(--text-muted); cursor: not-allowed; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-base); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
   </style>
 </head>
 <body>
 
   <div id="top-nav">
     <div class="logo"><span class="logo-icon">🛠️</span> FixIt Guides</div>
-    <input type="text" class="search-bar" placeholder="Search repair guides..." disabled>
+    <input type="text" class="search-bar" placeholder="Search 10,000+ repair guides..." disabled>
   </div>
 
-  <div id="container">
-    <div id="sidebar">
-      <div class="sidebar-header">Teardown Guides</div>
-      <div class="channel-list" id="channel-list">
-        <!-- Channels injected here -->
+  <!-- THE BAIT: Fake iFixit Article -->
+  <div id="article-container">
+    <div class="breadcrumb">Home / Laptop / MacBook Pro 14" / <span>Teardown</span></div>
+    <h1 class="article-title">MacBook Pro 14" 2023 Teardown: A Deep Dive into the M3 Architecture</h1>
+    <div class="article-meta">
+      <span>Written By: FixIt Staff</span>
+      <span>|</span>
+      <span>Difficulty: Moderate</span>
+      <span>|</span>
+      <span>Time Required: 45 Minutes</span>
+    </div>
+
+    <div class="hero-image"></div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">1</div>
+        <div class="step-title">Remove the bottom case</div>
+      </div>
+      <div class="step-content">
+        Before you begin, power down your MacBook and disconnect all external cables. Use a P5 Pentalobe screwdriver to remove the six screws securing the bottom case. Note that two of the screws are longer than the others; keep track of their locations. Once the screws are removed, use a suction cup to lift the bottom case and release the clips.
+        <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?q=80&w=800&auto=format&fit=crop" alt="Screws">
       </div>
     </div>
 
-    <div id="main">
-      <div id="header">
-        <h1 id="page-title">Select a Guide</h1>
-        <div class="meta-bar">
-          <div class="meta-item"><span class="difficulty">Moderate</span></div>
-          <div class="meta-item">|</div>
-          <div class="meta-item">Steps: <span id="step-count">0</span></div>
-          <div class="meta-item">|</div>
-          <div class="meta-item">Author: iFixit Team</div>
-        </div>
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">2</div>
+        <div class="step-title">Disconnect the battery</div>
+      </div>
+      <div class="step-content">
+        The battery connector is located near the center of the logic board. Use a spudger to carefully lift the black retaining bar, then disconnect the battery ribbon cable. This is a crucial safety step to prevent short circuits while you work on the rest of the components.
+      </div>
+    </div>
+  </div>
+
+  <!-- THE HIDDEN CHAT: Live Support Widget -->
+  <div id="chat-widget">
+    <div class="widget-header">
+      <div class="widget-title"><div class="status-dot"></div> Live Repair Support</div>
+      <div style="font-size: 0.8rem; color: var(--text-muted);">Online</div>
+    </div>
+    
+    <div class="widget-body">
+      <div class="widget-channels" id="channel-list">
+        <!-- Channels injected here -->
       </div>
       
       <div id="messages">
-        <!-- Steps injected here -->
-        <div style="text-align: center; color: var(--text-muted); padding: 3rem;">Select a guide from the left to view steps.</div>
+        <div style="text-align: center; color: var(--text-muted); font-size: 0.8rem; padding: 1rem;">Select a channel to connect to a technician.</div>
       </div>
       
       <div id="composer">
-        <h3>Add a Step</h3>
         <form id="send-form">
-          <input id="message-input" type="text" placeholder="Describe the next step in the teardown process..." autocomplete="off" disabled />
-          <button type="submit" id="send-btn" disabled>Post Step</button>
+          <input id="message-input" type="text" placeholder="Ask a tech..." autocomplete="off" disabled />
+          <button type="submit" id="send-btn" disabled>Send</button>
         </form>
       </div>
     </div>
@@ -138,36 +163,34 @@
     let eventSource = null;
 
     const channelListEl = document.getElementById('channel-list');
-    const pageTitleEl = document.getElementById('page-title');
-    const stepCountEl = document.getElementById('step-count');
     const messagesEl = document.getElementById('messages');
     const inputEl = document.getElementById('message-input');
     const formEl = document.getElementById('send-form');
     const sendBtn = document.getElementById('send-btn');
 
-    // Render sidebar
+    // Render sidebar (as small widget tabs)
     Object.keys(CHANNELS).forEach(channelName => {
       const div = document.createElement('div');
-      div.className = 'channel';
-      const formattedName = channelName.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-      div.textContent = formattedName + ' Teardown';
-      div.onclick = () => selectChannel(channelName, formattedName);
+      div.className = 'w-channel';
+      const formattedName = channelName.substring(0, 8); // shorten names for widget
+      div.textContent = formattedName;
+      div.title = channelName;
+      div.onclick = () => selectChannel(channelName, div);
       channelListEl.appendChild(div);
     });
 
-    function selectChannel(channelName, formattedName) {
+    function selectChannel(channelName, element) {
       currentChannel = channelName;
       
-      document.querySelectorAll('.channel').forEach(el => {
-        el.classList.toggle('active', el.textContent === formattedName + ' Teardown');
+      document.querySelectorAll('.w-channel').forEach(el => {
+        el.classList.toggle('active', el === element);
       });
       
-      pageTitleEl.textContent = `${formattedName} Teardown Guide`;
       inputEl.disabled = false;
       sendBtn.disabled = false;
       inputEl.focus();
       
-      messagesEl.innerHTML = '<div style="text-align: center; color: var(--text-muted); padding: 3rem;">Loading steps...</div>';
+      messagesEl.innerHTML = '<div style="text-align: center; color: var(--text-muted); font-size: 0.8rem; padding: 1rem;">Connecting to technician...</div>';
       loadMessages();
 
       if (!eventSource) {
@@ -188,47 +211,32 @@
         const data = await res.json();
         
         messagesEl.innerHTML = '';
-        stepCountEl.textContent = data.length;
-        
         if (data.length === 0) {
-            messagesEl.innerHTML = '<div style="text-align: center; color: var(--text-muted); padding: 3rem;">No steps recorded yet.</div>';
+            messagesEl.innerHTML = '<div style="text-align: center; color: var(--text-muted); font-size: 0.8rem; padding: 1rem;">No messages yet.</div>';
         } else {
-            data.forEach((msg, index) => appendMessage(msg, index + 1));
+            data.forEach(appendMessage);
+            messagesEl.scrollTop = messagesEl.scrollHeight;
         }
       } catch (err) {
-        messagesEl.innerHTML = '<div style="text-align: center; color: #ef4444; padding: 3rem;">Error loading guide steps.</div>';
+        messagesEl.innerHTML = '<div style="text-align: center; color: #ef4444; font-size: 0.8rem; padding: 1rem;">Connection error.</div>';
       }
     }
 
-    function appendMessage(msg, index) {
+    function appendMessage(msg) {
       if (document.querySelector(`[data-id="${msg.id}"]`)) return;
 
       const div = document.createElement('div');
-      div.className = 'step-card';
+      div.className = 'msg';
       div.dataset.id = msg.id;
       
       const safeContent = msg.content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-      const timeString = new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       
-      // Disguise username as a technician
-      const techName = msg.author.charAt(0).toUpperCase() + msg.author.slice(1);
-
-      // Calculate step number (if it's a new message, use the current count)
-      const stepNum = index || document.querySelectorAll('.step-card').length + 1;
-
       div.innerHTML = `
-        <div class="step-number">${stepNum}</div>
-        <div class="step-content-wrapper">
-          <div class="step-header">
-            <div class="step-author">
-              ${techName} <span class="author-badge">Tech</span>
-            </div>
-            <div class="step-time">${timeString}</div>
-          </div>
-          <div class="step-body">${safeContent}</div>
-        </div>
+        <div class="msg-author">${msg.author}</div>
+        <div class="msg-text">${safeContent}</div>
       `;
       messagesEl.appendChild(div);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
     }
 
     formEl.addEventListener('submit', async (e) => {
