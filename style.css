@@ -375,7 +375,8 @@ code {
 }
 
 .chat-messages {
-  flex: 1;
+  flex: 1 1 auto; /* Allows messages to shrink and scroll properly */
+  min-height: 0;   /* Crucial for flex child scrolling */
   padding: 12px;
   overflow-y: auto;
   display: flex;
@@ -407,6 +408,16 @@ code {
   align-items: center;
 }
 
+.chat-input-area {
+  flex: 0 0 auto;  /* Locks input area height so it never gets pushed down */
+  padding: 10px 12px;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
 .chat-input-area textarea {
   flex: 1;
   height: 38px;
@@ -430,7 +441,6 @@ code {
   cursor: pointer;
   white-space: nowrap;
 }
-
 /* ==========================================
    MOBILE RESPONSIVENESS
    ========================================== */
