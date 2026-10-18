@@ -104,12 +104,14 @@ app.get('/api/messages', async (req, res) => {
   }
 });
 
-app.post('/api/verify', (req, res) => {
+app.post('/api/verify', (express.json()), (req, res) => {
   const { password } = req.body;
-  if (password === "T3chRep@ir26!") {
-    res.json({ success: true });
+  
+  // Compare against environment variable securely
+  if (password === process.env.TECH_PASSWORD) {
+    return res.json({ success: true });
   } else {
-    res.status(403).json({ success: false, error: 'Invalid password' });
+    return res.status(401).json({ success: false, error: 'Invalid Password' });
   }
 });
 
