@@ -314,7 +314,7 @@ code {
   right: 0;
   width: 360px;
   max-width: calc(100vw - 40px);
-  height: 440px;
+  height: 460px;
   background: rgba(13, 10, 26, 0.95);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -399,16 +399,17 @@ code {
 }
 
 .chat-input-area {
-  padding: 12px;
+  padding: 10px 12px;
   background: var(--bg-card);
   border-top: 1px solid var(--border-color);
   display: flex;
-  flex-direction: column;
   gap: 8px;
+  align-items: center;
 }
 
-.chat-input-area input, .chat-input-area textarea {
-  width: 100%;
+.chat-input-area textarea {
+  flex: 1;
+  height: 38px;
   background: var(--bg-input);
   border: 1px solid var(--border-subtle);
   border-radius: 5px;
@@ -422,11 +423,12 @@ code {
   background: var(--accent-purple);
   color: #fff;
   border: none;
-  padding: 8px;
+  padding: 8px 14px;
   border-radius: 5px;
   font-weight: 600;
   font-size: 0.8rem;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 /* ==========================================
