@@ -3,131 +3,77 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FixIt Core | Acer Wiki Reference</title>
+  <title>FixIt Core | Acer Repair Protocols</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Banner Section First -->
   <div class="banner-container">
     <img src="images/banner.jpg" alt="FixIt Core Banner" class="site-banner">
   </div>
 
-  <!-- Top Navigation Bar Below Banner -->
   <nav class="site-nav">
-    <a href="index.html" class="active">Home</a>
+    <a href="index.html">Home</a>
     <a href="dell.html">Dell</a>
     <a href="hp.html">HP</a>
     <a href="lenovo.html">Lenovo</a>
     <a href="asus.html">ASUS</a>
-    <a href="acer.html">Acer</a>
+    <a href="acer.html" class="active">Acer</a>
     <a href="razer.html">Razer</a>
     <a href="samsung.html">Samsung</a>
     <a href="surface.html">Surface</a>
   </nav>
 
   <header>
-    <h1>FixIt Core Technical Wiki</h1>
-    <p>Hardware Repair Tips and Useful Commands</p>
+    <h1>Acer Hardware Servicing Guide</h1>
+    <p>Aspire, Predator, Nitro & Swift Protocols</p>
   </header>
-  
-  <!-- Rest of your wiki container... -->
 
   <div class="wiki-container">
     <aside class="wiki-sidebar">
       <div class="sidebar-title">Article Index</div>
       <ul class="sidebar-links">
-        <li><a href="#models"><span>▸</span> Model Classification</a></li>
-        <li><a href="#keys"><span>▸</span> Firmware & Boot Keys</a></li>
-        <li><a href="#codes"><span>▸</span> LED & Fault Codes</a></li>
-        <li><a href="#servicing"><span>▸</span> Servicing Protocols</a></li>
+        <li><a href="#acer-keys"><span>▸</span> Boot Keys & Enabling F12</a></li>
+        <li><a href="#acer-pinhole"><span>▸</span> Battery Reset Pinhole</a></li>
       </ul>
     </aside>
 
     <main class="wiki-content">
-      <div class="wiki-section-header" id="models">Acer Model Comparison</div>
+      <div class="wiki-section-header">Acer Hardware Reference</div>
 
-      <div class="guide-card">
-        <img src="images/acer main.jpg" alt="Acer Laptops" class="guide-img">
-        <h3>Consumer vs. Gaming Tier Overview</h3>
-        <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; color: var(--text-muted);">
-          <thead>
-            <tr style="border-bottom: 1px solid var(--border-color); text-align: left; color: var(--text-main);">
-              <th style="padding: 8px;">Series</th>
-              <th style="padding: 8px;">Target Class</th>
-              <th style="padding: 8px;">RAM Config</th>
-              <th style="padding: 8px;">Servicing Highlights</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom: 1px solid var(--border-subtle);">
-              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Aspire / Swift</td>
-              <td style="padding: 8px;">Consumer Budget / Ultra</td>
-              <td style="padding: 8px;">Onboard / Dual SODIMM</td>
-              <td style="padding: 8px;">Fragile plastic hinge mountings.</td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--border-subtle);">
-              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Nitro 5 / 16</td>
-              <td style="padding: 8px;">Gaming Mid-Range</td>
-              <td style="padding: 8px;">Dual SODIMM Slots</td>
-              <td style="padding: 8px;">Dual fans, secondary M.2 slot and SATA cable adapter.</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Predator Helios / Triton</td>
-              <td style="padding: 8px;">Gaming High-End</td>
-              <td style="padding: 8px;">Dual SODIMM Modular</td>
-              <td style="padding: 8px;">Liquid metal cooling on select CPUs, heavy heatpipes.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="guide-card" id="keys">
-        <h3>Firmware & Diagnostic Key Combinations</h3>
+      <div class="guide-card" id="acer-keys">
+        <h3>Acer Startup Keys</h3>
         <ul>
-          <li><strong>BIOS Setup:</strong> Tap <code>F2</code> repeatedly on startup.</li>
-          <li><strong>One-Time Boot Menu:</strong> Tap <code>F12</code> on startup (Requires enabling <em>"F12 Boot Menu"</em> inside BIOS main tab first).</li>
-          <li><strong>Factory Recovery:</strong> Hold <code>Alt + F10</code> during startup splash screen.</li>
-          <li><strong>Battery Disablement Pinhole:</strong> Disconnect AC adapter, press bottom pinhole button for 4 seconds, and pause 5 minutes before re-powering.</li>
+          <li><strong>BIOS Setup:</strong> Press <code>F2</code> repeatedly at boot.</li>
+          <li><strong>Boot Menu (F12):</strong> By default, Acer disables the <code>F12</code> boot menu. You must enter BIOS (<code>F2</code>), navigate to Main -> set <code>F12 Boot Menu</code> to <strong>Enabled</strong>, then press <code>F10</code> to save.</li>
+          <li><strong>System Recovery:</strong> Press <code>Alt + F10</code> at power-on to invoke Acer eRecovery Management.</li>
         </ul>
       </div>
 
-      <div class="guide-card" id="codes">
-        <h3>LED Fault Behavior & Diagnostics</h3>
+      <div class="guide-card" id="acer-pinhole">
+        <h3>Battery Reset Pinhole Switch</h3>
+        <p style="color: var(--text-muted); font-size: 0.88rem;">Acer laptops feature a physical battery interlock microswitch on the lower chassis:</p>
         <ul>
-          <li><strong>Blinking Amber Power LED:</strong> Battery charge below critical state or charger voltage drop.</li>
-          <li><strong>Blinking Blue LED:</strong> System in Modern Standby / Sleep state wake freeze.</li>
-          <li><strong>No LED Output with AC Connected:</strong> Tripped input protection MOSFET or blown power rail inductor.</li>
+          <li>Unplug the charger. Insert a paperclip into the battery pinhole on the bottom case for <strong>4 seconds</strong>.</li>
+          <li>Allow the system to sit idle for 5 minutes before plugging in AC power and re-booting.</li>
         </ul>
-      </div>
-
-      <div class="guide-card" id="servicing">
-        <img src="images/battery-replacement.jpg" alt="Acer Servicing" class="guide-img">
-        <h3>Acer Disassembly & Safety Switch</h3>
-        <ol>
-          <li><strong>Interlock Safety Switch:</strong> Modern Acer mainboards feature a mechanical micro-switch un-pressed by the base panel. If the bottom cover is loose, the laptop will not power on from battery.</li>
-          <li><strong>Hinge Reinforcement:</strong> Always unfasten Acer display hinges before lifting mainboard assemblies to prevent brass standoff tearing.</li>
-        </ol>
       </div>
     </main>
   </div>
 
-  <!-- FLOATING SUPPORT CHAT WIDGET -->
-  <div class="chat-widget-container">
-    <button class="chat-toggle-btn" onclick="toggleChat()">Support Chat</button>
+  <footer style="text-align: center; padding: 40px 0 20px 0; color: var(--text-dim); font-size: 0.75rem;">
+    <span>FixIt Core Hardware Wiki &copy; 2026</span>
+  </footer>
+
+  <!-- FLOATING HELP CHAT WIDGET -->
+  <div class="chat-widget-container" id="chat-widget-root" style="display: none;">
+    <button class="chat-toggle-btn" onclick="toggleChat()">Help Chat</button>
     <div class="chat-popup-panel" id="chat-panel">
-      <div class="chat-header">
-        <span id="chat-header-title">Support Chat</span>
+      <div class="chat-header" id="chat-header-bar" title="Double-click to lock & hide chat">
+        <span id="chat-header-title">Help Chat</span>
         <button class="close-btn" onclick="toggleChat()">✕</button>
       </div>
-      <div id="auth-gate" style="padding: 20px; text-align: center; display: flex; flex-direction: column; gap: 12px; justify-content: center; height: 100%;">
-        <h4 style="color: var(--accent-purple);">Restricted Access</h4>
-        <p style="color: var(--text-muted); font-size: 0.85rem;">Please log in to receive support.</p>
-        <input type="text" id="gateway-username" placeholder="Username">
-        <input type="password" id="gateway-password" placeholder="Password">
-        <button onclick="unlockChat()">Login</button>
-      </div>
-      <div id="chat-interface" style="display: none; flex-direction: column; height: 100%;">
+      <div id="chat-interface" style="display: flex; flex-direction: column; height: 100%;">
         <div class="channel-selector">
           <button class="channel-btn active" data-channel="GEN" onclick="selectChannel('GEN')">GEN</button>
           <button class="channel-btn" data-channel="IGC" onclick="selectChannel('IGC')">IGC</button>
@@ -138,7 +84,7 @@
           <button class="channel-btn" data-channel="SEC" onclick="selectChannel('SEC')">SEC</button>
         </div>
         <div class="chat-messages" id="message-container">
-          <div class="message"><span class="author">[System]</span> Logged in. Acer stream active.</div>
+          <div class="message"><span class="author">[System]</span> Logged in. Stream active.</div>
         </div>
         <div class="chat-input-area">
           <textarea id="message-input" rows="2" placeholder="Type message..."></textarea>
@@ -151,34 +97,48 @@
   <script>
     let activeChannel = "GEN";
     let activePassword = "";
-    let activeUsername = "WebUser";
+    let activeUsername = "";
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedPass = localStorage.getItem('chat_pass');
+      const savedUser = localStorage.getItem('chat_user');
+      if (savedPass && savedUser) {
+        verifyAndActivate(savedPass, savedUser);
+      }
+
+      const chatHeader = document.getElementById('chat-header-bar');
+      if (chatHeader) {
+        chatHeader.addEventListener('dblclick', () => {
+          localStorage.removeItem('chat_pass');
+          localStorage.removeItem('chat_user');
+          location.reload();
+        });
+      }
+    });
 
     function toggleChat() {
       const panel = document.getElementById('chat-panel');
       panel.style.display = panel.style.display === 'flex' ? 'none' : 'flex';
     }
 
-    async function unlockChat() {
-      const pwdInput = document.getElementById('gateway-password').value;
-      const userInput = document.getElementById('gateway-username').value;
-      if (userInput) activeUsername = userInput;
-
+    async function verifyAndActivate(password, username) {
       try {
         const res = await fetch('/api/verify', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ password: pwdInput })
+          body: JSON.stringify({ password: password })
         });
         const data = await res.json();
         if (data.success) {
-          activePassword = pwdInput;
-          document.getElementById('auth-gate').style.display = 'none';
-          document.getElementById('chat-interface').style.display = 'flex';
-          document.getElementById('chat-header-title').textContent = `Support Chat (${activeUsername})`;
+          activePassword = password;
+          activeUsername = username;
+          document.getElementById('chat-widget-root').style.display = 'block';
+          document.getElementById('chat-header-title').textContent = `Help Chat (${username})`;
           fetchHistory();
           initStream();
         } else {
-          alert('Access Denied: Invalid Password.');
+          localStorage.removeItem('chat_pass');
+          localStorage.removeItem('chat_user');
         }
       } catch (err) {
         console.error('Auth error:', err);

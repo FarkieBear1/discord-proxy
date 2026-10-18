@@ -3,19 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FixIt Core | Surface Wiki Reference</title>
+  <title>FixIt Core | Microsoft Surface Repair Protocols</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Banner Section First -->
   <div class="banner-container">
     <img src="images/banner.jpg" alt="FixIt Core Banner" class="site-banner">
   </div>
 
-  <!-- Top Navigation Bar Below Banner -->
   <nav class="site-nav">
-    <a href="index.html" class="active">Home</a>
+    <a href="index.html">Home</a>
     <a href="dell.html">Dell</a>
     <a href="hp.html">HP</a>
     <a href="lenovo.html">Lenovo</a>
@@ -23,109 +21,59 @@
     <a href="acer.html">Acer</a>
     <a href="razer.html">Razer</a>
     <a href="samsung.html">Samsung</a>
-    <a href="surface.html">Surface</a>
+    <a href="surface.html" class="active">Surface</a>
   </nav>
 
   <header>
-    <h1>FixIt Core Technical Wiki</h1>
-    <p>Hardware Repair Tips and Useful Commands</p>
+    <h1>Microsoft Surface Servicing Guide</h1>
+    <p>Surface Pro, Surface Laptop & Surface Studio Notes</p>
   </header>
-  
-  <!-- Rest of your wiki container... -->
 
   <div class="wiki-container">
     <aside class="wiki-sidebar">
       <div class="sidebar-title">Article Index</div>
       <ul class="sidebar-links">
-        <li><a href="#models"><span>▸</span> Model Classification</a></li>
-        <li><a href="#keys"><span>▸</span> Firmware & Boot Keys</a></li>
-        <li><a href="#codes"><span>▸</span> Screen Symbols</a></li>
-        <li><a href="#servicing"><span>▸</span> Servicing Protocols</a></li>
+        <li><a href="#surface-keys"><span>▸</span> Hardware Button Combinations</a></li>
+        <li><a href="#surface-ssd"><span>▸</span> Modular M.2 Door Access</a></li>
       </ul>
     </aside>
 
     <main class="wiki-content">
-      <div class="wiki-section-header" id="models">Microsoft Surface Series Overview</div>
+      <div class="wiki-section-header">Microsoft Surface Reference</div>
 
-      <div class="guide-card">
-        <img src="images/surface main.jpg" alt="Surface Lineup" class="guide-img">
-        <h3>Surface Form Factor Overview</h3>
-        <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; color: var(--text-muted);">
-          <thead>
-            <tr style="border-bottom: 1px solid var(--border-color); text-align: left; color: var(--text-main);">
-              <th style="padding: 8px;">Series</th>
-              <th style="padding: 8px;">Form Factor</th>
-              <th style="padding: 8px;">SSD Modular?</th>
-              <th style="padding: 8px;">Servicing Highlights</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom: 1px solid var(--border-subtle);">
-              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Surface Pro (7+/8/9/10)</td>
-              <td style="padding: 8px;">Tablet 2-in-1</td>
-              <td style="padding: 8px;">Yes (M.2 2230 Door)</td>
-              <td style="padding: 8px;">Screen display tape adhesive heat application required.</td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--border-subtle);">
-              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Surface Laptop (3/4/5/6)</td>
-              <td style="padding: 8px;">Clamshell Ultrabook</td>
-              <td style="padding: 8px;">Yes (M.2 2230 Door)</td>
-              <td style="padding: 8px;">Torx screws under feet; Alcantara or Metal deck options.</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Surface Laptop Studio</td>
-              <td style="padding: 8px;">Dual-Hinge Workstation</td>
-              <td style="padding: 8px;">Yes (M.2 2230 Door)</td>
-              <td style="padding: 8px;">Dual fan vents, intricate ribbon hinge routes.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="guide-card" id="keys">
-        <h3>Firmware & Diagnostic Key Combinations</h3>
+      <div class="guide-card" id="surface-keys">
+        <h3>Surface Firmware Button Combinations</h3>
         <ul>
-          <li><strong>Surface UEFI Setup:</strong> Hold <code>Volume Up</code>, press/release Power button, release Volume Up when logo appears.</li>
-          <li><strong>USB Boot Menu:</strong> Hold <code>Volume Down</code>, press/release Power button, release Volume Down when logo appears.</li>
-          <li><strong>Forced Hard Reset:</strong> Hold Power button for 20 seconds straight to reset embedded controller.</li>
+          <li><strong>UEFI BIOS Menu:</strong> Press and hold <code>Volume Up</code>, press Power once, then release <code>Volume Up</code> when the Surface logo appears.</li>
+          <li><strong>USB Boot Override:</strong> Press and hold <code>Volume Down</code>, press Power once, then release <code>Volume Down</code> when spinning dots appear under the logo.</li>
+          <li><strong>Hard Reboot / Forced Shutdown:</strong> Hold the Power button for <strong>20 seconds</strong> until the screen turns off and reboots.</li>
         </ul>
       </div>
 
-      <div class="guide-card" id="codes">
-        <h3>Boot Logos & Screen Indicators</h3>
+      <div class="guide-card" id="surface-ssd">
+        <h3>Modular M.2 2230 Door (Modern Surface)</h3>
+        <p style="color: var(--text-muted); font-size: 0.88rem;">Surface Pro 7+, 8, 9, 10 and Surface Laptop 3, 4, 5, 6 include accessible SSD doors:</p>
         <ul>
-          <li><strong>Red Screen Background:</strong> Trusted Platform Module (TPM) security keys disabled.</li>
-          <li><strong>Drive Icon with Red X:</strong> Internal SSD missing or unreadable.</li>
+          <li>Pop open the magnetic door under the kickstand using a SIM eject tool or pin.</li>
+          <li>Unscrew the single Torx T3 screw securing the M.2 2230 drive module.</li>
         </ul>
-      </div>
-
-      <div class="guide-card" id="servicing">
-        <img src="images/drive-replacement.jpg" alt="Surface Servicing" class="guide-img">
-        <h3>Surface SSD Upgrade & Heat Mat Rules</h3>
-        <ol>
-          <li><strong>M.2 2230 Door Access:</strong> Modern Surface devices utilize a magnetic or screw door under the kickstand/feet housing an M.2 2230 NVMe drive.</li>
-          <li><strong>Screen Removal Heat:</strong> Surface Pro displays require a heat pad at 80°C for 10 minutes before cutting perimeter display tape with guitar prying picks.</li>
-        </ol>
       </div>
     </main>
   </div>
 
-  <!-- FLOATING SUPPORT CHAT WIDGET -->
-  <div class="chat-widget-container">
-    <button class="chat-toggle-btn" onclick="toggleChat()">Support Chat</button>
+  <footer style="text-align: center; padding: 40px 0 20px 0; color: var(--text-dim); font-size: 0.75rem;">
+    <span>FixIt Core Hardware Wiki &copy; 2026</span>
+  </footer>
+
+  <!-- FLOATING HELP CHAT WIDGET -->
+  <div class="chat-widget-container" id="chat-widget-root" style="display: none;">
+    <button class="chat-toggle-btn" onclick="toggleChat()">Help Chat</button>
     <div class="chat-popup-panel" id="chat-panel">
-      <div class="chat-header">
-        <span id="chat-header-title">Support Chat</span>
+      <div class="chat-header" id="chat-header-bar" title="Double-click to lock & hide chat">
+        <span id="chat-header-title">Help Chat</span>
         <button class="close-btn" onclick="toggleChat()">✕</button>
       </div>
-      <div id="auth-gate" style="padding: 20px; text-align: center; display: flex; flex-direction: column; gap: 12px; justify-content: center; height: 100%;">
-        <h4 style="color: var(--accent-purple);">Restricted Access</h4>
-        <p style="color: var(--text-muted); font-size: 0.85rem;">Please log in to receive support.</p>
-        <input type="text" id="gateway-username" placeholder="Username">
-        <input type="password" id="gateway-password" placeholder="Password">
-        <button onclick="unlockChat()">Login</button>
-      </div>
-      <div id="chat-interface" style="display: none; flex-direction: column; height: 100%;">
+      <div id="chat-interface" style="display: flex; flex-direction: column; height: 100%;">
         <div class="channel-selector">
           <button class="channel-btn active" data-channel="GEN" onclick="selectChannel('GEN')">GEN</button>
           <button class="channel-btn" data-channel="IGC" onclick="selectChannel('IGC')">IGC</button>
@@ -136,7 +84,7 @@
           <button class="channel-btn" data-channel="SEC" onclick="selectChannel('SEC')">SEC</button>
         </div>
         <div class="chat-messages" id="message-container">
-          <div class="message"><span class="author">[System]</span> Logged in. Surface stream active.</div>
+          <div class="message"><span class="author">[System]</span> Logged in. Stream active.</div>
         </div>
         <div class="chat-input-area">
           <textarea id="message-input" rows="2" placeholder="Type message..."></textarea>
@@ -149,34 +97,48 @@
   <script>
     let activeChannel = "GEN";
     let activePassword = "";
-    let activeUsername = "WebUser";
+    let activeUsername = "";
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedPass = localStorage.getItem('chat_pass');
+      const savedUser = localStorage.getItem('chat_user');
+      if (savedPass && savedUser) {
+        verifyAndActivate(savedPass, savedUser);
+      }
+
+      const chatHeader = document.getElementById('chat-header-bar');
+      if (chatHeader) {
+        chatHeader.addEventListener('dblclick', () => {
+          localStorage.removeItem('chat_pass');
+          localStorage.removeItem('chat_user');
+          location.reload();
+        });
+      }
+    });
 
     function toggleChat() {
       const panel = document.getElementById('chat-panel');
       panel.style.display = panel.style.display === 'flex' ? 'none' : 'flex';
     }
 
-    async function unlockChat() {
-      const pwdInput = document.getElementById('gateway-password').value;
-      const userInput = document.getElementById('gateway-username').value;
-      if (userInput) activeUsername = userInput;
-
+    async function verifyAndActivate(password, username) {
       try {
         const res = await fetch('/api/verify', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ password: pwdInput })
+          body: JSON.stringify({ password: password })
         });
         const data = await res.json();
         if (data.success) {
-          activePassword = pwdInput;
-          document.getElementById('auth-gate').style.display = 'none';
-          document.getElementById('chat-interface').style.display = 'flex';
-          document.getElementById('chat-header-title').textContent = `Support Chat (${activeUsername})`;
+          activePassword = password;
+          activeUsername = username;
+          document.getElementById('chat-widget-root').style.display = 'block';
+          document.getElementById('chat-header-title').textContent = `Help Chat (${username})`;
           fetchHistory();
           initStream();
         } else {
-          alert('Access Denied: Invalid Password.');
+          localStorage.removeItem('chat_pass');
+          localStorage.removeItem('chat_user');
         }
       } catch (err) {
         console.error('Auth error:', err);

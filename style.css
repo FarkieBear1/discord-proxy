@@ -58,7 +58,7 @@ body {
 }
 
 /* ==========================================
-   NAVIGATION BAR (Now Under Banner)
+   NAVIGATION BAR
    ========================================== */
 .site-nav {
   display: flex;
@@ -187,7 +187,7 @@ header p {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  min-width: 0; /* Prevents tables from blowing out grid on mobile */
+  min-width: 0;
 }
 
 .wiki-section-header {
@@ -209,7 +209,7 @@ header p {
   border-radius: 8px;
   padding: 24px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
-  overflow-x: auto; /* Enables horizontal scrolling for wide tables on mobile */
+  overflow-x: auto;
 }
 
 .guide-img {
@@ -337,6 +337,8 @@ code {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
+  user-select: none;
 }
 
 .chat-header button.close-btn {
@@ -428,7 +430,7 @@ code {
 }
 
 /* ==========================================
-   MOBILE RESPONSIVENESS MEDIA QUERY
+   MOBILE RESPONSIVENESS
    ========================================== */
 @media (max-width: 900px) {
   body {

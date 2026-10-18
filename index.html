@@ -13,7 +13,7 @@
     <img src="images/banner.jpg" alt="FixIt Core Banner" class="site-banner">
   </div>
 
-  <!-- Top Navigation Bar (Positioned Below Banner) -->
+  <!-- Top Navigation Bar Below Banner -->
   <nav class="site-nav">
     <a href="index.html" class="active">Home</a>
     <a href="dell.html">Dell</a>
@@ -32,7 +32,7 @@
   </header>
 
   <div class="wiki-container">
-    <!-- LEFT SIDEBAR: Article Index -->
+    <!-- LEFT SIDEBAR -->
     <aside class="wiki-sidebar">
       <div class="sidebar-title">Article Index</div>
       <ul class="sidebar-links">
@@ -44,7 +44,7 @@
       </ul>
     </aside>
 
-    <!-- RIGHT CONTENT: Main Guides -->
+    <!-- RIGHT CONTENT -->
     <main class="wiki-content">
       <div class="wiki-section-header">Central Hardware Reference</div>
 
@@ -123,7 +123,7 @@
         </table>
       </div>
 
-      <!-- CONSUMER VS BUSINESS IDENTIFICATION GUIDE -->
+      <!-- CONSUMER VS BUSINESS GUIDE -->
       <div class="guide-card" id="tier-guide">
         <h3>Consumer vs. Business Tier Identification Guide</h3>
         <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 12px;">How to quickly assess chassis construction, repairability, and hardware features upon intake.</p>
@@ -160,7 +160,7 @@
         </table>
       </div>
 
-      <!-- BENCHTOP REPAIR PROTOCOLS -->
+      <!-- BENCHTOP PROTOCOLS -->
       <div class="guide-card" id="bench-tips">
         <img src="images/battery-replacement.jpg" alt="Benchtop Servicing" class="guide-img">
         <h3>Essential Benchtop Repair Best Practices</h3>
@@ -197,7 +197,7 @@
         </ol>
       </div>
 
-      <!-- HIDDEN LOGIN MODAL (Only opens via secret trigger) -->
+      <!-- HIDDEN LOGIN MODAL -->
       <div id="secret-login-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(5, 3, 12, 0.85); backdrop-filter: blur(10px); z-index: 2000; align-items: center; justify-content: center;">
         <div class="guide-card" style="width: 380px; border-color: var(--accent-purple); box-shadow: 0 0 30px var(--accent-glow); position: relative;">
           <button onclick="closeSecretPortal()" style="position: absolute; top: 12px; right: 14px; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1rem;">✕</button>
@@ -216,19 +216,18 @@
     </main>
   </div>
 
-  <!-- INNOCENT LOOKING FOOTER WITH HIDDEN TRIGGER -->
+  <!-- FOOTER WITH SECRET TRIGGER -->
   <footer style="text-align: center; padding: 40px 0 20px 0; color: var(--text-dim); font-size: 0.75rem;">
     <span>FixIt Core Hardware Wiki &copy; 2026</span>
-    <!-- Triple-clicking this period opens the secret login window -->
     <span id="secret-trigger" onclick="handleSecretClick()" style="cursor: default; user-select: none;">.</span>
   </footer>
 
-  <!-- FLOATING HELP CHAT WIDGET (Hidden by default) -->
+  <!-- FLOATING HELP CHAT WIDGET -->
   <div class="chat-widget-container" id="chat-widget-root" style="display: none;">
     <button class="chat-toggle-btn" onclick="toggleChat()">Help Chat</button>
     
     <div class="chat-popup-panel" id="chat-panel">
-      <div class="chat-header">
+      <div class="chat-header" id="chat-header-bar" title="Double-click to lock & hide chat">
         <span id="chat-header-title">Help Chat</span>
         <button class="close-btn" onclick="toggleChat()">✕</button>
       </div>
@@ -262,16 +261,24 @@
     let activeUsername = "WebUser";
     let clickCount = 0;
 
-    // Check saved session on startup
     window.addEventListener('DOMContentLoaded', () => {
       const savedPass = localStorage.getItem('chat_pass');
       const savedUser = localStorage.getItem('chat_user');
       if (savedPass && savedUser) {
         verifyAndActivate(savedPass, savedUser, true);
       }
+
+      // Double-click chat header to lock and hide chat across all pages
+      const chatHeader = document.getElementById('chat-header-bar');
+      if (chatHeader) {
+        chatHeader.addEventListener('dblclick', () => {
+          localStorage.removeItem('chat_pass');
+          localStorage.removeItem('chat_user');
+          location.reload();
+        });
+      }
     });
 
-    // Hidden trigger: Click the period at the end of "2026." 3 times fast to reveal login
     function handleSecretClick() {
       clickCount++;
       if (clickCount >= 3) {
@@ -316,7 +323,6 @@
           localStorage.setItem('chat_pass', password);
           localStorage.setItem('chat_user', username);
 
-          // Reveal floating chat button
           document.getElementById('chat-widget-root').style.display = 'block';
           document.getElementById('chat-header-title').textContent = `Help Chat (${username})`;
           closeSecretPortal();

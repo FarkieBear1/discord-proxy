@@ -3,21 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FixIt Core | HP Wiki Reference</title>
+  <title>FixIt Core | HP Repair Protocols</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Banner Section First -->
   <div class="banner-container">
     <img src="images/banner.jpg" alt="FixIt Core Banner" class="site-banner">
   </div>
 
-  <!-- Top Navigation Bar Below Banner -->
   <nav class="site-nav">
-    <a href="index.html" class="active">Home</a>
+    <a href="index.html">Home</a>
     <a href="dell.html">Dell</a>
-    <a href="hp.html">HP</a>
+    <a href="hp.html" class="active">HP</a>
     <a href="lenovo.html">Lenovo</a>
     <a href="asus.html">ASUS</a>
     <a href="acer.html">Acer</a>
@@ -27,116 +25,58 @@
   </nav>
 
   <header>
-    <h1>FixIt Core Technical Wiki</h1>
-    <p>Hardware Repair Tips and Useful Commands</p>
+    <h1>HP Hardware Servicing Guide</h1>
+    <p>EliteBook, ProBook, Pavilion & Spectre Protocols</p>
   </header>
-  
-  <!-- Rest of your wiki container... -->
 
   <div class="wiki-container">
     <aside class="wiki-sidebar">
       <div class="sidebar-title">Article Index</div>
       <ul class="sidebar-links">
-        <li><a href="#models"><span>▸</span> Model Classification</a></li>
-        <li><a href="#keys"><span>▸</span> Firmware & Boot Keys</a></li>
-        <li><a href="#codes"><span>▸</span> Caps Lock Blink Codes</a></li>
-        <li><a href="#servicing"><span>▸</span> Servicing Protocols</a></li>
+        <li><a href="#hp-keys"><span>▸</span> Startup Keys</a></li>
+        <li><a href="#hp-recovery"><span>▸</span> BIOS Recovery Key Combination</a></li>
       </ul>
     </aside>
 
     <main class="wiki-content">
-      <div class="wiki-section-header" id="models">HP Model Comparison</div>
+      <div class="wiki-section-header">HP Hardware Reference</div>
 
-      <div class="guide-card">
-        <img src="images/HP-Main.jpg" alt="HP Laptops" class="guide-img">
-        <h3>Consumer vs. Business Tier Overview</h3>
-        <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; color: var(--text-muted);">
-          <thead>
-            <tr style="border-bottom: 1px solid var(--border-color); text-align: left; color: var(--text-main);">
-              <th style="padding: 8px;">Series</th>
-              <th style="padding: 8px;">Target Class</th>
-              <th style="padding: 8px;">RAM Config</th>
-              <th style="padding: 8px;">Servicing Highlights</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom: 1px solid var(--border-subtle);">
-              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Pavilion / Envy</td>
-              <td style="padding: 8px;">Consumer Entry / Mid</td>
-              <td style="padding: 8px;">Dual SODIMM / Onboard</td>
-              <td style="padding: 8px;">Hidden screws beneath adhesive rubber strips.</td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--border-subtle);">
-              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Spectre</td>
-              <td style="padding: 8px;">Consumer Premium</td>
-              <td style="padding: 8px;">LPDDR Soldered</td>
-              <td style="padding: 8px;">Ultra-thin ribbon cables, Torx T5 chassis.</td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--border-subtle);">
-              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">EliteBook / ProBook</td>
-              <td style="padding: 8px;">Business Enterprise</td>
-              <td style="padding: 8px;">Dual SODIMM / Modular</td>
-              <td style="padding: 8px;">HP Sure Start chip, captive bottom screws.</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">ZBook</td>
-              <td style="padding: 8px;">Workstation</td>
-              <td style="padding: 8px;">Up to 4 SODIMM slots</td>
-              <td style="padding: 8px;">Dual fan cooling, tool-less door on select models.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="guide-card" id="keys">
-        <h3>Firmware & Diagnostic Key Combinations</h3>
+      <div class="guide-card" id="hp-keys">
+        <h3>HP Startup Keys</h3>
         <ul>
-          <li><strong>BIOS Setup:</strong> Tap <code>F10</code> repeatedly on system startup.</li>
-          <li><strong>One-Time Boot Menu:</strong> Tap <code>F9</code> on power-on.</li>
-          <li><strong>Hardware Diagnostics:</strong> Tap <code>F2</code> repeatedly to boot into HP Hardware Diagnostics.</li>
-          <li><strong>Emergency BIOS Recovery:</strong> Hold <code>Windows Key + B</code> (or <code>Win + V</code>) and press Power for 3 seconds to re-flash recovery image.</li>
+          <li><strong>BIOS Setup:</strong> Press <code>F10</code> repeatedly at power-on.</li>
+          <li><strong>Boot Menu:</strong> Press <code>F9</code> to select startup devices.</li>
+          <li><strong>Startup Menu:</strong> Press <code>Esc</code> immediately upon pressing power to show all firmware options.</li>
+          <li><strong>Hardware Diagnostics:</strong> Press <code>F2</code> for HP UEFI System Diagnostics.</li>
         </ul>
       </div>
 
-      <div class="guide-card" id="codes">
-        <h3>Caps Lock / Num Lock LED Blink Patterns</h3>
-        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 12px;">Diagnostic format: [Long Blinks] - [Pause] - [Short Blinks]</p>
-        <ul>
-          <li><strong>3 Long, 2 Short:</strong> Memory module error (Unseated or bad SODIMM).</li>
-          <li><strong>2 Long, 2 Short:</strong> BIOS main image corrupt / Recovery needed.</li>
-          <li><strong>5 Long, 3 Short:</strong> Embedded Controller (EC) firmware timeout fault.</li>
-          <li><strong>3 Long, 5 Short:</strong> CPU not detected or missing core power rail.</li>
-        </ul>
-      </div>
-
-      <div class="guide-card" id="servicing">
-        <img src="images/drive-replacement.jpg" alt="HP Repair Protocols" class="guide-img">
-        <h3>HP Disassembly & Servicing Tips</h3>
+      <div class="guide-card" id="hp-recovery">
+        <h3>Emergency BIOS Rollback (Win + B)</h3>
+        <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 10px;">If an HP laptop exhibits black screen / caps lock blinking failure codes:</p>
         <ol>
-          <li><strong>Adhesive Foot Extraction:</strong> Use heat guns on low setting before peeling rubber feet strips to preserve adhesive backing.</li>
-          <li><strong>Sure Start Security:</strong> Replacing motherboard chips on EliteBooks requires authentic HP BIOS flash chips to satisfy cryptographic verification.</li>
-          <li><strong>RTC Battery Circuit:</strong> HP laptops often lack physical coin cell batteries; CMOS state clears when internal main battery is isolated for 60 seconds.</li>
+          <li>Power off the unit completely.</li>
+          <li>Press and hold the <code>Windows Key + B</code>.</li>
+          <li>While holding those keys, press and hold the Power button for 2–3 seconds, then release Power (continue holding <code>Win + B</code>).</li>
+          <li>Release keys when the screen turns on and the HP BIOS Update screen appears.</li>
         </ol>
       </div>
     </main>
   </div>
 
-  <!-- FLOATING SUPPORT CHAT WIDGET -->
-  <div class="chat-widget-container">
-    <button class="chat-toggle-btn" onclick="toggleChat()">Support Chat</button>
+  <footer style="text-align: center; padding: 40px 0 20px 0; color: var(--text-dim); font-size: 0.75rem;">
+    <span>FixIt Core Hardware Wiki &copy; 2026</span>
+  </footer>
+
+  <!-- FLOATING HELP CHAT WIDGET -->
+  <div class="chat-widget-container" id="chat-widget-root" style="display: none;">
+    <button class="chat-toggle-btn" onclick="toggleChat()">Help Chat</button>
     <div class="chat-popup-panel" id="chat-panel">
-      <div class="chat-header">
-        <span id="chat-header-title">Support Chat</span>
+      <div class="chat-header" id="chat-header-bar" title="Double-click to lock & hide chat">
+        <span id="chat-header-title">Help Chat</span>
         <button class="close-btn" onclick="toggleChat()">✕</button>
       </div>
-      <div id="auth-gate" style="padding: 20px; text-align: center; display: flex; flex-direction: column; gap: 12px; justify-content: center; height: 100%;">
-        <h4 style="color: var(--accent-purple);">Restricted Access</h4>
-        <p style="color: var(--text-muted); font-size: 0.85rem;">Please log in to receive support.</p>
-        <input type="text" id="gateway-username" placeholder="Username">
-        <input type="password" id="gateway-password" placeholder="Password">
-        <button onclick="unlockChat()">Login</button>
-      </div>
-      <div id="chat-interface" style="display: none; flex-direction: column; height: 100%;">
+      <div id="chat-interface" style="display: flex; flex-direction: column; height: 100%;">
         <div class="channel-selector">
           <button class="channel-btn active" data-channel="GEN" onclick="selectChannel('GEN')">GEN</button>
           <button class="channel-btn" data-channel="IGC" onclick="selectChannel('IGC')">IGC</button>
@@ -147,7 +87,7 @@
           <button class="channel-btn" data-channel="SEC" onclick="selectChannel('SEC')">SEC</button>
         </div>
         <div class="chat-messages" id="message-container">
-          <div class="message"><span class="author">[System]</span> Logged in. HP stream active.</div>
+          <div class="message"><span class="author">[System]</span> Logged in. Stream active.</div>
         </div>
         <div class="chat-input-area">
           <textarea id="message-input" rows="2" placeholder="Type message..."></textarea>
@@ -160,34 +100,48 @@
   <script>
     let activeChannel = "GEN";
     let activePassword = "";
-    let activeUsername = "WebUser";
+    let activeUsername = "";
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedPass = localStorage.getItem('chat_pass');
+      const savedUser = localStorage.getItem('chat_user');
+      if (savedPass && savedUser) {
+        verifyAndActivate(savedPass, savedUser);
+      }
+
+      const chatHeader = document.getElementById('chat-header-bar');
+      if (chatHeader) {
+        chatHeader.addEventListener('dblclick', () => {
+          localStorage.removeItem('chat_pass');
+          localStorage.removeItem('chat_user');
+          location.reload();
+        });
+      }
+    });
 
     function toggleChat() {
       const panel = document.getElementById('chat-panel');
       panel.style.display = panel.style.display === 'flex' ? 'none' : 'flex';
     }
 
-    async function unlockChat() {
-      const pwdInput = document.getElementById('gateway-password').value;
-      const userInput = document.getElementById('gateway-username').value;
-      if (userInput) activeUsername = userInput;
-
+    async function verifyAndActivate(password, username) {
       try {
         const res = await fetch('/api/verify', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ password: pwdInput })
+          body: JSON.stringify({ password: password })
         });
         const data = await res.json();
         if (data.success) {
-          activePassword = pwdInput;
-          document.getElementById('auth-gate').style.display = 'none';
-          document.getElementById('chat-interface').style.display = 'flex';
-          document.getElementById('chat-header-title').textContent = `Support Chat (${activeUsername})`;
+          activePassword = password;
+          activeUsername = username;
+          document.getElementById('chat-widget-root').style.display = 'block';
+          document.getElementById('chat-header-title').textContent = `Help Chat (${username})`;
           fetchHistory();
           initStream();
         } else {
-          alert('Access Denied: Invalid Password.');
+          localStorage.removeItem('chat_pass');
+          localStorage.removeItem('chat_user');
         }
       } catch (err) {
         console.error('Auth error:', err);
