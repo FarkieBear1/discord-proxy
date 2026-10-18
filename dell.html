@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FixIt Core | Dell Diagnostics & Chat</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <nav class="site-nav">
+    <a href="index.html">Hub & Chat</a>
+    <a href="dell.html" class="active">Dell</a>
+    <a href="hp.html">HP</a>
+    <a href="lenovo.html">Lenovo</a>
+    <a href="asus.html">ASUS</a>
+  </nav>
+
+  <header>
+    <h1>Dell Hardware Reference</h1>
+    <p>BIOS Keys, Amber/White LED Codes, & Servicing Protocols</p>
+  </header>
+
+  <div class="container">
+    <!-- LEFT COLUMN: Dell Specific Guides & Diagnostics -->
+    <div class="guides-section">
+      <h2>Dell Repair Protocols</h2>
+      
+      <div class="guide-card">
+        <h3>🔑 Dell Firmware & Boot Keys</h3>
+        <ul>
+          <li><strong>BIOS / UEFI Setup:</strong> Tap <strong style="color: var(--accent-cyan);">F2</strong> repeatedly immediately upon startup.</li>
+          <li><strong>One-Time Boot Menu:</strong> Tap <strong style="color: var(--accent-cyan);">F12</strong> repeatedly immediately upon powering on.</li>
+          <li><strong>Built-in LCD Self-Test (BIST):</strong> Hold down the <strong style="color: var(--accent-cyan);">D</strong> key while powering on the laptop to test screen matrix pixels.</li>
+          <li><strong>SupportAssist Diagnostics:</strong> Triggered automatically on hardware fault or via the F12 boot menu.</li>
+        </ul>
+      </div>
+
+      <div class="guide-card">
+        <h3>🚨 Dell Amber / White Power LED Codes</h3>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 10px;">Format: [Amber Blinks] - Pause - [White Blinks]</p>
+        <ul>
+          <li><strong>2, 1:</strong> Processor (CPU) failure or motherboard slot fault</li>
+          <li><strong>2, 3:</strong> System board, memory, or CMOS battery failure</li>
+          <li><strong>2, 4:</strong> RAM memory detection failure (Reseat or swap DIMMs)</li>
+          <li><strong>2, 7:</strong> Display failure (LCD connection or eDP ribbon cable)</li>
+          <li><strong>3, 1:</strong> Real-Time Clock (RTC) power failure / Dead CMOS coin cell</li>
+          <li><strong>3, 6:</strong> Flash corruption detected / BIOS recovery needed</li>
+        </ul>
+      </div>
+
+      <div class="guide-card">
+        <h3>🔋 Dell Battery Replacement Procedure</h3>
+        <ol>
+          <li><strong>Health Check:</strong> Run `powercfg /batteryreport` via administrative command prompt to audit cycle counts.</li>
+          <li><strong>Safe Shutdown:</strong> Power down completely and disconnect the AC adapter. Do not service while in Modern Standby.</li>
+          <li><strong>Chassis Access:</strong> Remove Torx T5 or Phillips fasteners from the bottom base cover. Use non-marring spudgers around the clips.</li>
+          <li><strong>Primary Isolation:</strong> Disconnect the internal battery connector straight and parallel *before* touching storage or RAM.</li>
+          <li><strong>Residual Discharge:</strong> Hold the power button down for 15 seconds to drain logic board capacitors.</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: Live Chat Widget -->
+    <div class="chat-section">
+      <div class="chat-header">SECURE CHAT BRIDGE</div>
+      
+      <!-- Shorthand Channel Selector -->
+      <div class="channel-selector">
+        <button class="channel-btn active" data-channel="GEN" onclick="selectChannel('GEN')">GEN</button>
+        <button class="channel-btn" data-channel="IGC" onclick="selectChannel('IGC')">IGC</button>
+        <button class="channel-btn" data-channel="JL" onclick="selectChannel('JL')">JL</button>
+        <button class="channel-btn" data-channel="COM" onclick="selectChannel('COM')">COM</button>
+        <button class="channel-btn" data-channel="L" onclick="selectChannel('L')">L</button>
+        <button class="channel-btn" data-channel="S" onclick="selectChannel('S')">S</button>
+        <button class="channel-btn" data-channel="SEC" onclick="selectChannel('SEC')">SEC</button>
+      </div>
+
+      <!-- Messages Feed -->
+      <div class="chat-messages" id="message-container">
+        <div class="message">
+          <span class="author">[System]</span> Dell reference stream active.
+        </div>
+      </div>
+
+      <!-- Input Controls -->
+      <div class="chat-input-area">
+        <input type="text" id="username-input" placeholder="Technician Name" value="WebUser">
+        <input type="password" id="password-input" placeholder="Technician ID / Password">
+        <textarea id="message-input" rows="2" placeholder="Type transmission..."></textarea>
+        <button onclick="handleSend()">Transmit Message</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let activeChannel = "GEN";
+
+    function selectChannel(code) {
+      activeChannel = code;
+      document.querySelectorAll('.channel-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-channel') === code);
+      });
+      fetchHistory();
+    }
+
+    async function fetchHistory() {
+      try {
+        const res = await fetch(`/api/messages?channel=${activeChannel}`);
+        const data = await res.json();
+        const container = document.getElementById('message-container');
+        if (Array.isArray(data)) {
+          container.innerHTML = data.map(m => `
+            <div class="message">
+              <span class="author">${m.author}:</span> ${m.content}
+            </div>
+          `).join('');
+          container.scrollTop = container.scrollHeight;
+        }
+      } catch (err) {
+        console.error('Failed to load history:', err);
+      }
+    }
+
+    async function sendMessage(content, password, username) {
+      try {
+        const res = await fetch('/api/messages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            content: content,
+            password: password,
+            username: username,
+            channel: activeChannel
+          })
+        });
+        const data = await res.json();
+        if (!res.ok) alert('Error: ' + (data.error || 'Failed to transmit'));
+      } catch (err) {
+        console.error('Send error:', err);
+      }
+    }
+
+    function handleSend() {
+      const content = document.getElementById('message-input').value;
+      const password = document.getElementById('password-input').value;
+      const username = document.getElementById('username-input').value;
+      
+      if (!content) return;
+      
+      sendMessage(content, password, username);
+      document.getElementById('message-input').value = '';
+    }
+
+    // Connect to Server-Sent Events (SSE) Stream
+    const eventSource = new EventSource('/api/stream');
+    eventSource.onmessage = (event) => {
+      const msg = JSON.parse(event.data);
+      if (msg.channel === activeChannel) {
+        const container = document.getElementById('message-container');
+        container.innerHTML += `
+          <div class="message">
+            <span class="author">${msg.author}:</span> ${msg.content}
+          </div>
+        `;
+        container.scrollTop = container.scrollHeight;
+      }
+    };
+
+    fetchHistory();
+  </script>
+</body>
+</html>

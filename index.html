@@ -3,10 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FixIt Core | Hardware Diagnostics & Bridge</title>
+  <title>FixIt Core | Central Hub & Chat Bridge</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+  <!-- Top Navigation Bar -->
+  <nav class="site-nav">
+    <a href="index.html" class="active">Hub & Chat</a>
+    <a href="dell.html">Dell</a>
+    <a href="hp.html">HP</a>
+    <a href="lenovo.html">Lenovo</a>
+    <a href="asus.html">ASUS</a>
+  </nav>
 
   <header>
     <h1>FixIt Core Diagnostics</h1>
@@ -14,17 +23,17 @@
   </header>
 
   <div class="container">
-    <!-- LEFT COLUMN: Repair Guides & Diagnostics -->
+    <!-- LEFT COLUMN: Repair Protocols Overview -->
     <div class="guides-section">
-      <h2>Repair Protocols</h2>
+      <h2>General Hardware Protocols</h2>
       
       <div class="guide-card">
         <h3>🔋 Battery Replacement Protocol</h3>
         <ol>
-          <li><strong>Preliminary Health Audit:</strong> Verify hardware failure via OS battery reports and cycle counts.</li>
+          <li><strong>Preliminary Health Audit:</strong> Verify hardware failure via OS battery reports (`powercfg /batteryreport`) and cycle counts.</li>
           <li><strong>Safe De-Energization:</strong> Power down completely, disconnect AC power, and remove all peripherals.</li>
           <li><strong>ESD Isolation:</strong> Work on a grounded ESD mat and remove bottom cover fasteners.</li>
-          <li><strong>Primary Circuit Isolation:</strong> Disconnect the internal battery connector straight and parallel.</li>
+          <li><strong>Primary Circuit Isolation:</strong> Disconnect the internal battery connector straight and parallel before touching logic board components.</li>
           <li><strong>Fastener Extraction:</strong> Remove securing screws or pull stretch-release adhesive tabs safely.</li>
           <li><strong>Post-Installation:</strong> Power on via AC adapter first to verify system charge recognition.</li>
         </ol>
@@ -33,8 +42,8 @@
       <div class="guide-card">
         <h3>💻 Display Assembly Protocol</h3>
         <ol>
-          <li><strong>Failure Isolation:</strong> Confirm fault originates in panel matrix or eDP cable.</li>
-          <li><strong>Power Shutdown:</strong> Shut down system and disconnect internal battery before touching cables.</li>
+          <li><strong>Failure Isolation:</strong> Confirm fault originates in panel matrix or eDP cable using an external monitor.</li>
+          <li><strong>Power Shutdown:</strong> Shut down system and disconnect internal battery before touching display connectors.</li>
           <li><strong>Hinge & Antenna Exposure:</strong> Detach hinge covers and unseat Wi-Fi/webcam ribbon cables.</li>
           <li><strong>Lid Separation:</strong> Carefully unclip snap-fit bezels using non-marring plastic spudgers.</li>
           <li><strong>Pre-Closure Test:</strong> Reconnect battery temporarily to verify pixel and backlight integrity.</li>
@@ -45,52 +54,15 @@
         <h3>💾 NVMe / Storage Protocol</h3>
         <ol>
           <li><strong>Interface Identification:</strong> Check form factor (M.2 2280 NVMe, SATA, etc.).</li>
-          <li><strong>Data Backup & Safety:</strong> Secure recovery keys and disconnect internal battery power.</li>
+          <li><strong>Data Backup & Safety:</strong> Secure BitLocker recovery keys and disconnect internal battery power.</li>
           <li><strong>Thermal Shield Removal:</strong> Lift away metallic heat shields, preserving thermal pads.</li>
           <li><strong>Drive Extraction:</strong> Remove retention screw at a 30-degree angle and slide out.</li>
           <li><strong>Validation:</strong> Run SMART health checks and read/write benchmarks post-install.</li>
         </ol>
       </div>
-
-      <!-- NEW: Beep & Light Codes Card -->
-      <div class="guide-card">
-        <h3>🚨 Diagnostic Beep & Light Codes Reference</h3>
-        
-        <h4>Dell (Amber / White Power LED Flashes)</h4>
-        <ul>
-          <li><strong>2, 1:</strong> System board failure / Processor failure</li>
-          <li><strong>2, 3:</strong> System board or RAM detection failure</li>
-          <li><strong>2, 4:</strong> Memory / RAM failure</li>
-          <li><strong>2, 7:</strong> Display failure (LCD connection or GPU)</li>
-          <li><strong>3, 3:</strong> Recovery image not found</li>
-        </ul>
-
-        <h4>HP (Caps Lock / Num Lock Flashes & Beeps)</h4>
-        <ul>
-          <li><strong>1 Flash / Beep:</strong> CPU not functional</li>
-          <li><strong>2 Flashes / Beeps:</strong> BIOS corruption or failure</li>
-          <li><strong>3 Flashes / Beeps:</strong> Memory / RAM module error or unseated</li>
-          <li><strong>4 Flashes / Beeps:</strong> Graphics controller / GPU failure</li>
-          <li><strong>5 Flashes / Beeps:</strong> System board general failure</li>
-        </ul>
-
-        <h4>Lenovo ThinkPad (Diagnostic Tones & LEDs)</h4>
-        <ul>
-          <li><strong>3 Short + 1 Long Beep:</strong> System board / RAM failure</li>
-          <li><strong>4 Cycles of 4 Short Beeps:</strong> Security chip error / System board issue</li>
-          <li><strong>5 Short Beeps:</strong> System board failure (CMOS / Power circuit)</li>
-        </ul>
-
-        <h4>ASUS / Standard AMI BIOS (POST Beeps)</h4>
-        <ul>
-          <li><strong>1 Short Beep:</strong> Normal POST successful (System OK)</li>
-          <li><strong>1 Long, 2 Short Beeps:</strong> RAM memory module error</li>
-          <li><strong>1 Long, 3 Short Beeps:</strong> Display / Graphics card error</li>
-        </ul>
-      </div>
     </div>
 
-    <!-- RIGHT COLUMN: Secure Live Chat Widget -->
+    <!-- RIGHT COLUMN: Live Chat Widget -->
     <div class="chat-section">
       <div class="chat-header">SECURE CHAT BRIDGE</div>
       
@@ -196,7 +168,7 @@
       }
     };
 
-    // Load initial messages on page load
+    // Initial message load
     fetchHistory();
   </script>
 </body>

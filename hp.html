@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FixIt Core | HP Diagnostics & Chat</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <nav class="site-nav">
+    <a href="index.html">Hub & Chat</a>
+    <a href="dell.html">Dell</a>
+    <a href="hp.html" class="active">HP</a>
+    <a href="lenovo.html">Lenovo</a>
+    <a href="asus.html">ASUS</a>
+  </nav>
+
+  <header>
+    <h1>HP Hardware Reference</h1>
+    <p>BIOS Keys, Caps Lock Blink Codes, & Servicing Protocols</p>
+  </header>
+
+  <div class="container">
+    <!-- LEFT COLUMN: HP Specific Guides & Diagnostics -->
+    <div class="guides-section">
+      <h2>HP Repair Protocols</h2>
+      
+      <div class="guide-card">
+        <h3>🔑 HP Firmware & Boot Keys</h3>
+        <ul>
+          <li><strong>BIOS / UEFI Setup:</strong> Tap <strong style="color: var(--accent-cyan);">F10</strong> repeatedly immediately upon startup.</li>
+          <li><strong>One-Time Boot Menu:</strong> Tap <strong style="color: var(--accent-cyan);">F9</strong> repeatedly immediately upon powering on.</li>
+          <li><strong>System Diagnostics:</strong> Tap <strong style="color: var(--accent-cyan);">F2</strong> on startup to load HP PC Hardware Diagnostics UEFI.</li>
+          <li><strong>BIOS Recovery (Win + B / Win + V):</strong> Hold Windows Key + B or V while powering on, then press power for 2-3 seconds to recover corrupted BIOS.</li>
+        </ul>
+      </div>
+
+      <div class="guide-card">
+        <h3>🚨 HP Caps Lock / Num Lock LED Blink Codes</h3>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 10px;">Format: [Long Blinks (Power/Caps)] - [Short Blinks (Beeps)]</p>
+        <ul>
+          <li><strong>1 Long, 1 Short:</strong> CPU not functional or missing processor.</li>
+          <li><strong>2 Long, 2 Short:</strong> BIOS corruption, CMOS failure, or block read error.</li>
+          <li><strong>3 Long, 3 Short:</strong> Memory (RAM) module error, missing, or unseated.</li>
+          <li><strong>4 Long, 4 Short:</strong> Graphics controller (GPU) failure or display initialization error.</li>
+          <li><strong>5 Long, 5 Short:</strong> System board general failure or power plane fault.</li>
+        </ul>
+      </div>
+
+      <div class="guide-card">
+        <h3>🔋 HP EliteBook / Pavilion Battery Servicing</h3>
+        <ol>
+          <li><strong>Disassembly Prep:</strong> Power down completely and disconnect all external cables. Unscrew bottom chassis captive screws.</li>
+          <li><strong>Rubber Foot Extraction:</strong> Note that many modern HP models hide screws underneath adhesive rubber strips; peel carefully using a heat gun or spudger.</li>
+          <li><strong>Logic Board Isolation:</strong> Disconnect the main battery cable from the system board connector parallel to the board.</li>
+          <li><strong>CMOS Hard Reset:</strong> If servicing bricked boards, disconnect the internal RTC coin cell / CMOS battery alongside main power for 30 seconds.</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: Live Chat Widget -->
+    <div class="chat-section">
+      <div class="chat-header">SECURE CHAT BRIDGE</div>
+      
+      <!-- Shorthand Channel Selector -->
+      <div class="channel-selector">
+        <button class="channel-btn active" data-channel="GEN" onclick="selectChannel('GEN')">GEN</button>
+        <button class="channel-btn" data-channel="IGC" onclick="selectChannel('IGC')">IGC</button>
+        <button class="channel-btn" data-channel="JL" onclick="selectChannel('JL')">JL</button>
+        <button class="channel-btn" data-channel="COM" onclick="selectChannel('COM')">COM</button>
+        <button class="channel-btn" data-channel="L" onclick="selectChannel('L')">L</button>
+        <button class="channel-btn" data-channel="S" onclick="selectChannel('S')">S</button>
+        <button class="channel-btn" data-channel="SEC" onclick="selectChannel('SEC')">SEC</button>
+      </div>
+
+      <!-- Messages Feed -->
+      <div class="chat-messages" id="message-container">
+        <div class="message">
+          <span class="author">[System]</span> HP reference stream active.
+        </div>
+      </div>
+
+      <!-- Input Controls -->
+      <div class="chat-input-area">
+        <input type="text" id="username-input" placeholder="Technician Name" value="WebUser">
+        <input type="password" id="password-input" placeholder="Technician ID / Password">
+        <textarea id="message-input" rows="2" placeholder="Type transmission..."></textarea>
+        <button onclick="handleSend()">Transmit Message</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let activeChannel = "GEN";
+
+    function selectChannel(code) {
+      activeChannel = code;
+      document.querySelectorAll('.channel-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-channel') === code);
+      });
+      fetchHistory();
+    }
+
+    async function fetchHistory() {
+      try {
+        const res = await fetch(`/api/messages?channel=${activeChannel}`);
+        const data = await res.json();
+        const container = document.getElementById('message-container');
+        if (Array.isArray(data)) {
+          container.innerHTML = data.map(m => `
+            <div class="message">
+              <span class="author">${m.author}:</span> ${m.content}
+            </div>
+          `).join('');
+          container.scrollTop = container.scrollHeight;
+        }
+      } catch (err) {
+        console.error('Failed to load history:', err);
+      }
+    }
+
+    async function sendMessage(content, password, username) {
+      try {
+        const res = await fetch('/api/messages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            content: content,
+            password: password,
+            username: username,
+            channel: activeChannel
+          })
+        });
+        const data = await res.json();
+        if (!res.ok) alert('Error: ' + (data.error || 'Failed to transmit'));
+      } catch (err) {
+        console.error('Send error:', err);
+      }
+    }
+
+    function handleSend() {
+      const content = document.getElementById('message-input').value;
+      const password = document.getElementById('password-input').value;
+      const username = document.getElementById('username-input').value;
+      
+      if (!content) return;
+      
+      sendMessage(content, password, username);
+      document.getElementById('message-input').value = '';
+    }
+
+    // Connect to Server-Sent Events (SSE) Stream
+    const eventSource = new EventSource('/api/stream');
+    eventSource.onmessage = (event) => {
+      const msg = JSON.parse(event.data);
+      if (msg.channel === activeChannel) {
+        const container = document.getElementById('message-container');
+        container.innerHTML += `
+          <div class="message">
+            <span class="author">${msg.author}:</span> ${msg.content}
+          </div>
+        `;
+        container.scrollTop = container.scrollHeight;
+      }
+    };
+
+    fetchHistory();
+  </script>
+</body>
+</html>

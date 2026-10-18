@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FixIt Core | Lenovo Diagnostics & Chat</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <nav class="site-nav">
+    <a href="index.html">Hub & Chat</a>
+    <a href="dell.html">Dell</a>
+    <a href="hp.html">HP</a>
+    <a href="lenovo.html" class="active">Lenovo</a>
+    <a href="asus.html">ASUS</a>
+  </nav>
+
+  <header>
+    <h1>Lenovo Hardware Reference</h1>
+    <p>BIOS Keys, Diagnostic Tone Sequences, & Servicing Protocols</p>
+  </header>
+
+  <div class="container">
+    <!-- LEFT COLUMN: Lenovo Specific Guides & Diagnostics -->
+    <div class="guides-section">
+      <h2>Lenovo Repair Protocols</h2>
+      
+      <div class="guide-card">
+        <h3>🔑 Lenovo Firmware & Boot Keys</h3>
+        <ul>
+          <li><strong>BIOS / UEFI Setup:</strong> Tap <strong style="color: var(--accent-cyan);">F1</strong> or <strong style="color: var(--accent-cyan);">Enter</strong> (then F1) repeatedly immediately upon startup.</li>
+          <li><strong>One-Time Boot Menu:</strong> Tap <strong style="color: var(--accent-cyan);">F12</strong> repeatedly immediately upon powering on.</li>
+          <li><strong>Interrupt Startup Screen:</strong> Press the <strong style="color: var(--accent-cyan);">Fn</strong> or any key during the ThinkPad splash screen to display startup menu options.</li>
+          <li><strong>Emergency Reset Hole:</strong> Insert a paperclip into the pinhole reset button on the bottom cover for 10 seconds to cut battery power during hard lockups.</li>
+        </ul>
+      </div>
+
+      <div class="guide-card">
+        <h3>🚨 Lenovo Diagnostic Beeps & Power LED Tones</h3>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 10px;">Format: ThinkPad Audio Beep Sequences & Smart Beep App Codes</p>
+        <ul>
+          <li><strong>1-3-3-1 Beep Pattern:</strong> EEPROM or system board memory error / unseated RAM modules.</li>
+          <li><strong>3 Short + 1 Long Beep:</strong> System board / Motherboard memory controller failure.</li>
+          <li><strong>4 Cycles of 4 Short Beeps:</strong> Security chip (TPM/T2) error or platform authentication failure.</li>
+          <li><strong>5 Short Beeps:</strong> System board failure (CMOS, RTC circuit, or power management chip).</li>
+          <li><strong>Power LED Blinks 3 Times:</strong> Sleep/Resume error or AC adapter wattage mismatch detection.</li>
+        </ul>
+      </div>
+
+      <div class="guide-card">
+        <h3>🔋 ThinkPad Battery & Internal Servicing</h3>
+        <ol>
+          <li><strong>Disable Built-In Battery:</strong> For ThinkPads, always enter BIOS (F1) -> Config -> Power -> **"Disable Built-in Battery"** before servicing, or manually disconnect the internal cable.</li>
+          <li><strong>Rollcage Fastener Extraction:</strong> Remove bottom cover screws (note that many ThinkPads use captive screws that stay attached to the base panel).</li>
+          <li><strong>Keyboard & Palmrest Lift:</strong> On legacy models, keyboard screws must be removed from the bottom before sliding the keyboard forward to access internal ribbons. Modern models use standard bottom-removal assemblies.</li>
+          <li><strong>Thermal Re-pasting:</strong> When servicing heatsinks, clean copper contact plates with 99% isopropyl alcohol and apply high-grade thermal paste.</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: Live Chat Widget -->
+    <div class="chat-section">
+      <div class="chat-header">SECURE CHAT BRIDGE</div>
+      
+      <!-- Shorthand Channel Selector -->
+      <div class="channel-selector">
+        <button class="channel-btn active" data-channel="GEN" onclick="selectChannel('GEN')">GEN</button>
+        <button class="channel-btn" data-channel="IGC" onclick="selectChannel('IGC')">IGC</button>
+        <button class="channel-btn" data-channel="JL" onclick="selectChannel('JL')">JL</button>
+        <button class="channel-btn" data-channel="COM" onclick="selectChannel('COM')">COM</button>
+        <button class="channel-btn" data-channel="L" onclick="selectChannel('L')">L</button>
+        <button class="channel-btn" data-channel="S" onclick="selectChannel('S')">S</button>
+        <button class="channel-btn" data-channel="SEC" onclick="selectChannel('SEC')">SEC</button>
+      </div>
+
+      <!-- Messages Feed -->
+      <div class="chat-messages" id="message-container">
+        <div class="message">
+          <span class="author">[System]</span> Lenovo reference stream active.
+        </div>
+      </div>
+
+      <!-- Input Controls -->
+      <div class="chat-input-area">
+        <input type="text" id="username-input" placeholder="Technician Name" value="WebUser">
+        <input type="password" id="password-input" placeholder="Technician ID / Password">
+        <textarea id="message-input" rows="2" placeholder="Type transmission..."></textarea>
+        <button onclick="handleSend()">Transmit Message</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let activeChannel = "GEN";
+
+    function selectChannel(code) {
+      activeChannel = code;
+      document.querySelectorAll('.channel-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-channel') === code);
+      });
+      fetchHistory();
+    }
+
+    async function fetchHistory() {
+      try {
+        const res = await fetch(`/api/messages?channel=${activeChannel}`);
+        const data = await res.json();
+        const container = document.getElementById('message-container');
+        if (Array.isArray(data)) {
+          container.innerHTML = data.map(m => `
+            <div class="message">
+              <span class="author">${m.author}:</span> ${m.content}
+            </div>
+          `).join('');
+          container.scrollTop = container.scrollHeight;
+        }
+      } catch (err) {
+        console.error('Failed to load history:', err);
+      }
+    }
+
+    async function sendMessage(content, password, username) {
+      try {
+        const res = await fetch('/api/messages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            content: content,
+            password: password,
+            username: username,
+            channel: activeChannel
+          })
+        });
+        const data = await res.json();
+        if (!res.ok) alert('Error: ' + (data.error || 'Failed to transmit'));
+      } catch (err) {
+        console.error('Send error:', err);
+      }
+    }
+
+    function handleSend() {
+      const content = document.getElementById('message-input').value;
+      const password = document.getElementById('password-input').value;
+      const username = document.getElementById('username-input').value;
+      
+      if (!content) return;
+      
+      sendMessage(content, password, username);
+      document.getElementById('message-input').value = '';
+    }
+
+    // Connect to Server-Sent Events (SSE) Stream
+    const eventSource = new EventSource('/api/stream');
+    eventSource.onmessage = (event) => {
+      const msg = JSON.parse(event.data);
+      if (msg.channel === activeChannel) {
+        const container = document.getElementById('message-container');
+        container.innerHTML += `
+          <div class="message">
+            <span class="author">${msg.author}:</span> ${msg.content}
+          </div>
+        `;
+        container.scrollTop = container.scrollHeight;
+      }
+    };
+
+    fetchHistory();
+  </script>
+</body>
+</html>
