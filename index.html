@@ -3,107 +3,116 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FixIt Core | Hardware Repair Tips and Useful Commands</title>
+  <title>FixIt Core | Hardware Repair Tips & Commands</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <!-- Top Navigation Bar -->
-<nav class="site-nav">
-  <a href="index.html">Home</a>
-  <a href="dell.html">Dell</a>
-  <a href="hp.html">HP</a>
-  <a href="lenovo.html">Lenovo</a>
-  <a href="asus.html">ASUS</a>
-  <a href="acer.html">Acer</a>
-  <a href="razer.html">Razer</a>
-  <a href="samsung.html">Samsung</a>
-  <a href="surface.html">Surface</a>
-</nav>
+  <nav class="site-nav">
+    <a href="index.html" class="active">Home</a>
+    <a href="dell.html">Dell</a>
+    <a href="hp.html">HP</a>
+    <a href="lenovo.html">Lenovo</a>
+    <a href="asus.html">ASUS</a>
+    <a href="acer.html">Acer</a>
+    <a href="razer.html">Razer</a>
+    <a href="samsung.html">Samsung</a>
+    <a href="surface.html">Surface</a>
+  </nav>
 
-  <!-- Centered Banner Section -->
+  <!-- Banner Section -->
   <div class="banner-container">
     <img src="images/banner.jpg" alt="FixIt Core Banner" class="site-banner">
   </div>
 
   <header>
-    <h1>FixIt Core</h1>
+    <h1>FixIt Core Technical Wiki</h1>
     <p>Hardware Repair Tips and Useful Commands</p>
   </header>
 
-  <div class="container">
-    <!-- Guides Section -->
-    <div class="guides-section">
-      <h2>Useful Technician Commands & Protocols</h2>
+  <div class="wiki-container">
+    <!-- LEFT SIDEBAR: Index Navigation -->
+    <aside class="wiki-sidebar">
+      <div class="sidebar-title">Article Index</div>
+      <ul class="sidebar-links">
+        <li><a href="#commands"><span>▸</span> System Commands</a></li>
+        <li><a href="#battery"><span>▸</span> Battery Servicing</a></li>
+        <li><a href="#display"><span>▸</span> Display Assemblies</a></li>
+        <li><a href="#storage"><span>▸</span> NVMe & Storage</a></li>
+      </ul>
+    </aside>
 
-      <div class="guide-card">
-        <h3>💻 System Audit Commands</h3>
+    <!-- RIGHT CONTENT: Wiki Guides -->
+    <main class="wiki-content">
+      <div class="wiki-section-header">General Technical Protocols</div>
+
+      <div class="guide-card" id="commands">
+        <h3>System Audit & Terminal Commands</h3>
         <ul>
-          <li><strong>Battery Report:</strong> <code>powercfg /batteryreport /output "C:\battery_report.html"</code></li>
-          <li><strong>System File Checker:</strong> <code>sfc /scannow</code> (Repairs corrupted Windows system files)</li>
-          <li><strong>DISM Image Repair:</strong> <code>DISM /Online /Cleanup-Image /RestoreHealth</code></li>
-          <li><strong>Check Disk Utility:</strong> <code>chkdsk C: /f /r</code> (Scans for sector corruption and file system faults)</li>
-          <li><strong>Drive SMART Health:</strong> <code>wmic diskdrive get status</code> or <code>Get-PhysicalDisk</code> in PowerShell</li>
-          <li><strong>Network Socket Reset:</strong> <code>netsh winsock reset</code> & <code>ipconfig /flushdns</code></li>
+          <li><strong>Battery Health Report:</strong> <code>powercfg /batteryreport /output "C:\battery_report.html"</code></li>
+          <li><strong>System File Repair:</strong> <code>sfc /scannow</code> (Scans and fixes corrupted system files)</li>
+          <li><strong>DISM Image Servicing:</strong> <code>DISM /Online /Cleanup-Image /RestoreHealth</code></li>
+          <li><strong>Disk Error Check:</strong> <code>chkdsk C: /f /r</code> (Identifies sector defects and file system issues)</li>
+          <li><strong>SMART Drive Health:</strong> <code>wmic diskdrive get status</code> or <code>Get-PhysicalDisk</code> in PowerShell</li>
+          <li><strong>Winsock Reset:</strong> <code>netsh winsock reset</code> & <code>ipconfig /flushdns</code></li>
         </ul>
       </div>
 
-      <div class="guide-card">
-        <img src="images/battery-replacement.jpg" alt="Battery Replacement" class="guide-img">
-        <h3>🔋 Battery Replacement Tips</h3>
+      <div class="guide-card" id="battery">
+        <img src="images/battery-replacement.jpg" alt="Battery Servicing" class="guide-img">
+        <h3>Battery Replacement Protocols</h3>
         <ol>
-          <li><strong>Preliminary Health Audit:</strong> Verify capacity degradation and cycle counts using OS battery logs.</li>
-          <li><strong>Safe De-Energization:</strong> Power down completely, disconnect AC power, and unplug all external peripherals.</li>
-          <li><strong>ESD Isolation:</strong> Work on a grounded ESD mat and remove bottom cover fasteners.</li>
-          <li><strong>Primary Circuit Isolation:</strong> Disconnect the internal battery connector straight and parallel before touching logic board components.</li>
-          <li><strong>Residual Drain:</strong> Hold down the power button for 15 seconds after disconnecting the battery to clear capacitors.</li>
+          <li><strong>Health Audit:</strong> Verify hardware capacity degradation and cycle counts using OS battery logs.</li>
+          <li><strong>Safe De-Energization:</strong> Shut down system completely, remove AC power adapter, and unplug peripherals.</li>
+          <li><strong>ESD Protection:</strong> Work on a grounded ESD anti-static mat before unfastening bottom chassis screws.</li>
+          <li><strong>Circuit Isolation:</strong> Disconnect the internal battery connector straight and parallel before touching logic board components.</li>
+          <li><strong>Residual Drain:</strong> Hold the system power button down for 15 seconds after battery detachment to deplete circuit capacitors.</li>
         </ol>
       </div>
 
-      <div class="guide-card">
-        <img src="images/screen-replacement.jpg" alt="Screen Replacement" class="guide-img">
-        <h3>💻 Display Assembly Tips</h3>
+      <div class="guide-card" id="display">
+        <img src="images/screen-replacement.jpg" alt="Display Servicing" class="guide-img">
+        <h3>Display Assembly Protocols</h3>
         <ol>
-          <li><strong>Failure Isolation:</strong> Confirm whether fault originates in the panel matrix or eDP ribbon cable via external display test.</li>
-          <li><strong>Power Isolation:</strong> Always remove main battery power before disconnecting eDP display ribbons to avoid blowing backlight fuses.</li>
-          <li><strong>Bezel Extraction:</strong> Carefully unclip snap-fit bezels using non-marring plastic spudgers.</li>
-          <li><strong>Pre-Closure Test:</strong> Reconnect battery temporarily to verify pixel array and backlight integrity prior to final screw assembly.</li>
+          <li><strong>Isolation Test:</strong> Confirm whether screen failure originates in panel matrix or eDP ribbon cable using external display output.</li>
+          <li><strong>Power Isolation:</strong> Always isolate main battery power prior to disconnecting eDP display cables to prevent blown backlight fuses.</li>
+          <li><strong>Bezel Disassembly:</strong> Unclip plastic bezels carefully using non-marring nylon pry spudgers.</li>
+          <li><strong>Pre-Closure Test:</strong> Temporarily reconnect battery to test pixel matrix and backlight integrity before final reassembly.</li>
         </ol>
       </div>
 
-      <div class="guide-card">
-        <img src="images/drive-replacement.jpg" alt="NVMe Drive Replacement" class="guide-img">
-        <h3>💾 NVMe / Storage Upgrade Tips</h3>
+      <div class="guide-card" id="storage">
+        <img src="images/drive-replacement.jpg" alt="Storage Servicing" class="guide-img">
+        <h3>NVMe & Storage Replacement Protocols</h3>
         <ol>
-          <li><strong>BitLocker Check:</strong> Always suspend BitLocker encryption or back up recovery keys before swapping drives or updating firmware.</li>
-          <li><strong>Thermal Pad Placement:</strong> Re-use or install thermal pads on M.2 heat spreaders to prevent controller throttling.</li>
-          <li><strong>Drive Extraction:</strong> Remove the retention screw at a 30-degree angle and pull straight out.</li>
-          <li><strong>Benchmark & SMART Verification:</strong> Confirm NVMe PCIe link speed and read/write health status post-install.</li>
+          <li><strong>BitLocker Verification:</strong> Suspend BitLocker or verify recovery key availability prior to updating storage hardware.</li>
+          <li><strong>Thermal Pads:</strong> Re-apply or preserve thermal pads on M.2 metal heatsinks to avoid thermal throttling.</li>
+          <li><strong>Extraction Angle:</strong> Remove M.2 retention screw at a 30-degree angle and pull straight out from slot.</li>
+          <li><strong>Validation Checks:</strong> Confirm PCIe link speeds and check SMART status post-installation.</li>
         </ol>
       </div>
-    </div>
+    </main>
   </div>
 
-  <!-- FLOATING SUPPORT CHAT WIDGET (BOTTOM RIGHT) -->
+  <!-- FLOATING SUPPORT CHAT WIDGET -->
   <div class="chat-widget-container">
     <button class="chat-toggle-btn" onclick="toggleChat()">Support Chat</button>
     
     <div class="chat-popup-panel" id="chat-panel">
       <div class="chat-header">
-        <span id="chat-header-title">Support Chat [Locked]</span>
+        <span id="chat-header-title">Support Chat</span>
         <button class="close-btn" onclick="toggleChat()">✕</button>
       </div>
 
-      <!-- PASSWORD GATEWAY -->
       <div id="auth-gate" style="padding: 20px; text-align: center; display: flex; flex-direction: column; gap: 12px; justify-content: center; height: 100%;">
-        <h4 style="color: #a78bfa;">Restricted Access</h4>
+        <h4 style="color: var(--accent-purple);">Restricted Access</h4>
         <p style="color: var(--text-muted); font-size: 0.85rem;">Please log in to receive support.</p>
-        <input type="text" id="gateway-username" placeholder="Username (Any)" style="background: var(--bg-input); border: 1px solid var(--border-color); color: #fff; padding: 8px; border-radius: 4px; text-align: center; font-size: 0.85rem;">
-        <input type="password" id="gateway-password" placeholder="Password" style="background: var(--bg-input); border: 1px solid var(--border-color); color: #fff; padding: 8px; border-radius: 4px; text-align: center; font-size: 0.85rem;">
-        <button onclick="unlockChat()" style="background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue)); color: #fff; border: none; padding: 8px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.85rem;">Login</button>
+        <input type="text" id="gateway-username" placeholder="Username (Any)">
+        <input type="password" id="gateway-password" placeholder="Password">
+        <button onclick="unlockChat()">Login</button>
       </div>
 
-      <!-- CHAT INTERFACE (Hidden until authenticated) -->
       <div id="chat-interface" style="display: none; flex-direction: column; height: 100%;">
         <div class="channel-selector">
           <button class="channel-btn active" data-channel="GEN" onclick="selectChannel('GEN')">GEN</button>
