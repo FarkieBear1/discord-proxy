@@ -15,6 +15,7 @@
       --accent: #007bff;
       --accent-hover: #0056b3;
       --alert: #ef4444;
+      --warning: #ff9900;
       --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
     }
@@ -34,7 +35,7 @@
 
     /* --- MAIN ARTICLE AREA --- */
     #main-content { flex: 1; overflow-y: auto; padding: 2rem 3rem; position: relative; padding-bottom: 120px; }
-    .article-container { max-width: 800px; margin: 0 auto; }
+    .article-container { max-width: 850px; margin: 0 auto; }
     
     .breadcrumb { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; }
     .breadcrumb span { color: var(--accent); cursor: pointer; }
@@ -58,7 +59,11 @@
     .step-body { background: var(--bg-card); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border); line-height: 1.7; color: #d1d5db; font-size: 0.95rem; }
     .step-body ul { margin-left: 1.5rem; margin-top: 0.5rem; margin-bottom: 0.5rem; }
     .step-body li { margin-bottom: 0.5rem; }
-    .warning-box { background: rgba(255, 153, 0, 0.1); border-left: 4px solid #ff9900; padding: 1rem; margin-bottom: 1.5rem; border-radius: 4px; color: #ffd699; font-size: 0.9rem; }
+    .step-body a { color: var(--accent); text-decoration: none; }
+    .step-body a:hover { text-decoration: underline; }
+    
+    .warning-box { background: rgba(255, 153, 0, 0.1); border-left: 4px solid var(--warning); padding: 1rem; margin-bottom: 1.5rem; border-radius: 4px; color: #ffd699; font-size: 0.9rem; }
+    .danger-box { background: rgba(239, 68, 68, 0.1); border-left: 4px solid var(--alert); padding: 1rem; margin-bottom: 1.5rem; border-radius: 4px; color: #fca5a5; font-size: 0.9rem; }
 
     /* Sub-guide links */
     .guide-links { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
@@ -168,354 +173,140 @@
     };
 
     // ==========================================
-    // 2. STATIC REPAIR GUIDES (Page-long guides)
+    // 2. UNIVERSAL GUIDE SECTIONS
+    // ==========================================
+    const SAFETY_BOX = `
+      <div class="danger-box">
+        <strong>Safety and Bench Setup:</strong><br>
+        Back up user data and confirm recovery keys. Shut down fully—not sleep or hibernate. Disconnect AC, docks, USB devices, and all peripherals. Work on a clean, stable, nonconductive surface with ESD protection. Use correctly sized precision drivers, plastic opening picks, tweezers, and a parts tray. Avoid metal tools near batteries and display cables. Keep screws sorted by location and length. After removing the bottom cover, disconnect the internal battery as instructed before touching other internal components. Never work on a powered device.
+      </div>
+    `;
+
+    const BATTERY_STEPS = `
+      <ol>
+        <li>Confirm the battery is actually the failed component. Review the OS battery report and manufacturer diagnostics.</li>
+        <li>Shut down, unplug, remove accessories, and open the bottom cover using the exact model's instructions.</li>
+        <li>Disconnect the internal battery connector by its plug or latch as designed. Pull parallel to the connector.</li>
+        <li>Remove any brackets, speaker/SSD covers, or cables that block access. Document their positions.</li>
+        <li>Remove battery fasteners. For adhesive-mounted batteries, use only the specified pull tabs or approved method.</li>
+        <li>Lift the battery out without bending it. If it resists, stop and check for hidden screws or adhesive.</li>
+        <li>Inspect the bay for corrosion, debris, or liquid damage. Compare the replacement's part number.</li>
+        <li>Install the new battery flat and in its intended orientation. Replace specified adhesive strips.</li>
+        <li>Reconnect the battery only after tools and loose fasteners are removed. Refit the bottom cover.</li>
+        <li>Power on, confirm charging and battery detection, and check manufacturer diagnostics.</li>
+      </ol>
+    `;
+
+    const SCREEN_STEPS = `
+      <ol>
+        <li>Confirm the fault is the panel/display assembly rather than graphics, firmware, or backlight.</li>
+        <li>Power off and disconnect AC. Open the base and disconnect the internal battery.</li>
+        <li>Follow the model service guide to remove the display bezel or entire display assembly.</li>
+        <li>If the procedure requires base disassembly, remove hinge covers and disconnect antenna/camera cables.</li>
+        <li>Support the lid and chassis before removing hinge screws.</li>
+        <li>Remove the display assembly or panel using the manufacturer's sequence. Avoid twisting the lid.</li>
+        <li>Transfer only the parts the service guide specifies (camera modules, brackets, antennas).</li>
+        <li>Install the matching replacement, route cables exactly as original, and seat connectors fully.</li>
+        <li>Before closing completely, reconnect the battery and perform a controlled power-on test.</li>
+        <li>Power off again before final closure. Replace bezel adhesives and inspect hinge movement.</li>
+      </ol>
+    `;
+
+    const DRIVE_STEPS = `
+      <ol>
+        <li>Confirm whether the device has a replaceable M.2 NVMe SSD, 2.5-inch SATA drive, or soldered storage.</li>
+        <li>Back up data, confirm encryption recovery information, and record BIOS/UEFI settings.</li>
+        <li>Shut down, unplug, open the bottom cover, and disconnect the internal battery.</li>
+        <li>Locate the drive and remove its shield, thermal pad, bracket, or retaining screw.</li>
+        <li>Remove an M.2 drive by taking out its retaining screw and sliding it straight out.</li>
+        <li>Install the correct form factor, keying, interface, and capacity supported by the model.</li>
+        <li>Reinstall thermal shields/pads and brackets. Ensure no insulating film is misplaced.</li>
+        <li>Reconnect the battery, close the chassis, and enter BIOS/UEFI to verify drive detection.</li>
+        <li>Install or restore the OS, drivers, firmware, and security tools.</li>
+        <li>If the drive is not detected, power off and recheck compatibility and seating.</li>
+      </ol>
+    `;
+
+    // ==========================================
+    // 3. STATIC REPAIR GUIDES
     // ==========================================
     const REPAIR_GUIDES = {
       "lenovo": {
         name: "Lenovo", 
-        image: "https://images.unsplash.com/photo-1618424181497-157f25b6ddd5?q=80&w=1200&auto=format&fit=crop",
-        battery: { 
-          title: "Lenovo ThinkPad Battery Replacement", 
-          text: `
-            <div class="warning-box"><strong>Warning:</strong> Before beginning, completely power down the laptop and disconnect the AC adapter. Lithium-ion batteries can be dangerous if punctured. Use caution when prying.</div>
-            <strong>Tools Required:</strong> Phillips #1 screwdriver, Plastic Pry Tool (Spudger), Anti-static wrist strap.
-            <br><br>
-            <strong>Step 1: Remove the bottom cover.</strong> Turn the laptop upside down. Using your Phillips #1 screwdriver, remove the 6 to 8 captive screws securing the bottom cover. These screws are designed to stay attached to the cover so you won't lose them. Insert your plastic pry tool into the seam near the hinge and gently work your way around the perimeter until the cover pops off.
-            <br><br>
-            <strong>Step 2: Disconnect the battery.</strong> Locate the battery connector on the motherboard. It is usually a wide, flat ribbon cable. Carefully slide the metal retaining clip backward to unlock the cable, then gently pull the ribbon cable out of its socket. If you skip this step, you risk short-circuiting the motherboard.
-            <br><br>
-            <strong>Step 3: Remove the battery.</strong> Remove the four to six Phillips screws holding the battery to the chassis. Once the screws are out, lift the battery out of the laptop. 
-            <br><br>
-            <strong>Step 4: Install the new battery.</strong> Place the new battery in the same orientation. Secure it with the screws, reconnect the ribbon cable, and push the retaining clip forward to lock it in place. Reattach the bottom cover and test the laptop before tightening all the screws.
-          ` 
-        },
-        screen: { 
-          title: "Lenovo ThinkPad Screen Replacement", 
-          text: `
-            <div class="warning-box"><strong>Warning:</strong> Disconnect the internal battery before attempting any screen replacement to avoid blowing the backlight fuse on the motherboard.</div>
-            <strong>Tools Required:</strong> Phillips #0 screwdriver, Plastic Pry Tool, Tweezers.
-            <br><br>
-            <strong>Step 1: Remove the bottom cover.</strong> Follow the steps to open the laptop and disconnect the internal battery (refer to the battery guide).
-            <br><br>
-            <strong>Step 2: Remove the bezel.</strong> Open the laptop lid. Use your plastic pry tool to carefully separate the display bezel from the LCD panel. Start at the bottom corners where there is usually a small gap. Work your way around the edges. The bezel is held on by plastic clips and double-sided tape, so take your time.
-            <br><br>
-            <strong>Step 3: Remove the panel.</strong> Remove the four screws (two on each side) holding the LCD panel to the hinges. Carefully tilt the panel forward and lay it face down on the keyboard.
-            <br><br>
-            <strong>Step 4: Disconnect the display cable.</strong> Peel back the black tape covering the display connector. Use your tweezers to gently lift the metal latch and pull the wide ribbon cable out.
-            <br><br>
-            <strong>Step 5: Install the new screen.</strong> Connect the cable to the new panel, secure it with tape, and screw the panel back into the hinges. Replace the bezel by pressing it firmly around the edges until it clicks into place.
-          ` 
-        },
-        drive: { 
-          title: "Lenovo ThinkPad Hard Drive (SSD) Replacement", 
-          text: `
-            <strong>Tools Required:</strong> Phillips #1 screwdriver, Plastic Pry Tool.
-            <br><br>
-            <strong>Step 1: Remove the bottom cover.</strong> Power off the laptop, remove the battery if it is external, and unscrew the bottom cover.
-            <br><br>
-            <strong>Step 2: Locate the SSD.</strong> The M.2 SSD is usually covered by a silver metal thermal shield. Remove the single screw holding the shield in place and lift it off.
-            <br><br>
-            <strong>Step 3: Remove the drive.</strong> Remove the single screw at the end of the SSD. The drive will pop up at a 30-degree angle. Grip it by the edges and pull it straight out of the M.2 slot.
-            <br><br>
-            <strong>Step 4: Install the new drive.</strong> Insert the new SSD into the slot at the same 30-degree angle. Push it down flat and secure it with the screw. Replace the thermal shield and the bottom cover.
-          ` 
-        }
+        image: "images/lenovo-main.jpg",
+        note: "Common families: ThinkPad, ThinkBook, IdeaPad, Yoga, Legion, LOQ. Identify the machine type/model (MTM) from the underside label. Some ThinkPads use externally removable batteries; most modern systems use an internal pack. ThinkPad business models may have serviceable bezels. Many performance/business models have an M.2 NVMe SSD.",
+        link: "https://pcsupport.lenovo.com/us/en/solutions/ht516547",
+        battery: { title: "Lenovo Battery Replacement", image: "images/battery-replacement.jpg", text: BATTERY_STEPS },
+        screen: { title: "Lenovo Screen Replacement", image: "images/screen-replacement.jpg", text: SCREEN_STEPS },
+        drive: { title: "Lenovo Hard Drive Replacement", image: "images/drive-replacement.jpg", text: DRIVE_STEPS }
       },
       "asus": {
         name: "ASUS", 
-        image: "https://images.unsplash.com/photo-1589739900266-43b2843f4c12?q=80&w=1200&auto=format&fit=crop",
-        battery: { 
-          title: "ASUS ROG Battery Replacement", 
-          text: `
-            <div class="warning-box"><strong>Warning:</strong> The bottom panel of ROG laptops can be tight. Do not use excessive force with metal tools; use plastic pry tools only.</div>
-            <strong>Tools Required:</strong> Phillips #1 screwdriver, Plastic Pry Tool.
-            <br><br>
-            <strong>Step 1: Remove the bottom panel.</strong> Remove the 10 to 12 Phillips screws from the bottom panel. Pay attention to screw lengths; the ones near the hinges are often longer. Use a plastic pry tool to pop the clips around the edge, starting at the front.
-            <br><br>
-            <strong>Step 2: Disconnect the battery.</strong> Slide the metal clip back and disconnect the battery connector from the motherboard.
-            <br><br>
-            <strong>Step 3: Replace the battery.</strong> Remove the 6 screws holding the battery in place. Lift the old battery out and place the new one in. Secure it with the screws, reconnect the cable, and snap the bottom panel back on.
-          ` 
-        },
-        screen: { 
-          title: "ASUS ROG Screen Replacement", 
-          text: `
-            <div class="warning-box"><strong>Warning:</strong> Disconnect the battery before touching the display cable.</div>
-            <strong>Tools Required:</strong> Phillips #0 screwdriver, Plastic Pry Tool, Guitar Pick.
-            <br><br>
-            <strong>Step 1: Open the lid and remove the bezel.</strong> Use a guitar pick or plastic pry tool to separate the bezel from the LCD panel. Start at the bottom corners and work your way around.
-            <br><br>
-            <strong>Step 2: Remove the LCD panel.</strong> Remove the four screws holding the panel to the hinges. Tilt the panel forward and lay it face down.
-            <br><br>
-            <strong>Step 3: Disconnect the cable.</strong> Peel back the tape and carefully disconnect the display cable. Remove the old panel.
-            <br><br>
-            <strong>Step 4: Install the new panel.</strong> Connect the new panel, screw it into the hinges, and reattach the bezel.
-          ` 
-        },
-        drive: { 
-          title: "ASUS ROG Hard Drive Replacement", 
-          text: `
-            <strong>Tools Required:</strong> Phillips #1 screwdriver, Plastic Pry Tool.
-            <br><br>
-            <strong>Step 1: Open the case.</strong> Remove the bottom panel (10-12 screws).
-            <br><br>
-            <strong>Step 2: Access the SSD.</strong> The M.2 SSD is wrapped in a black thermal shield. Remove the screw holding the shield and peel it back.
-            <br><br>
-            <strong>Step 3: Swap the drive.</strong> Remove the screw at the end of the SSD. Pull the drive out, insert the new one, and secure it. Replace the shield and bottom panel.
-          ` 
-        }
+        image: "images/asus-main.jpg",
+        note: "Common families: Zenbook, Vivobook, ProArt, ROG, TUF. Use the complete model code on ASUS Support. Thin Zenbook and some Vivobook models commonly use internal batteries. OLED, touchscreen, and high-refresh gaming versions can use different display assemblies even within one chassis family. Many gaming models provide M.2 NVMe slots.",
+        link: "https://www.asus.com/us/support/article/1199/",
+        battery: { title: "ASUS Battery Replacement", image: "images/battery-replacement.jpg", text: BATTERY_STEPS },
+        screen: { title: "ASUS Screen Replacement", image: "images/screen-replacement.jpg", text: SCREEN_STEPS },
+        drive: { title: "ASUS Hard Drive Replacement", image: "images/drive-replacement.jpg", text: DRIVE_STEPS }
       },
       "dell": {
         name: "Dell", 
-        image: "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?q=80&w=1200&auto=format&fit=crop",
-        battery: { 
-          title: "Dell XPS Battery Replacement", 
-          text: `
-            <strong>Tools Required:</strong> Torx T5 screwdriver, Phillips #0 screwdriver, Plastic Pry Tool.
-            <br><br>
-            <strong>Step 1: Remove the bottom cover.</strong> Loosen the 8 captive screws on the bottom cover (they will stay attached to the cover). Lift the cover from the hinge side. You may need to use a plastic pry tool to pop the clips.
-            <br><br>
-            <strong>Step 2: Disconnect the battery.</strong> Unplug the battery cable from the motherboard.
-            <br><br>
-            <strong>Step 3: Remove the battery.</strong> Remove the 4 to 6 Phillips screws holding the battery down. Lift the battery out.
-            <br><br>
-            <strong>Step 4: Install the new battery.</strong> Place the new battery, secure the screws, reconnect the cable, and replace the bottom cover.
-          ` 
-        },
-        screen: { 
-          title: "Dell XPS Screen Replacement", 
-          text: `
-            <div class="warning-box"><strong>Warning:</strong> Disconnect the internal battery before touching the display cable.</div>
-            <strong>Tools Required:</strong> Phillips #0 screwdriver, Plastic Pry Tool.
-            <br><br>
-            <strong>Step 1: Disconnect the battery.</strong> Remove the bottom cover and unplug the battery cable.
-            <br><br>
-            <strong>Step 2: Remove the bezel.</strong> Use a plastic pry tool to separate the bezel from the LCD panel, starting at the bottom corners. Work your way around the edges.
-            <br><br>
-            <strong>Step 3: Remove the panel.</strong> Remove the 4 corner screws holding the panel. Lay the panel face down.
-            <br><br>
-            <strong>Step 4: Disconnect the cable.</strong> Lift the metal latch on the display connector and pull the cable out. Install the new panel by reversing the steps.
-          ` 
-        },
-        drive: { 
-          title: "Dell XPS Hard Drive Replacement", 
-          text: `
-            <strong>Tools Required:</strong> Torx T5 screwdriver, Phillips #0 screwdriver.
-            <br><br>
-            <strong>Step 1: Remove the bottom cover.</strong> Loosen the 8 captive screws and lift the cover.
-            <br><br>
-            <strong>Step 2: Access the SSD.</strong> The SSD is located under a metal shield. Remove the shield screw and lift the shield.
-            <br><br>
-            <strong>Step 3: Swap the drive.</strong> Remove the screw at the end of the SSD. Slide the drive out. Insert the new drive, secure it with the screw, replace the shield, and reattach the bottom cover.
-          ` 
-        }
+        image: "images/dell-main.jpg",
+        note: "Common families: XPS, Inspiron, Latitude, Precision, Alienware. Search Dell Support by Service Tag. Dell service manuals often specify a battery screw pattern. Dell uses both individual panels and complete display assemblies depending on model. Identify M.2 2230 versus 2280 and any thermal plate.",
+        link: "https://www.dell.com/support/home",
+        battery: { title: "Dell Battery Replacement", image: "images/battery-replacement.jpg", text: BATTERY_STEPS },
+        screen: { title: "Dell Screen Replacement", image: "images/screen-replacement.jpg", text: SCREEN_STEPS },
+        drive: { title: "Dell Hard Drive Replacement", image: "images/drive-replacement.jpg", text: DRIVE_STEPS }
       },
       "hp": {
         name: "HP", 
-        image: "https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?q=80&w=1200&auto=format&fit=crop",
-        battery: { 
-          title: "HP Omen Battery Replacement", 
-          text: `
-            <strong>Tools Required:</strong> Phillips #1 screwdriver, Plastic Pry Tool.
-            <br><br>
-            <strong>Step 1: Remove the bottom cover.</strong> Remove the 6 to 8 bottom cover screws. Use a pry tool to pop the case open, starting near the hinges.
-            <br><br>
-            <strong>Step 2: Disconnect the battery.</strong> Disconnect the battery connector from the motherboard.
-            <br><br>
-            <strong>Step 3: Remove the battery.</strong> Remove the mounting screws and lift the battery out. Install the new battery, reconnect the cable, and replace the bottom cover.
-          ` 
-        },
-        screen: { 
-          title: "HP Omen Screen Replacement", 
-          text: `
-            <div class="warning-box"><strong>Warning:</strong> Disconnect the battery before touching the display cable.</div>
-            <strong>Tools Required:</strong> Phillips #0 screwdriver, Plastic Pry Tool.
-            <br><br>
-            <strong>Step 1: Disconnect the battery.</strong> Open the bottom case and unplug the battery.
-            <br><br>
-            <strong>Step 2: Remove the bezel.</strong> Pry the display bezel off around the edges.
-            <br><br>
-            <strong>Step 3: Remove the panel.</strong> Unscrew the LCD panel, lay it face down, and disconnect the display cable. Install the new panel by reversing the steps.
-          ` 
-        },
-        drive: { 
-          title: "HP Omen Hard Drive Replacement", 
-          text: `
-            <strong>Tools Required:</strong> Phillips #1 screwdriver.
-            <br><br>
-            <strong>Step 1: Open the case.</strong> Remove the bottom panel.
-            <br><br>
-            <strong>Step 2: Swap the drive.</strong> Locate the M.2 slot. Remove the retention screw, pull the drive out at a 30-degree angle, insert the new drive, and secure it.
-          ` 
-        }
+        image: "images/HP-Main.jpg",
+        note: "Common families: EliteBook, ProBook, Pavilion, Envy, Spectre, OMEN, Victus. Use the exact product name on HP Support. HP models vary from straightforward screw-secured packs to adhesive-mounted batteries. On some models the LCD panel is separately serviceable. Check whether the system uses M.2 NVMe, 2.5-inch SATA, or soldered storage.",
+        link: "https://support.hp.com/us-en",
+        battery: { title: "HP Battery Replacement", image: "images/battery-replacement.jpg", text: BATTERY_STEPS },
+        screen: { title: "HP Screen Replacement", image: "images/screen-replacement.jpg", text: SCREEN_STEPS },
+        drive: { title: "HP Hard Drive Replacement", image: "images/drive-replacement.jpg", text: DRIVE_STEPS }
       },
       "acer": {
         name: "Acer", 
-        image: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?q=80&w=1200&auto=format&fit=crop",
-        battery: { 
-          title: "Acer Nitro Battery Replacement", 
-          text: `
-            <strong>Tools Required:</strong> Phillips #1 screwdriver, Plastic Pry Tool.
-            <br><br>
-            <strong>Step 1: Remove the bottom case.</strong> Remove all bottom case screws. Pry the bottom case off starting from the front edge.
-            <br><br>
-            <strong>Step 2: Disconnect the battery.</strong> Disconnect the battery cable from the motherboard.
-            <br><br>
-            <strong>Step 3: Replace the battery.</strong> Remove the screws holding the battery in place, lift the old battery out, and install the new one. Reconnect the cable and replace the bottom case.
-          ` 
-        },
-        screen: { 
-          title: "Acer Nitro Screen Replacement", 
-          text: `
-            <div class="warning-box"><strong>Warning:</strong> Disconnect the battery before touching the display cable.</div>
-            <strong>Tools Required:</strong> Phillips #0 screwdriver, Plastic Pry Tool.
-            <br><br>
-            <strong>Step 1: Disconnect the battery.</strong> Remove the bottom case and unplug the battery.
-            <br><br>
-            <strong>Step 2: Remove the bezel.</strong> Pop the bezel off using a plastic pry tool.
-            <br><br>
-            <strong>Step 3: Remove the panel.</strong> Remove the hinge screws and disconnect the display cable. Lift the screen assembly out and replace it.
-          ` 
-        },
-        drive: { 
-          title: "Acer Nitro Hard Drive Replacement", 
-          text: `
-            <strong>Tools Required:</strong> Phillips #1 screwdriver.
-            <br><br>
-            <strong>Step 1: Open the case.</strong> Remove the bottom case screws.
-            <br><br>
-            <strong>Step 2: Swap the drive.</strong> Remove the single screw holding the M.2 SSD. Pull the old drive out, insert the new drive, and secure it.
-          ` 
-        }
+        image: "images/acer main.jpg",
+        note: "Common families: Aspire, Swift, Spin, TravelMate, Predator, Nitro. Use Acer Support's serial number/SNID. Watch for ribbon cables attached to the bottom cover. Swift/Spin convertible lids can be delicate. Nitro/Predator models may offer more than one M.2 slot.",
+        link: "https://www.acer.com/us-en/support",
+        battery: { title: "Acer Battery Replacement", image: "images/battery-replacement.jpg", text: BATTERY_STEPS },
+        screen: { title: "Acer Screen Replacement", image: "images/screen-replacement.jpg", text: SCREEN_STEPS },
+        drive: { title: "Acer Hard Drive Replacement", image: "images/drive-replacement.jpg", text: DRIVE_STEPS }
       },
       "razer": {
         name: "Razer", 
-        image: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?q=80&w=1200&auto=format&fit=crop",
-        battery: { 
-          title: "Razer Blade Battery Replacement", 
-          text: `
-            <strong>Tools Required:</strong> Torx T5 screwdriver, Phillips #0 screwdriver, Plastic Pry Tool.
-            <br><br>
-            <strong>Step 1: Remove the bottom panel.</strong> Remove the 10 T5 Torx screws on the bottom. Carefully lift the bottom panel from the front edge.
-            <br><br>
-            <strong>Step 2: Disconnect the battery.</strong> Disconnect the battery cable from the motherboard.
-            <br><br>
-            <strong>Step 3: Replace the battery.</strong> Remove the 6 screws holding the massive battery. Lift the old battery out and install the new one. Reconnect the cable and replace the bottom panel.
-          ` 
-        },
-        screen: { 
-          title: "Razer Blade Screen Replacement", 
-          text: `
-            <div class="warning-box"><strong>Warning:</strong> Disconnect the battery before touching the display cable.</div>
-            <strong>Tools Required:</strong> Phillips #0 screwdriver, Plastic Pry Tool.
-            <br><br>
-            <strong>Step 1: Disconnect the battery.</strong> Remove the bottom panel and unplug the battery.
-            <br><br>
-            <strong>Step 2: Remove the bezel.</strong> Carefully remove the rubber bezel.
-            <br><br>
-            <strong>Step 3: Remove the panel.</strong> Unscrew the hinges and disconnect the display cable. Remove the panel and replace it.
-          ` 
-        },
-        drive: { 
-          title: "Razer Blade Hard Drive Replacement", 
-          text: `
-            <strong>Tools Required:</strong> Torx T5 screwdriver.
-            <br><br>
-            <strong>Step 1: Open the case.</strong> Remove the bottom panel (10 T5 screws).
-            <br><br>
-            <strong>Step 2: Swap the drive.</strong> The SSD is covered by a black shield. Peel the shield back, remove the screw, and replace the drive.
-          ` 
-        }
+        image: "images/Razer-Main.jpg",
+        note: "Common families: Blade 14, Blade 16, Blade 18. Razer Blade revisions can change significantly. Use the exact model number and year on Razer Support. Blade batteries are internal; inspect for swelling. High-refresh and OLED configurations may use different display assemblies.",
+        link: "https://support.razer.com/",
+        battery: { title: "Razer Battery Replacement", image: "images/battery-replacement.jpg", text: BATTERY_STEPS },
+        screen: { title: "Razer Screen Replacement", image: "images/screen-replacement.jpg", text: SCREEN_STEPS },
+        drive: { title: "Razer Hard Drive Replacement", image: "images/drive-replacement.jpg", text: DRIVE_STEPS }
       },
       "samsung": {
         name: "Samsung", 
-        image: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?q=80&w=1200&auto=format&fit=crop",
-        battery: { 
-          title: "Samsung Galaxy Book Battery Replacement", 
-          text: `
-            <strong>Tools Required:</strong> Phillips #1 screwdriver, Plastic Pry Tool.
-            <br><br>
-            <strong>Step 1: Remove the bottom cover.</strong> Remove the bottom cover screws. Use a plastic tool to pop the clips around the edge.
-            <br><br>
-            <strong>Step 2: Disconnect the battery.</strong> Disconnect the battery connector.
-            <br><br>
-            <strong>Step 3: Replace the battery.</strong> Remove the screws holding the battery, lift it out, and install the new one.
-          ` 
-        },
-        screen: { 
-          title: "Samsung Galaxy Book Screen Replacement", 
-          text: `
-            <div class="warning-box"><strong>Warning:</strong> Disconnect the battery before touching the display cable.</div>
-            <strong>Tools Required:</strong> Phillips #0 screwdriver, Plastic Pry Tool.
-            <br><br>
-            <strong>Step 1: Disconnect the battery.</strong> Open the bottom cover and unplug the battery.
-            <br><br>
-            <strong>Step 2: Remove the bezel.</strong> Pry off the display bezel.
-            <br><br>
-            <strong>Step 3: Remove the panel.</strong> Disconnect the display cable and unscrew the panel.
-          ` 
-        },
-        drive: { 
-          title: "Samsung Galaxy Book Hard Drive Replacement", 
-          text: `
-            <strong>Tools Required:</strong> Phillips #1 screwdriver.
-            <br><br>
-            <strong>Step 1: Open the case.</strong> Remove the back panel.
-            <br><br>
-            <strong>Step 2: Swap the drive.</strong> Unscrew the SSD retention screw and pull the drive out.
-          ` 
-        }
+        image: "images/samsung main.jpg",
+        note: "Common families: Galaxy Book, Galaxy Book Pro, Galaxy Book Ultra, Galaxy Book4/5/6. Search Samsung Support using the full model code. Most Galaxy Books have internal batteries. AMOLED and LCD configurations are not interchangeable. Some models provide an M.2 SSD; others have limited upgrade options.",
+        link: "https://www.samsung.com/us/support/",
+        battery: { title: "Samsung Battery Replacement", image: "images/battery-replacement.jpg", text: BATTERY_STEPS },
+        screen: { title: "Samsung Screen Replacement", image: "images/screen-replacement.jpg", text: SCREEN_STEPS },
+        drive: { title: "Samsung Hard Drive Replacement", image: "images/drive-replacement.jpg", text: DRIVE_STEPS }
       },
       "surface": {
         name: "Surface", 
-        image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1200&auto=format&fit=crop",
-        battery: { 
-          title: "Surface Pro Battery Replacement", 
-          text: `
-            <div class="warning-box"><strong>DANGER:</strong> Surface devices are heavily glued shut. Opening the device will likely crack the screen unless heated properly. Proceed with extreme caution.</div>
-            <strong>Tools Required:</strong> Heat gun, Suction cups, Plastic cards (guitar picks), Isopropyl alcohol.
-            <br><br>
-            <strong>Step 1: Heat the screen.</strong> Use a heat gun to soften the adhesive around the edges of the screen. Do not overheat the battery.
-            <br><br>
-            <strong>Step 2: Pry the screen.</strong> Use a suction cup to lift a corner and insert a plastic card. Slowly work the card around the edge to cut the adhesive.
-            <br><br>
-            <strong>Step 3: Disconnect the battery.</strong> Carefully lift the screen (watch the ribbon cables) and disconnect the battery.
-            <br><br>
-            <strong>Step 4: Remove the battery.</strong> The battery is glued down. Apply isopropyl alcohol around the edges to dissolve the adhesive, then pry it out with a plastic tool.
-          ` 
-        },
-        screen: { 
-          title: "Surface Pro Screen Replacement", 
-          text: `
-            <div class="warning-box"><strong>DANGER:</strong> This repair requires heating and prying glued glass. High risk of breaking the new screen during installation.</div>
-            <strong>Tools Required:</strong> Heat gun, Suction cups, Plastic cards, Adhesive strips.
-            <br><br>
-            <strong>Step 1: Heat the edges.</strong> Heat the perimeter of the screen to soften the adhesive.
-            <br><br>
-            <strong>Step 2: Cut the adhesive.</strong> Use a suction cup and plastic cards to cut through the adhesive around the entire perimeter.
-            <br><br>
-            <strong>Step 3: Disconnect cables.</strong> Carefully lift the screen and disconnect the display cables.
-            <br><br>
-            <strong>Step 4: Install the new screen.</strong> Apply new adhesive strips to the frame, connect the new screen, and press it firmly into place.
-          ` 
-        },
-        drive: { 
-          title: "Surface Pro Hard Drive Replacement", 
-          text: `
-            <strong>Tools Required:</strong> SIM ejector tool (or paperclip), Torx T3 screwdriver.
-            <br><br>
-            <strong>Step 1: Remove the kickstand.</strong> Open the kickstand to the maximum angle.
-            <br><br>
-            <strong>Step 2: Access the SSD door.</strong> Look for a small rectangular door near the top of the kickstand area. Insert a SIM ejector tool into the tiny hole and pop the door open.
-            <br><br>
-            <strong>Step 3: Swap the drive.</strong> The M.2 SSD is visible. Remove the single Torx screw holding it in place. Pull the drive out and insert the new one. Close the door.
-          ` 
-        }
+        image: "images/surface main.jpg",
+        note: "Common families: Surface Laptop, Surface Laptop Go, Surface Laptop Studio. Use the Surface Service Guide Center. Surface batteries can be adhered and are model-specific. Many Surface repairs specify replacing the display module/assembly rather than separating the glass. Supported models may use a removable M.2 or service SSD.",
+        link: "https://learn.microsoft.com/en-us/surface/service-guides",
+        battery: { title: "Surface Battery Replacement", image: "images/battery-replacement.jpg", text: BATTERY_STEPS },
+        screen: { title: "Surface Screen Replacement", image: "images/screen-replacement.jpg", text: SCREEN_STEPS },
+        drive: { title: "Surface Hard Drive Replacement", image: "images/drive-replacement.jpg", text: DRIVE_STEPS }
       }
     };
 
     // ==========================================
-    // 3. RENDERING LOGIC
+    // 4. RENDERING LOGIC
     // ==========================================
     
     const brandListEl = document.getElementById('brand-list');
@@ -540,6 +331,14 @@
         <div class="article-meta"><span>Written By: FixIt Staff</span><span>|</span><span>Select a guide below</span></div>
         <div class="hero-image" style="background-image: url('${guide.image}');"></div>
 
+        <div class="spec-box">
+          <div class="spec-title">Brand-Specific Notes</div>
+          <p style="font-size: 0.95rem; line-height: 1.6; color: #d1d5db;">${guide.note}</p>
+          <div style="margin-top: 1rem; font-size: 0.9rem;">
+            <strong>Official Documentation:</strong> <a href="${guide.link}" target="_blank" style="color: var(--accent);">${guide.link}</a>
+          </div>
+        </div>
+
         <div class="guide-links">
           <div class="guide-btn" onclick="loadSubGuide('${brandKey}', 'battery', this)">🔋 Battery Replacement</div>
           <div class="guide-btn" onclick="loadSubGuide('${brandKey}', 'screen', this)">🖥️ Screen Replacement</div>
@@ -558,7 +357,9 @@
         <div class="breadcrumb">Home / Laptop Repair / <span onclick="loadBrandOverview('${brandKey}')">${brandData.name}</span> / ${guide.title}</div>
         <h1 class="article-title">${guide.title}</h1>
         <div class="article-meta"><span>Written By: FixIt Staff</span><span>|</span><span>Difficulty: Moderate</span></div>
-        <div class="hero-image" style="background-image: url('${brandData.image}');"></div>
+        <div class="hero-image" style="background-image: url('${guide.image}');"></div>
+
+        ${SAFETY_BOX}
 
         <div class="step">
           <div class="step-title"><span class="step-num">1</span> Full Step-by-Step Guide</div>
@@ -571,7 +372,7 @@
     loadBrandOverview('lenovo', document.querySelector('.nav-item'));
 
     // ==========================================
-    // 4. CHAT WIDGET LOGIC
+    // 5. CHAT WIDGET LOGIC
     // ==========================================
     let currentChannel = null;
     let eventSource = null;
