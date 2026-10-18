@@ -12,7 +12,6 @@
       --bg-panel: #0a0c10;
       --bg-card: #12161f;
       --border: #1f2430;
-      --border-glow: #00f0ff;
       --text-main: #e2e8f0;
       --text-muted: #8b949e;
       --accent: #00f0ff;
@@ -59,7 +58,7 @@
       z-index: 100; 
       box-shadow: 0 4px 20px rgba(0,0,0,0.5);
     }
-    .nav-logo { font-size: 1.2rem; font-weight: 800; font-family: var(--font-mono); display: flex; align-items: center; gap: 10px; letter-spacing: 1px; color: var(--text-main); text-decoration: none; }
+    .nav-logo { font-size: 1.2rem; font-weight: 800; font-family: var(--font-mono); display: flex; align-items: center; gap: 10px; letter-spacing: 1px; color: var(--text-main); text-decoration: none; cursor: pointer; }
     .nav-logo span { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
     .nav-links { display: flex; gap: 2rem; font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-muted); }
     .nav-links a { color: var(--text-muted); text-decoration: none; transition: all 0.2s; cursor: pointer; }
@@ -84,20 +83,24 @@
     /* --- BANNER --- */
     #hero-banner { 
       width: 100%; 
-      height: 250px; 
-      background: url('images/banner.jpg') center/cover no-repeat; 
+      height: 300px; 
       border-bottom: 1px solid var(--border);
       position: relative;
       display: flex;
       align-items: flex-end;
+      background-color: #0d1117;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
     }
     #hero-banner::after {
       content: ''; position: absolute; inset: 0;
       background: linear-gradient(to top, var(--bg-deep) 0%, transparent 100%);
+      pointer-events: none;
     }
     .banner-content { position: relative; z-index: 2; padding: 2rem 3rem; width: 100%; max-width: 1000px; margin: 0 auto; }
     .banner-title { font-size: 2.5rem; font-weight: 800; letter-spacing: -1px; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.8); margin-bottom: 0.5rem; }
-    .banner-subtitle { font-family: var(--font-mono); color: var(--accent); font-size: 0.9rem; letter-spacing: 1px; }
+    .banner-subtitle { font-family: var(--font-mono); color: var(--accent); font-size: 0.9rem; letter-spacing: 1px; text-shadow: 0 0 8px rgba(0, 240, 255, 0.5); }
 
     .article-container { max-width: 900px; margin: 0 auto; padding: 2rem 3rem; animation: fadeIn 0.3s ease-out; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -125,7 +128,6 @@
     .step-body a { color: var(--accent); text-decoration: none; border-bottom: 1px dashed var(--accent); padding-bottom: 2px; transition: all 0.2s; }
     .step-body a:hover { text-shadow: 0 0 8px var(--accent); border-bottom-style: solid; }
     
-    .warning-box { background: rgba(255, 183, 3, 0.05); border: 1px solid rgba(255, 183, 3, 0.3); border-left: 4px solid var(--warning); padding: 1.5rem; margin-bottom: 2rem; border-radius: 4px; color: #ffeeba; font-size: 0.9rem; font-family: var(--font-mono); }
     .danger-box { background: rgba(255, 51, 102, 0.05); border: 1px solid rgba(255, 51, 102, 0.3); border-left: 4px solid var(--alert); padding: 1.5rem; margin-bottom: 2rem; border-radius: 4px; color: #fca5a5; font-size: 0.9rem; font-family: var(--font-mono); }
 
     /* Sub-guide links */
@@ -169,13 +171,11 @@
     #composer button:hover { background: var(--accent); color: #000; box-shadow: 0 0 15px var(--accent); }
     #composer button:disabled { background: var(--border); color: var(--text-muted); border-color: var(--border); cursor: not-allowed; box-shadow: none; }
 
-    /* Login Screen */
     #login-screen input { background: var(--bg-deep); border: 1px solid var(--border); color: white; font-family: var(--font-mono); font-size: 0.85rem; outline: none; transition: border 0.2s; }
     #login-screen input:focus { border-color: var(--accent); }
     #login-screen button { background: var(--accent); color: #000; font-family: var(--font-mono); font-weight: bold; transition: all 0.2s; cursor: pointer; }
     #login-screen button:hover { box-shadow: 0 0 15px var(--accent); }
 
-    /* Scrollbar */
     ::-webkit-scrollbar { width: 8px; height: 8px; }
     ::-webkit-scrollbar-track { background: var(--bg-deep); }
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
@@ -210,8 +210,8 @@
 
     <!-- MAIN CONTENT -->
     <main id="main-content">
-      <!-- Banner (Only shows on home) -->
-      <div id="hero-banner">
+      <!-- Banner -->
+      <div id="hero-banner" style="background-image: url('images/banner.jpg');">
         <div class="banner-content">
           <div class="banner-title">Hardware Diagnostics & Teardowns</div>
           <div class="banner-subtitle">// FIELD_MANUAL_v2.0.26</div>
@@ -372,7 +372,7 @@
       },
       "acer": {
         name: "Acer", 
-        image: "images/acer main.jpg",
+        image: "images/acer%20main.jpg",
         note: "Common families: Aspire, Swift, Spin, TravelMate, Predator, Nitro. Use Acer Support's serial number/SNID. Watch for ribbon cables attached to the bottom cover. Swift/Spin convertible lids can be delicate. Nitro/Predator models may offer more than one M.2 slot.",
         link: "https://www.acer.com/us-en/support",
         battery: { title: "Acer Battery Replacement", image: "images/battery-replacement.jpg", text: BATTERY_STEPS },
@@ -390,7 +390,7 @@
       },
       "samsung": {
         name: "Samsung", 
-        image: "images/samsung main.jpg",
+        image: "images/samsung%20main.jpg",
         note: "Common families: Galaxy Book, Galaxy Book Pro, Galaxy Book Ultra, Galaxy Book4/5/6. Search Samsung Support using the full model code. Most Galaxy Books have internal batteries. AMOLED and LCD configurations are not interchangeable. Some models provide an M.2 SSD; others have limited upgrade options.",
         link: "https://www.samsung.com/us/support/",
         battery: { title: "Samsung Battery Replacement", image: "images/battery-replacement.jpg", text: BATTERY_STEPS },
@@ -399,7 +399,7 @@
       },
       "surface": {
         name: "Surface", 
-        image: "images/surface main.jpg",
+        image: "images/surface%20main.jpg",
         note: "Common families: Surface Laptop, Surface Laptop Go, Surface Laptop Studio. Use the Surface Service Guide Center. Surface batteries can be adhered and are model-specific. Many Surface repairs specify replacing the display module/assembly rather than separating the glass. Supported models may use a removable M.2 or service SSD.",
         link: "https://learn.microsoft.com/en-us/surface/service-guides",
         battery: { title: "Surface Battery Replacement", image: "images/battery-replacement.jpg", text: BATTERY_STEPS },
