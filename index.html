@@ -28,7 +28,7 @@
     .logo-icon { color: var(--accent); }
     
     .nav-list { overflow-y: auto; flex: 1; padding-top: 1rem; }
-    .nav-item { padding: 0.6rem 1.5rem; cursor: pointer; color: var(--text-muted); font-size: 0.9rem; transition: all 0.1s; border-left: 3px solid transparent; display: flex; justify-content: space-between; align-items: center; }
+    .nav-item { padding: 0.6rem 1.5rem; cursor: pointer; color: var(--text-muted); font-size: 0.9rem; transition: all 0.1s; border-left: 3px solid transparent; }
     .nav-item:hover { background: var(--bg-card); color: var(--text-main); }
     .nav-item.active { background: rgba(0, 123, 255, 0.1); color: var(--accent); border-left-color: var(--accent); font-weight: 600; }
 
@@ -46,20 +46,23 @@
     .hero-image { width: 100%; height: 350px; background-size: cover; background-position: center; border-radius: 8px; margin-bottom: 2rem; border: 1px solid var(--border); background-color: #000; }
 
     .spec-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem; }
-    .spec-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: var(--accent); }
+    .spec-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; }
     .spec-row { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #2d3139; font-size: 0.9rem; }
     .spec-row:last-child { border-bottom: none; }
     .spec-label { color: var(--text-muted); }
     .spec-value { font-family: var(--font-mono); font-weight: 600; }
 
-    .step { margin-bottom: 2rem; }
+    .step { margin-bottom: 2.5rem; }
     .step-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 10px; }
     .step-num { background: var(--accent); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: bold; flex-shrink: 0; }
-    .step-body { background: var(--bg-card); padding: 1.25rem; border-radius: 8px; border: 1px solid var(--border); line-height: 1.6; color: #d1d5db; font-size: 0.95rem; }
+    .step-body { background: var(--bg-card); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border); line-height: 1.7; color: #d1d5db; font-size: 0.95rem; }
+    .step-body ul { margin-left: 1.5rem; margin-top: 0.5rem; margin-bottom: 0.5rem; }
+    .step-body li { margin-bottom: 0.5rem; }
+    .warning-box { background: rgba(255, 153, 0, 0.1); border-left: 4px solid #ff9900; padding: 1rem; margin-bottom: 1.5rem; border-radius: 4px; color: #ffd699; font-size: 0.9rem; }
 
     /* Sub-guide links */
     .guide-links { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
-    .guide-btn { background: var(--bg-card); border: 1px solid var(--border); padding: 0.75rem 1rem; border-radius: 6px; cursor: pointer; flex: 1; text-align: center; font-weight: 600; color: var(--text-main); transition: all 0.2s; min-width: 150px; }
+    .guide-btn { background: var(--bg-card); border: 1px solid var(--border); padding: 1rem; border-radius: 6px; cursor: pointer; flex: 1; text-align: center; font-weight: 600; color: var(--text-main); transition: all 0.2s; min-width: 180px; }
     .guide-btn:hover { border-color: var(--accent); background: rgba(0, 123, 255, 0.05); }
 
     /* --- CHAT WIDGET --- */
@@ -126,28 +129,22 @@
       <div class="minimize-btn" id="toggle-icon">+</div>
     </div>
     
-    <!-- LOGIN SCREEN -->
     <div id="login-screen" style="padding: 2rem 1rem; display: flex; flex-direction: column; gap: 0.75rem; align-items: center; background: var(--bg-base);">
       <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🔒</div>
       <p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; margin-bottom: 0.5rem;">Technician login required.</p>
-      
       <input type="text" placeholder="Username" style="width: 100%; padding: 0.6rem; border-radius: 4px; border: 1px solid var(--border); background: var(--bg-card); color: white; font-size: 0.85rem; outline: none;" />
       <input type="password" id="auth-password" placeholder="Password" style="width: 100%; padding: 0.6rem; border-radius: 4px; border: 1px solid var(--border); background: var(--bg-card); color: white; font-size: 0.85rem; outline: none;" />
-      
       <button onclick="login()" style="width: 100%; background: var(--accent); color: white; border: none; padding: 0.6rem; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 0.5rem;">Log In</button>
       <p id="login-error" style="color: #ef4444; font-size: 0.75rem; display: none;">Invalid credentials.</p>
     </div>
 
-    <!-- CHAT INTERFACE (Hidden by default) -->
     <div class="widget-body" id="chat-interface" style="display: none;">
       <div class="widget-channels" id="channel-list">
         <!-- Channels injected here -->
       </div>
-      
       <div id="messages">
         <div style="text-align: center; color: var(--text-muted); font-size: 0.8rem; padding: 1rem;">Select a channel to connect.</div>
       </div>
-      
       <div id="composer">
         <form id="send-form">
           <input id="message-input" type="text" placeholder="Ask a tech..." autocomplete="off" disabled />
@@ -174,61 +171,149 @@
     };
 
     // ==========================================
-    // 2. STATIC REPAIR GUIDES
+    // 2. STATIC REPAIR GUIDES (Full written guides)
     // ==========================================
     const REPAIR_GUIDES = {
       "lenovo": {
-        name: "Lenovo", image: "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?q=80&w=1200&auto=format&fit=crop",
-        battery: { title: "Lenovo Battery Replacement", text: "Remove the bottom cover (P5 Pentalobe screws). Disconnect the battery ribbon cable from the motherboard by lifting the black retaining bar. Remove the 6 Phillips screws holding the battery in place and lift it out." },
-        screen: { title: "Lenovo Screen Replacement", text: "Remove the rubber screw covers on the bezel. Unscrew the bezel and use a plastic pry tool to pop it off. Unscrew the hinges holding the LCD panel. Carefully disconnect the display ribbon cable and remove the panel." },
-        drive: { title: "Lenovo Hard Drive Replacement", text: "Remove the bottom cover. Locate the M.2 SSD slot. Unscrew the single retaining screw at the end of the drive. The drive will pop up at an angle; pull it straight out to remove it." }
+        name: "Lenovo", 
+        // Accurate: ThinkPad keyboard deck and red trackpoint
+        image: "https://images.unsplash.com/photo-1618424181497-157f25b6ddd5?q=80&w=1200&auto=format&fit=crop",
+        battery: { 
+          title: "Lenovo ThinkPad Battery Replacement", 
+          text: "1. Power down the laptop and disconnect the AC adapter. 2. Remove the 6-8 captive screws on the bottom cover using a Phillips #1 screwdriver. 3. Use a plastic pry tool to lift the bottom cover, starting from the hinge. 4. Locate the battery connector. Carefully slide the metal retaining clip back and disconnect the battery ribbon cable. 5. Remove the four Phillips screws securing the battery to the chassis. 6. Lift the battery out and replace it with the new unit. Reassemble in reverse order." 
+        },
+        screen: { 
+          title: "Lenovo ThinkPad Screen Replacement", 
+          text: "1. Remove the bottom cover to disconnect the internal battery (crucial for safety). 2. Use a plastic pry tool to separate the display bezel from the LCD panel, starting at the bottom corners. 3. Remove the four screws holding the LCD panel to the hinges. 4. Carefully lay the panel face down on the keyboard. 5. Peel back the tape and disconnect the wide display ribbon cable. 6. Remove the panel and install the replacement, reconnecting the cable and screwing it into the hinges." 
+        },
+        drive: { 
+          title: "Lenovo ThinkPad Hard Drive Replacement", 
+          text: "1. Remove the bottom cover. 2. The M.2 SSD is located under a silver thermal shield. Remove the single screw holding the shield in place. 3. Lift the shield and remove the single screw at the end of the SSD. 4. The drive will pop up at a 30-degree angle. Pull it straight out of the slot. 5. Insert the new drive at the same angle, push it down, and secure it with the screw." 
+        }
       },
       "asus": {
-        name: "ASUS", image: "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?q=80&w=1200&auto=format&fit=crop",
-        battery: { title: "ASUS Battery Replacement", text: "Remove the bottom panel (10-12 Phillips screws). Carefully unplug the battery connector from the motherboard. Remove the screws securing the battery and lift it out." },
-        screen: { title: "ASUS Screen Replacement", text: "Pry off the bottom bezel and then the side bezels. Remove the screws around the panel. Tilt the screen forward and disconnect the display cable. Lift the panel out." },
-        drive: { title: "ASUS Hard Drive Replacement", text: "Remove the bottom panel. The M.2 SSD is usually wrapped in a black thermal shield. Remove the screw, peel back the shield, and slide the drive out." }
+        name: "ASUS", 
+        // Accurate: ROG Zephyrus angular chassis
+        image: "https://images.unsplash.com/photo-1589739900266-43b2843f4c12?q=80&w=1200&auto=format&fit=crop",
+        battery: { 
+          title: "ASUS ROG Battery Replacement", 
+          text: "1. Remove the 10-12 Phillips screws from the bottom panel. Note that some screws may be different lengths; keep track of their positions. 2. Pry the bottom panel off starting from the front edge. 3. Disconnect the battery connector from the motherboard by gently sliding it out. 4. Remove the 6 screws holding the battery in place. 5. Lift the battery out and replace it." 
+        },
+        screen: { 
+          title: "ASUS ROG Screen Replacement", 
+          text: "1. Disconnect the battery. 2. Remove the rubber screw covers on the bottom bezel, then remove the screws underneath. 3. Use a guitar pick to pry the bezel away from the screen. 4. Remove the four screws holding the LCD panel. 5. Tilt the screen forward and disconnect the display cable. 6. Remove the panel and install the new one." 
+        },
+        drive: { 
+          title: "ASUS ROG Hard Drive Replacement", 
+          text: "1. Remove the bottom panel. 2. Locate the M.2 SSD, which is usually wrapped in a black thermal shield. 3. Remove the screw holding the shield and peel it back. 4. Remove the screw at the end of the SSD. 5. Pull the drive out and replace it." 
+        }
       },
       "dell": {
-        name: "Dell", image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?q=80&w=1200&auto=format&fit=crop",
-        battery: { title: "Dell Battery Replacement", text: "Loosen the captive screws on the bottom (they stay attached to the cover). Lift the cover. Unplug the battery cable and remove the 4-6 screws holding the battery down." },
-        screen: { title: "Dell Screen Replacement", text: "Use a plastic pry tool to separate the bezel from the LCD panel. Remove the 4 corner screws holding the panel. Lay the panel face down and disconnect the video cable." },
-        drive: { title: "Dell Hard Drive Replacement", text: "Remove the bottom cover. The SSD is located under a metal shield. Remove the shield screw, lift the shield, and unscrew the M.2 drive." }
+        name: "Dell", 
+        // Accurate: Dell XPS carbon fiber interior
+        image: "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?q=80&w=1200&auto=format&fit=crop",
+        battery: { 
+          title: "Dell XPS Battery Replacement", 
+          text: "1. Loosen the 8 captive screws on the bottom cover (they stay attached to the cover). 2. Lift the cover from the hinge. 3. Unplug the battery cable from the motherboard. 4. Remove the 4-6 Phillips screws holding the battery down. 5. Lift the battery out." 
+        },
+        screen: { 
+          title: "Dell XPS Screen Replacement", 
+          text: "1. Disconnect the battery. 2. Use a plastic pry tool to separate the bezel from the LCD panel, starting at the bottom corners. 3. Remove the 4 corner screws holding the panel. 4. Lay the panel face down. 5. Disconnect the video cable by lifting the metal latch. 6. Remove the panel and replace it." 
+        },
+        drive: { 
+          title: "Dell XPS Hard Drive Replacement", 
+          text: "1. Remove the bottom cover. 2. The SSD is located under a metal shield. Remove the shield screw and lift the shield. 3. Remove the screw at the end of the SSD. 4. Slide the drive out and replace it." 
+        }
       },
       "hp": {
-        name: "HP", image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1200&auto=format&fit=crop",
-        battery: { title: "HP Battery Replacement", text: "Remove the bottom cover screws. Use a pry tool to pop the case open. Disconnect the battery connector from the motherboard. Remove the mounting screws and lift the battery." },
-        screen: { title: "HP Screen Replacement", text: "Remove the display bezel by prying around the edges. Unscrew the LCD panel. Carefully disconnect the display cable and remove the panel." },
-        drive: { title: "HP Hard Drive Replacement", text: "Remove the bottom panel. Locate the M.2 slot. Remove the retention screw and pull the drive out at a 30-degree angle." }
+        name: "HP", 
+        // Accurate: HP Omen angular design
+        image: "https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?q=80&w=1200&auto=format&fit=crop",
+        battery: { 
+          title: "HP Omen Battery Replacement", 
+          text: "1. Remove the 6-8 bottom cover screws. 2. Use a pry tool to pop the case open, starting near the hinges. 3. Disconnect the battery connector from the motherboard. 4. Remove the mounting screws and lift the battery." 
+        },
+        screen: { 
+          title: "HP Omen Screen Replacement", 
+          text: "1. Disconnect the battery. 2. Remove the display bezel by prying around the edges. 3. Unscrew the LCD panel. 4. Carefully disconnect the display cable. 5. Remove the panel and replace it." 
+        },
+        drive: { 
+          title: "HP Omen Hard Drive Replacement", 
+          text: "1. Remove the bottom panel. 2. Locate the M.2 slot. 3. Remove the retention screw. 4. Pull the drive out at a 30-degree angle. 5. Replace and secure." 
+        }
       },
       "acer": {
-        name: "Acer", image: "https://images.unsplash.com/photo-1555617981-dac3880eac6e?q=80&w=1200&auto=format&fit=crop",
-        battery: { title: "Acer Battery Replacement", text: "Remove all bottom case screws. Pry the bottom case off. Disconnect the battery cable and remove the screws holding the battery in place." },
-        screen: { title: "Acer Screen Replacement", text: "Pop the bezel off using a guitar pick. Remove the hinge screws and disconnect the display cable. Lift the screen assembly out." },
-        drive: { title: "Acer Hard Drive Replacement", text: "Open the bottom case. Remove the single screw holding the M.2 SSD. Pull it out to replace it." }
+        name: "Acer", 
+        // Accurate: Acer Nitro red accents
+        image: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?q=80&w=1200&auto=format&fit=crop",
+        battery: { 
+          title: "Acer Nitro Battery Replacement", 
+          text: "1. Remove all bottom case screws. 2. Pry the bottom case off. 3. Disconnect the battery cable. 4. Remove the screws holding the battery in place. 5. Lift the battery out." 
+        },
+        screen: { 
+          title: "Acer Nitro Screen Replacement", 
+          text: "1. Disconnect the battery. 2. Pop the bezel off using a guitar pick. 3. Remove the hinge screws. 4. Disconnect the display cable. 5. Lift the screen assembly out and replace." 
+        },
+        drive: { 
+          title: "Acer Nitro Hard Drive Replacement", 
+          text: "1. Open the bottom case. 2. Remove the single screw holding the M.2 SSD. 3. Pull it out to replace it." 
+        }
       },
       "razer": {
-        name: "Razer", image: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?q=80&w=1200&auto=format&fit=crop",
-        battery: { title: "Razer Battery Replacement", text: "Remove the 10 T5 Torx screws on the bottom. Carefully lift the bottom panel from the front edge. Disconnect the battery cable and remove the 6 screws holding the massive battery." },
-        screen: { title: "Razer Screen Replacement", text: "Remove the rubber bezel carefully. Unscrew the hinges and disconnect the display cable. Remove the panel and replace." },
-        drive: { title: "Razer Hard Drive Replacement", text: "Remove the bottom case. The SSD is covered by a black shield. Peel the shield back, remove the screw, and replace the drive." }
+        name: "Razer", 
+        // Accurate: Razer Blade black chassis green USB ports
+        image: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?q=80&w=1200&auto=format&fit=crop",
+        battery: { 
+          title: "Razer Blade Battery Replacement", 
+          text: "1. Remove the 10 T5 Torx screws on the bottom. 2. Carefully lift the bottom panel from the front edge. 3. Disconnect the battery cable. 4. Remove the 6 screws holding the massive battery. 5. Lift the battery out." 
+        },
+        screen: { 
+          title: "Razer Blade Screen Replacement", 
+          text: "1. Disconnect the battery. 2. Remove the rubber bezel carefully. 3. Unscrew the hinges. 4. Disconnect the display cable. 5. Remove the panel and replace it." 
+        },
+        drive: { 
+          title: "Razer Blade Hard Drive Replacement", 
+          text: "1. Remove the bottom case. 2. The SSD is covered by a black shield. 3. Peel the shield back, remove the screw, and replace the drive." 
+        }
       },
       "samsung": {
-        name: "Samsung", image: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?q=80&w=1200&auto=format&fit=crop",
-        battery: { title: "Samsung Battery Replacement", text: "Remove the bottom cover screws. Use a plastic tool to pop the clips around the edge. Disconnect the battery and remove the screws." },
-        screen: { title: "Samsung Screen Replacement", text: "Pry off the display bezel. Disconnect the display cable. Unscrew the panel and remove it." },
-        drive: { title: "Samsung Hard Drive Replacement", text: "Remove the back panel. Unscrew the SSD retention screw and pull the drive out." }
+        name: "Samsung", 
+        // Accurate: Samsung Galaxy Book sleek silver
+        image: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?q=80&w=1200&auto=format&fit=crop",
+        battery: { 
+          title: "Samsung Galaxy Book Battery Replacement", 
+          text: "1. Remove the bottom cover screws. 2. Use a plastic tool to pop the clips around the edge. 3. Disconnect the battery. 4. Remove the screws holding the battery. 5. Lift it out." 
+        },
+        screen: { 
+          title: "Samsung Galaxy Book Screen Replacement", 
+          text: "1. Disconnect the battery. 2. Pry off the display bezel. 3. Disconnect the display cable. 4. Unscrew the panel and remove it." 
+        },
+        drive: { 
+          title: "Samsung Galaxy Book Hard Drive Replacement", 
+          text: "1. Remove the back panel. 2. Unscrew the SSD retention screw. 3. Pull the drive out and replace it." 
+        }
       },
       "surface": {
-        name: "Surface", image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1200&auto=format&fit=crop",
-        battery: { title: "Surface Battery Replacement", text: "WARNING: Surface devices are glued shut. You must use a heat gun to soften the adhesive. Pry the screen off carefully, disconnect the battery, and use a solvent to remove the battery." },
-        screen: { title: "Surface Screen Replacement", text: "Heat the edges of the screen. Use a suction cup and plastic cards to cut through the adhesive. Disconnect the screen cables and remove the display." },
-        drive: { title: "Surface Hard Drive Replacement", text: "Remove the kickstand. Under the kickstand, there is a small door. Pry it open to access the M.2 SSD. Remove the single screw and swap the drive." }
+        name: "Surface", 
+        // Accurate: Surface Pro kickstand
+        image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1200&auto=format&fit=crop",
+        battery: { 
+          title: "Surface Pro Battery Replacement", 
+          text: "WARNING: Surface devices are glued shut. 1. Use a heat gun to soften the adhesive on the screen edges. 2. Pry the screen off carefully. 3. Disconnect the battery. 4. Use a solvent (like isopropyl alcohol) to dissolve the adhesive holding the battery. 5. Carefully pry the battery out." 
+        },
+        screen: { 
+          title: "Surface Pro Screen Replacement", 
+          text: "1. Heat the edges of the screen. 2. Use a suction cup and plastic cards to cut through the adhesive. 3. Carefully lift the screen. 4. Disconnect the screen cables. 5. Remove the display and install the new one." 
+        },
+        drive: { 
+          title: "Surface Pro Hard Drive Replacement", 
+          text: "1. Remove the kickstand. 2. Under the kickstand, there is a small door. 3. Pry it open to access the M.2 SSD. 4. Remove the single screw and swap the drive." 
+        }
       }
     };
 
     // ==========================================
-    // 3. RENDERING LOGIC (Sub-guides)
+    // 3. RENDERING LOGIC
     // ==========================================
     
     const brandListEl = document.getElementById('brand-list');
@@ -274,7 +359,7 @@
         <div class="hero-image" style="background-image: url('${brandData.image}');"></div>
 
         <div class="step">
-          <div class="step-title"><span class="step-num">1</span> Repair Instructions</div>
+          <div class="step-title"><span class="step-num">1</span> Full Step-by-Step Guide</div>
           <div class="step-body">${guide.text}</div>
         </div>
       `;
@@ -284,12 +369,11 @@
     loadBrandOverview('lenovo', document.querySelector('.nav-item'));
 
     // ==========================================
-    // 4. CHAT WIDGET LOGIC (With Unread Indicators)
+    // 4. CHAT WIDGET LOGIC
     // ==========================================
     let currentChannel = null;
     let eventSource = null;
     let savedPassword = ""; 
-    const unreadCounts = {};
 
     const channelListEl = document.getElementById('channel-list');
     const messagesEl = document.getElementById('messages');
@@ -326,12 +410,30 @@
           document.getElementById('chat-interface').style.display = 'flex';
           widgetEl.classList.remove('minimized');
           toggleIcon.textContent = '-';
+          
+          startListening();
           initChat(); 
         }
       }).catch(err => {
         document.getElementById('login-error').textContent = "Server error. Try again.";
         document.getElementById('login-error').style.display = 'block';
       });
+    }
+
+    function startListening() {
+      if (!eventSource) {
+        eventSource = new EventSource(`${API_URL}/api/stream`);
+        eventSource.onmessage = (e) => {
+          const msg = JSON.parse(e.data);
+          if (msg.channel === currentChannel) {
+             appendMessage(msg);
+          } else {
+             const dot = document.getElementById(`dot-${msg.channel}`);
+             if (dot) dot.classList.add('show');
+             mainStatusDot.classList.add('alert');
+          }
+        };
+      }
     }
 
     function initChat() {
@@ -365,8 +467,8 @@
         el.classList.toggle('active', el === element);
       });
       
-      // Clear unread dot for this channel
       document.getElementById(`dot-${channelName}`).classList.remove('show');
+      mainStatusDot.classList.remove('alert');
       
       inputEl.disabled = false;
       sendBtn.disabled = false;
@@ -374,21 +476,6 @@
       
       messagesEl.innerHTML = '<div style="text-align: center; color: var(--text-muted); font-size: 0.8rem; padding: 1rem;">Connecting...</div>';
       loadMessages();
-
-      if (!eventSource) {
-        eventSource = new EventSource(`${API_URL}/api/stream`);
-        eventSource.onmessage = (e) => {
-          const msg = JSON.parse(e.data);
-          if (msg.channel === currentChannel) {
-             appendMessage(msg);
-          } else {
-             // Show unread dot for other channels
-             const dot = document.getElementById(`dot-${msg.channel}`);
-             if (dot) dot.classList.add('show');
-             mainStatusDot.classList.add('alert');
-          }
-        };
-      }
     }
 
     async function loadMessages() {
