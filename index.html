@@ -138,7 +138,8 @@
     .guide-btn:hover span { filter: grayscale(0%) opacity(1); transform: scale(1.1); }
 
     /* --- CHAT WIDGET --- */
-    #chat-widget { position: fixed; bottom: 25px; right: 25px; width: 340px; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 15px 40px rgba(0,0,0,0.8), 0 0 20px rgba(0, 240, 255, 0.05); display: flex; flex-direction: column; z-index: 1000; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden; }
+    /* Increased width to 360px to fit more channels */
+    #chat-widget { position: fixed; bottom: 25px; right: 25px; width: 360px; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 15px 40px rgba(0,0,0,0.8), 0 0 20px rgba(0, 240, 255, 0.05); display: flex; flex-direction: column; z-index: 1000; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden; }
     #chat-widget.minimized { height: 54px; cursor: pointer; border-color: var(--border); box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
     #chat-widget.minimized:hover { border-color: var(--accent); }
     
@@ -150,8 +151,10 @@
     .widget-header:hover .minimize-btn { color: var(--accent); }
     
     .widget-body { display: flex; flex-direction: column; height: 350px; }
-    .widget-channels { display: flex; gap: 4px; padding: 0.75rem; border-bottom: 1px solid var(--border); overflow-x: auto; background: var(--bg-deep); }
-    .w-channel { font-size: 0.7rem; font-family: var(--font-mono); padding: 5px 10px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px; color: var(--text-muted); cursor: pointer; white-space: nowrap; position: relative; transition: all 0.2s; }
+    
+    /* Changed to flex-wrap so channels wrap to the next line instead of hiding */
+    .widget-channels { display: flex; flex-wrap: wrap; gap: 6px; padding: 0.75rem; border-bottom: 1px solid var(--border); background: var(--bg-deep); }
+    .w-channel { font-size: 0.7rem; font-family: var(--font-mono); padding: 5px 8px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px; color: var(--text-muted); cursor: pointer; position: relative; transition: all 0.2s; }
     .w-channel:hover { border-color: var(--text-muted); }
     .w-channel.active { background: var(--accent-dim); color: var(--accent); border-color: var(--accent); }
     
@@ -211,7 +214,7 @@
     <!-- MAIN CONTENT -->
     <main id="main-content">
       <!-- Banner -->
-      <div id="hero-banner" style="background-image: url('images/banner.jpg');">
+      <div id="hero-banner" style="background-image: url('/images/banner.jpg');">
         <div class="banner-content">
           <div class="banner-title">Hardware Diagnostics & Teardowns</div>
           <div class="banner-subtitle">// FIELD_MANUAL_v2.0.26</div>
@@ -336,75 +339,75 @@
     const REPAIR_GUIDES = {
       "lenovo": {
         name: "Lenovo", 
-        image: "images/lenovo-main.jpg",
+        image: "/images/lenovo-main.jpg",
         note: "Common families: ThinkPad, ThinkBook, IdeaPad, Yoga, Legion, LOQ. Identify the machine type/model (MTM) from the underside label. Some ThinkPads use externally removable batteries; most modern systems use an internal pack. ThinkPad business models may have serviceable bezels. Many performance/business models have an M.2 NVMe SSD.",
         link: "https://pcsupport.lenovo.com/us/en/solutions/ht516547",
-        battery: { title: "Lenovo Battery Replacement", image: "images/battery-replacement.jpg", text: BATTERY_STEPS },
-        screen: { title: "Lenovo Screen Replacement", image: "images/screen-replacement.jpg", text: SCREEN_STEPS },
-        drive: { title: "Lenovo Hard Drive Replacement", image: "images/drive-replacement.jpg", text: DRIVE_STEPS }
+        battery: { title: "Lenovo Battery Replacement", image: "/images/battery-replacement.jpg", text: BATTERY_STEPS },
+        screen: { title: "Lenovo Screen Replacement", image: "/images/screen-replacement.jpg", text: SCREEN_STEPS },
+        drive: { title: "Lenovo Hard Drive Replacement", image: "/images/drive-replacement.jpg", text: DRIVE_STEPS }
       },
       "asus": {
         name: "ASUS", 
-        image: "images/asus-main.jpg",
+        image: "/images/asus-main.jpg",
         note: "Common families: Zenbook, Vivobook, ProArt, ROG, TUF. Use the complete model code on ASUS Support. Thin Zenbook and some Vivobook models commonly use internal batteries. OLED, touchscreen, and high-refresh gaming versions can use different display assemblies even within one chassis family. Many gaming models provide M.2 NVMe slots.",
         link: "https://www.asus.com/us/support/article/1199/",
-        battery: { title: "ASUS Battery Replacement", image: "images/battery-replacement.jpg", text: BATTERY_STEPS },
-        screen: { title: "ASUS Screen Replacement", image: "images/screen-replacement.jpg", text: SCREEN_STEPS },
-        drive: { title: "ASUS Hard Drive Replacement", image: "images/drive-replacement.jpg", text: DRIVE_STEPS }
+        battery: { title: "ASUS Battery Replacement", image: "/images/battery-replacement.jpg", text: BATTERY_STEPS },
+        screen: { title: "ASUS Screen Replacement", image: "/images/screen-replacement.jpg", text: SCREEN_STEPS },
+        drive: { title: "ASUS Hard Drive Replacement", image: "/images/drive-replacement.jpg", text: DRIVE_STEPS }
       },
       "dell": {
         name: "Dell", 
-        image: "images/dell-main.jpg",
+        image: "/images/dell-main.jpg",
         note: "Common families: XPS, Inspiron, Latitude, Precision, Alienware. Search Dell Support by Service Tag. Dell service manuals often specify a battery screw pattern. Dell uses both individual panels and complete display assemblies depending on model. Identify M.2 2230 versus 2280 and any thermal plate.",
         link: "https://www.dell.com/support/home",
-        battery: { title: "Dell Battery Replacement", image: "images/battery-replacement.jpg", text: BATTERY_STEPS },
-        screen: { title: "Dell Screen Replacement", image: "images/screen-replacement.jpg", text: SCREEN_STEPS },
-        drive: { title: "Dell Hard Drive Replacement", image: "images/drive-replacement.jpg", text: DRIVE_STEPS }
+        battery: { title: "Dell Battery Replacement", image: "/images/battery-replacement.jpg", text: BATTERY_STEPS },
+        screen: { title: "Dell Screen Replacement", image: "/images/screen-replacement.jpg", text: SCREEN_STEPS },
+        drive: { title: "Dell Hard Drive Replacement", image: "/images/drive-replacement.jpg", text: DRIVE_STEPS }
       },
       "hp": {
         name: "HP", 
-        image: "images/HP-Main.jpg",
+        image: "/images/HP-Main.jpg",
         note: "Common families: EliteBook, ProBook, Pavilion, Envy, Spectre, OMEN, Victus. Use the exact product name on HP Support. HP models vary from straightforward screw-secured packs to adhesive-mounted batteries. On some models the LCD panel is separately serviceable. Check whether the system uses M.2 NVMe, 2.5-inch SATA, or soldered storage.",
         link: "https://support.hp.com/us-en",
-        battery: { title: "HP Battery Replacement", image: "images/battery-replacement.jpg", text: BATTERY_STEPS },
-        screen: { title: "HP Screen Replacement", image: "images/screen-replacement.jpg", text: SCREEN_STEPS },
-        drive: { title: "HP Hard Drive Replacement", image: "images/drive-replacement.jpg", text: DRIVE_STEPS }
+        battery: { title: "HP Battery Replacement", image: "/images/battery-replacement.jpg", text: BATTERY_STEPS },
+        screen: { title: "HP Screen Replacement", image: "/images/screen-replacement.jpg", text: SCREEN_STEPS },
+        drive: { title: "HP Hard Drive Replacement", image: "/images/drive-replacement.jpg", text: DRIVE_STEPS }
       },
       "acer": {
         name: "Acer", 
-        image: "images/acer%20main.jpg",
+        image: "/images/acer%20main.jpg",
         note: "Common families: Aspire, Swift, Spin, TravelMate, Predator, Nitro. Use Acer Support's serial number/SNID. Watch for ribbon cables attached to the bottom cover. Swift/Spin convertible lids can be delicate. Nitro/Predator models may offer more than one M.2 slot.",
         link: "https://www.acer.com/us-en/support",
-        battery: { title: "Acer Battery Replacement", image: "images/battery-replacement.jpg", text: BATTERY_STEPS },
-        screen: { title: "Acer Screen Replacement", image: "images/screen-replacement.jpg", text: SCREEN_STEPS },
-        drive: { title: "Acer Hard Drive Replacement", image: "images/drive-replacement.jpg", text: DRIVE_STEPS }
+        battery: { title: "Acer Battery Replacement", image: "/images/battery-replacement.jpg", text: BATTERY_STEPS },
+        screen: { title: "Acer Screen Replacement", image: "/images/screen-replacement.jpg", text: SCREEN_STEPS },
+        drive: { title: "Acer Hard Drive Replacement", image: "/images/drive-replacement.jpg", text: DRIVE_STEPS }
       },
       "razer": {
         name: "Razer", 
-        image: "images/Razer-Main.jpg",
+        image: "/images/Razer-Main.jpg",
         note: "Common families: Blade 14, Blade 16, Blade 18. Razer Blade revisions can change significantly. Use the exact model number and year on Razer Support. Blade batteries are internal; inspect for swelling. High-refresh and OLED configurations may use different display assemblies.",
         link: "https://support.razer.com/",
-        battery: { title: "Razer Battery Replacement", image: "images/battery-replacement.jpg", text: BATTERY_STEPS },
-        screen: { title: "Razer Screen Replacement", image: "images/screen-replacement.jpg", text: SCREEN_STEPS },
-        drive: { title: "Razer Hard Drive Replacement", image: "images/drive-replacement.jpg", text: DRIVE_STEPS }
+        battery: { title: "Razer Battery Replacement", image: "/images/battery-replacement.jpg", text: BATTERY_STEPS },
+        screen: { title: "Razer Screen Replacement", image: "/images/screen-replacement.jpg", text: SCREEN_STEPS },
+        drive: { title: "Razer Hard Drive Replacement", image: "/images/drive-replacement.jpg", text: DRIVE_STEPS }
       },
       "samsung": {
         name: "Samsung", 
-        image: "images/samsung%20main.jpg",
+        image: "/images/samsung%20main.jpg",
         note: "Common families: Galaxy Book, Galaxy Book Pro, Galaxy Book Ultra, Galaxy Book4/5/6. Search Samsung Support using the full model code. Most Galaxy Books have internal batteries. AMOLED and LCD configurations are not interchangeable. Some models provide an M.2 SSD; others have limited upgrade options.",
         link: "https://www.samsung.com/us/support/",
-        battery: { title: "Samsung Battery Replacement", image: "images/battery-replacement.jpg", text: BATTERY_STEPS },
-        screen: { title: "Samsung Screen Replacement", image: "images/screen-replacement.jpg", text: SCREEN_STEPS },
-        drive: { title: "Samsung Hard Drive Replacement", image: "images/drive-replacement.jpg", text: DRIVE_STEPS }
+        battery: { title: "Samsung Battery Replacement", image: "/images/battery-replacement.jpg", text: BATTERY_STEPS },
+        screen: { title: "Samsung Screen Replacement", image: "/images/screen-replacement.jpg", text: SCREEN_STEPS },
+        drive: { title: "Samsung Hard Drive Replacement", image: "/images/drive-replacement.jpg", text: DRIVE_STEPS }
       },
       "surface": {
         name: "Surface", 
-        image: "images/surface%20main.jpg",
+        image: "/images/surface%20main.jpg",
         note: "Common families: Surface Laptop, Surface Laptop Go, Surface Laptop Studio. Use the Surface Service Guide Center. Surface batteries can be adhered and are model-specific. Many Surface repairs specify replacing the display module/assembly rather than separating the glass. Supported models may use a removable M.2 or service SSD.",
         link: "https://learn.microsoft.com/en-us/surface/service-guides",
-        battery: { title: "Surface Battery Replacement", image: "images/battery-replacement.jpg", text: BATTERY_STEPS },
-        screen: { title: "Surface Screen Replacement", image: "images/screen-replacement.jpg", text: SCREEN_STEPS },
-        drive: { title: "Surface Hard Drive Replacement", image: "images/drive-replacement.jpg", text: DRIVE_STEPS }
+        battery: { title: "Surface Battery Replacement", image: "/images/battery-replacement.jpg", text: BATTERY_STEPS },
+        screen: { title: "Surface Screen Replacement", image: "/images/screen-replacement.jpg", text: SCREEN_STEPS },
+        drive: { title: "Surface Hard Drive Replacement", image: "/images/drive-replacement.jpg", text: DRIVE_STEPS }
       }
     };
 
@@ -549,7 +552,8 @@
         div.id = `chan-${channelName}`;
         
         const nameSpan = document.createElement('span');
-        nameSpan.textContent = channelName.substring(0, 6).toUpperCase();
+        // Using the full name now that they wrap!
+        nameSpan.textContent = channelName.toUpperCase();
         
         const dot = document.createElement('div');
         dot.className = 'unread-dot';
