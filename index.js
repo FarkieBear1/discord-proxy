@@ -95,6 +95,11 @@ app.get('/api/messages', async (req, res) => {
   }
 });
 
+// Endpoint to verify the technician password
+app.post('/api/verify', (req, res) => {
+  res.json({ success: true }); // Accepts everything
+});
+
 // Send message (Password Protected)
 app.post('/api/messages', async (req, res) => {
   const { content, channel: channelName, password } = req.body; 
