@@ -16,6 +16,20 @@ try {
 } catch (e) {
   console.error("Error parsing CHANNELS in .env");
 }
+
+// ==========================================
+// SECURE SERVER-SIDE SHORTHAND MAPPING
+// ==========================================
+const shorthandToEnvMap = {
+  "GEN": "gen",
+  "IGC": "gaming",
+  "JL":  "joins-leaves",
+  "COM": "commands",
+  "L":   "Lobby",
+  "S":   "Survival",
+  "SEC": "general"
+};
+
 const allowedChannelIds = Object.values(channelMap);
 
 // SSE Clients array
@@ -34,19 +48,24 @@ client.once(Events.ClientReady, (c) => {
   console.log(`Monitoring ${allowedChannelIds.length} channels.`);
 });
 
-// Listen for new messages and push them to the browser instantly
+// Listen for new messages and push them to the browser instantly using shorthand codes
 client.on(Events.MessageCreate, (msg) => {
   if (!allowedChannelIds.includes(msg.channelId)) return;
   if (msg.author.bot) return;
 
-  const channelName = Object.keys(channelMap).find(key => channelMap[key] === msg.channelId);
+  const internalKey = Object.keys(channelMap).find(key => channelMap[key] === msg.channelId);
+  
+  // Find matching shorthand code to send to frontend safely
+  const shorthandCode = Object.keys(shorthandToEnvMap).find(
+    code => shorthandToEnvMap[code] === internalKey
+  ) || 'GEN';
   
   const payload = {
     id: msg.id,
     author: msg.author.username,
     content: msg.content,
     timestamp: msg.createdAt.toISOString(),
-    channel: channelName
+    channel: shorthandCode // Sends shorthand instead of internal name
   };
 
   // Send to all connected browsers
@@ -72,12 +91,13 @@ app.get('/api/stream', (req, res) => {
   req.on('close', () => sseClients.delete(res));
 });
 
-// Get history
+// Get history using shorthand mapping
 app.get('/api/messages', async (req, res) => {
-  const channelName = req.query.channel;
-  const channelId = channelMap[channelName];
+  const shorthandCode = req.query.channel; // e.g., "S", "GEN"
+  const internalKey = shorthandToEnvMap[shorthandCode];
+  const channelId = channelMap[internalKey];
 
-  if (!channelId) return res.status(400).json({ error: `Channel '${channelName}' not found` });
+  if (!channelId) return res.status(400).json({ error: `Channel '${shorthandCode}' not found` });
 
   try {
     const channel = await client.channels.fetch(channelId);
@@ -87,7 +107,7 @@ app.get('/api/messages', async (req, res) => {
       author: m.author.username,
       content: m.content,
       timestamp: m.createdAt.toISOString(),
-      channel: channelName, 
+      channel: shorthandCode, 
     })).reverse();
     res.json(data);
   } catch (err) {
@@ -108,7 +128,7 @@ app.post('/api/verify', (req, res) => {
 
 // 2. Send message (Password Protected)
 app.post('/api/messages', async (req, res) => {
-  const { content, password, username } = req.body; 
+  const { content, password, username, channel: shorthandCode } = req.body; 
 
   // 🛑 THE PASSWORD CHECK
   if (password !== "T3chRep@ir26!") {
@@ -118,13 +138,14 @@ app.post('/api/messages', async (req, res) => {
   if (!content) return res.status(400).json({ error: 'content required' });
 
   try {
-    // Force website messages to go directly to your CoreChatX Console Channel ('Survival' / 1548459448224456704)
-    const consoleChannelId = channelMap['Survival']; 
-    const channel = await client.channels.fetch(consoleChannelId);
+    // Resolve shorthand code securely on the server side
+    const internalKey = shorthandToEnvMap[shorthandCode || 'S'];
+    const targetChannelId = channelMap[internalKey] || channelMap['Survival'];
     
+    const channel = await client.channels.fetch(targetChannelId);
     const sender = username || 'WebUser';
     
-    // This triggers CoreChatX's console command handler to broadcast into Minecraft instantly
+    // Formatted message matching your CoreChatX trigger requirement
     const formattedMessage = `!alert [Farkie WebChat]: ${content}`;
 
     const sent = await channel.send(formattedMessage);
@@ -136,4 +157,4 @@ app.post('/api/messages', async (req, res) => {
 
 app.listen(process.env.PORT || 3000, () => {
   console.log(`Backend running on http://localhost:${process.env.PORT || 3000}`);
-});// Force final deployment
+});
