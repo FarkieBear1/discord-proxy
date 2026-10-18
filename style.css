@@ -1,20 +1,21 @@
 /* ==========================================
-   FIXIT CORE | MONOCHROME PURPLE WIKI THEME
+   FIXIT CORE | 3D BLOCK BACKGROUND WIKI THEME
    ========================================== */
 
 :root {
-  --bg-gradient: linear-gradient(160deg, #06070c 0%, #110920 60%, #090514 100%);
-  --bg-card: rgba(19, 16, 36, 0.75);
+  /* Overlay tint combining a dark purple gradient over background.jpg */
+  --bg-overlay: linear-gradient(160deg, rgba(6, 7, 12, 0.85) 0%, rgba(17, 9, 32, 0.88) 60%, rgba(9, 5, 20, 0.92) 100%);
+  --bg-card: rgba(19, 16, 36, 0.82);
   --bg-input: #120e24;
-  --bg-sidebar: #0d0a1a;
+  --bg-sidebar: rgba(13, 10, 26, 0.85);
   --border-color: #272042;
   --border-subtle: #1c1730;
   --text-main: #f1f3f9;
-  --text-muted: #8e8a9f;
+  --text-muted: #9ca3af;
   --text-dim: #635f75;
   --accent-purple: #9d5cff;
   --accent-blue: #4f80ff;
-  --accent-glow: rgba(157, 92, 255, 0.15);
+  --accent-glow: rgba(157, 92, 255, 0.2);
 }
 
 * {
@@ -25,8 +26,9 @@
 }
 
 body {
-  background: var(--bg-gradient);
-  background-attachment: fixed;
+  /* Combines background overlay tint with the 3D block image */
+  background: var(--bg-overlay), url('images/background.jpg') no-repeat center center fixed;
+  background-size: cover;
   color: var(--text-main);
   padding: 24px;
   min-height: 100vh;
@@ -45,9 +47,11 @@ body {
   margin: 0 auto 24px auto;
   padding: 10px 18px;
   background: var(--bg-card);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-color);
   border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 .site-nav a {
@@ -69,7 +73,8 @@ body {
 .site-nav a.active {
   color: #fff;
   background: var(--border-color);
-  border: 1px solid rgba(157, 92, 255, 0.3);
+  border: 1px solid rgba(157, 92, 255, 0.4);
+  box-shadow: 0 0 12px var(--accent-glow);
 }
 
 /* ==========================================
@@ -87,8 +92,9 @@ body {
   object-fit: cover;
   border-radius: 8px;
   border: 1px solid var(--border-color);
-  opacity: 0.85;
-  filter: grayscale(20%) contrast(110%);
+  opacity: 0.9;
+  filter: contrast(105%);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 /* ==========================================
@@ -105,6 +111,7 @@ header h1 {
   letter-spacing: -0.5px;
   color: var(--text-main);
   margin-bottom: 6px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
 }
 
 header p {
@@ -115,7 +122,7 @@ header p {
 }
 
 /* ==========================================
-   WIKI LAYOUT GRID (LEFT SIDEBAR + CONTENT)
+   WIKI LAYOUT GRID
    ========================================== */
 .wiki-container {
   display: grid;
@@ -131,16 +138,17 @@ header p {
   }
 }
 
-/* Left Sidebar Navigation Index */
 .wiki-sidebar {
   background: var(--bg-card);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 20px;
   height: fit-content;
   position: sticky;
   top: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
 }
 
 .sidebar-title {
@@ -176,7 +184,7 @@ header p {
 }
 
 /* ==========================================
-   WIKI ARTICLES & CARDS
+   WIKI CARDS & TABLES
    ========================================== */
 .wiki-content {
   display: flex;
@@ -197,10 +205,12 @@ header p {
 
 .guide-card {
   background: var(--bg-card);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
 }
 
 .guide-img {
@@ -210,19 +220,14 @@ header p {
   border-radius: 6px;
   margin-bottom: 18px;
   border: 1px solid var(--border-subtle);
-  filter: brightness(0.9) contrast(105%);
 }
 
 .guide-card h3 {
   font-size: 1.05rem;
   color: var(--text-main);
   margin-bottom: 14px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
 }
 
-/* Stylized Monochrome List & Bullet Indicators */
 .guide-card ul {
   list-style: none;
   display: flex;
@@ -283,7 +288,8 @@ code {
 
 .chat-toggle-btn {
   background: var(--bg-card);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   color: var(--text-main);
   border: 1px solid var(--border-color);
   padding: 12px 20px;
@@ -291,7 +297,7 @@ code {
   font-weight: 600;
   font-size: 0.85rem;
   cursor: pointer;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -300,7 +306,7 @@ code {
 
 .chat-toggle-btn:hover {
   border-color: var(--accent-purple);
-  box-shadow: 0 0 15px var(--accent-glow);
+  box-shadow: 0 0 20px var(--accent-glow);
 }
 
 .chat-popup-panel {
@@ -309,11 +315,12 @@ code {
   right: 0;
   width: 380px;
   height: 480px;
-  background: rgba(13, 10, 26, 0.95);
-  backdrop-filter: blur(16px);
+  background: rgba(13, 10, 26, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--border-color);
   border-radius: 10px;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7);
   display: flex;
   flex-direction: column;
   overflow: hidden;
