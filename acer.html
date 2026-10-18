@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FixIt Core | Acer Repair Reference</title>
+  <title>FixIt Core | Acer Wiki Reference</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Top Navigation Bar -->
   <nav class="site-nav">
     <a href="index.html">Home</a>
     <a href="dell.html">Dell</a>
@@ -21,7 +20,6 @@
     <a href="surface.html">Surface</a>
   </nav>
 
-  <!-- Centered Banner Section -->
   <div class="banner-container">
     <img src="images/banner.jpg" alt="FixIt Core Banner" class="site-banner">
   </div>
@@ -31,62 +29,100 @@
     <p>Hardware Repair Tips and Useful Commands</p>
   </header>
 
-  <div class="container">
-    <div class="guides-section">
-      <h2>Acer Repair Protocols & Keys</h2>
-      
+  <div class="wiki-container">
+    <aside class="wiki-sidebar">
+      <div class="sidebar-title">Article Index</div>
+      <ul class="sidebar-links">
+        <li><a href="#models"><span>▸</span> Model Classification</a></li>
+        <li><a href="#keys"><span>▸</span> Firmware & Boot Keys</a></li>
+        <li><a href="#codes"><span>▸</span> LED & Fault Codes</a></li>
+        <li><a href="#servicing"><span>▸</span> Servicing Protocols</a></li>
+      </ul>
+    </aside>
+
+    <main class="wiki-content">
+      <div class="wiki-section-header" id="models">Acer Model Comparison</div>
+
       <div class="guide-card">
-        <img src="images/acer main.jpg" alt="Acer Hardware" class="guide-img">
-        <h3>🔑 Acer Firmware & Boot Keys</h3>
+        <img src="images/acer main.jpg" alt="Acer Laptops" class="guide-img">
+        <h3>Consumer vs. Gaming Tier Overview</h3>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; color: var(--text-muted);">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--border-color); text-align: left; color: var(--text-main);">
+              <th style="padding: 8px;">Series</th>
+              <th style="padding: 8px;">Target Class</th>
+              <th style="padding: 8px;">RAM Config</th>
+              <th style="padding: 8px;">Servicing Highlights</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Aspire / Swift</td>
+              <td style="padding: 8px;">Consumer Budget / Ultra</td>
+              <td style="padding: 8px;">Onboard / Dual SODIMM</td>
+              <td style="padding: 8px;">Fragile plastic hinge mountings.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Nitro 5 / 16</td>
+              <td style="padding: 8px;">Gaming Mid-Range</td>
+              <td style="padding: 8px;">Dual SODIMM Slots</td>
+              <td style="padding: 8px;">Dual fans, secondary M.2 slot and SATA cable adapter.</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Predator Helios / Triton</td>
+              <td style="padding: 8px;">Gaming High-End</td>
+              <td style="padding: 8px;">Dual SODIMM Modular</td>
+              <td style="padding: 8px;">Liquid metal cooling on select CPUs, heavy heatpipes.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="guide-card" id="keys">
+        <h3>Firmware & Diagnostic Key Combinations</h3>
         <ul>
-          <li><strong>BIOS / UEFI Setup:</strong> Tap <strong style="color: #60a5fa;">F2</strong> repeatedly on startup (or <strong style="color: #60a5fa;">Del</strong> on desktops).</li>
-          <li><strong>One-Time Boot Menu:</strong> Tap <strong style="color: #60a5fa;">F12</strong> repeatedly on startup (must enable "F12 Boot Menu" in BIOS first).</li>
-          <li><strong>Acer eRecovery Management:</strong> Hold <strong style="color: #60a5fa;">Alt + F10</strong> on boot to trigger factory recovery.</li>
-          <li><strong>Battery Reset Pinhole:</strong> Disconnect AC, insert paperclip into bottom pinhole for 4 seconds, and wait 5 minutes before powering on.</li>
+          <li><strong>BIOS Setup:</strong> Tap <code>F2</code> repeatedly on startup.</li>
+          <li><strong>One-Time Boot Menu:</strong> Tap <code>F12</code> on startup (Requires enabling <em>"F12 Boot Menu"</em> inside BIOS main tab first).</li>
+          <li><strong>Factory Recovery:</strong> Hold <code>Alt + F10</code> during startup splash screen.</li>
+          <li><strong>Battery Disablement Pinhole:</strong> Disconnect AC adapter, press bottom pinhole button for 4 seconds, and pause 5 minutes before re-powering.</li>
         </ul>
       </div>
 
-      <div class="guide-card">
-        <h3>🚨 Acer Diagnostic Tones & Power LED Indicators</h3>
-        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 10px;">Format: Power / Battery LED Light Sequences</p>
+      <div class="guide-card" id="codes">
+        <h3>LED Fault Behavior & Diagnostics</h3>
         <ul>
-          <li><strong>Blinking Amber Power LED:</strong> System in low-battery thermal safeguard state or charger wattage insufficient.</li>
-          <li><strong>Continuous Amber (No Boot):</strong> Main rail short or EC (Embedded Controller) logic failure.</li>
-          <li><strong>1 Long, 2 Short Beeps (Legacy UEFI):</strong> Display controller / eDP cable unseated or GPU power rail error.</li>
-          <li><strong>Continuous Beeps:</strong> Unseated or incompatible DDR RAM SODIMM.</li>
+          <li><strong>Blinking Amber Power LED:</strong> Battery charge below critical state or charger voltage drop.</li>
+          <li><strong>Blinking Blue LED:</strong> System in Modern Standby / Sleep state wake freeze.</li>
+          <li><strong>No LED Output with AC Connected:</strong> Tripped input protection MOSFET or blown power rail inductor.</li>
         </ul>
       </div>
 
-      <div class="guide-card">
-        <img src="images/battery-replacement.jpg" alt="Acer Battery Servicing" class="guide-img">
-        <h3>🔋 Acer Aspire & Nitro Servicing Tips</h3>
+      <div class="guide-card" id="servicing">
+        <img src="images/battery-replacement.jpg" alt="Acer Servicing" class="guide-img">
+        <h3>Acer Disassembly & Safety Switch</h3>
         <ol>
-          <li><strong>Chassis Clip Safety:</strong> Plastic clips around Nitro/Predator exhaust vents are brittle; unclip carefully with non-marring tools.</li>
-          <li><strong>Internal Battery Lock Switch:</strong> Many Acer motherboards feature a tiny spring-loaded kill switch triggered by the base panel. Ensure screws are fully tightened or power won't route.</li>
-          <li><strong>Dual Fan Maintenance:</strong> Clean dust buildup from thermal fins quarterly; CPU/GPU heatsinks share heatpipes on budget models.</li>
+          <li><strong>Interlock Safety Switch:</strong> Modern Acer mainboards feature a mechanical micro-switch un-pressed by the base panel. If the bottom cover is loose, the laptop will not power on from battery.</li>
+          <li><strong>Hinge Reinforcement:</strong> Always unfasten Acer display hinges before lifting mainboard assemblies to prevent brass standoff tearing.</li>
         </ol>
       </div>
-    </div>
+    </main>
   </div>
 
   <!-- FLOATING SUPPORT CHAT WIDGET -->
   <div class="chat-widget-container">
     <button class="chat-toggle-btn" onclick="toggleChat()">Support Chat</button>
-    
     <div class="chat-popup-panel" id="chat-panel">
       <div class="chat-header">
-        <span id="chat-header-title">Support Chat [Locked]</span>
+        <span id="chat-header-title">Support Chat</span>
         <button class="close-btn" onclick="toggleChat()">✕</button>
       </div>
-
       <div id="auth-gate" style="padding: 20px; text-align: center; display: flex; flex-direction: column; gap: 12px; justify-content: center; height: 100%;">
-        <h4 style="color: #a78bfa;">Restricted Access</h4>
+        <h4 style="color: var(--accent-purple);">Restricted Access</h4>
         <p style="color: var(--text-muted); font-size: 0.85rem;">Please log in to receive support.</p>
-        <input type="text" id="gateway-username" placeholder="Username (Any)" style="background: var(--bg-input); border: 1px solid var(--border-color); color: #fff; padding: 8px; border-radius: 4px; text-align: center; font-size: 0.85rem;">
-        <input type="password" id="gateway-password" placeholder="Password" style="background: var(--bg-input); border: 1px solid var(--border-color); color: #fff; padding: 8px; border-radius: 4px; text-align: center; font-size: 0.85rem;">
-        <button onclick="unlockChat()" style="background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue)); color: #fff; border: none; padding: 8px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.85rem;">Login</button>
+        <input type="text" id="gateway-username" placeholder="Username">
+        <input type="password" id="gateway-password" placeholder="Password">
+        <button onclick="unlockChat()">Login</button>
       </div>
-
       <div id="chat-interface" style="display: none; flex-direction: column; height: 100%;">
         <div class="channel-selector">
           <button class="channel-btn active" data-channel="GEN" onclick="selectChannel('GEN')">GEN</button>
@@ -97,11 +133,9 @@
           <button class="channel-btn" data-channel="S" onclick="selectChannel('S')">S</button>
           <button class="channel-btn" data-channel="SEC" onclick="selectChannel('SEC')">SEC</button>
         </div>
-
         <div class="chat-messages" id="message-container">
           <div class="message"><span class="author">[System]</span> Logged in. Acer stream active.</div>
         </div>
-
         <div class="chat-input-area">
           <textarea id="message-input" rows="2" placeholder="Type message..."></textarea>
           <button onclick="handleSend()">Send Message</button>

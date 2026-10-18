@@ -3,25 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FixIt Core | ASUS Repair Reference</title>
+  <title>FixIt Core | ASUS Wiki Reference</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Top Navigation Bar -->
-<nav class="site-nav">
-    <a href="index.html" class="active">Home</a>
+  <nav class="site-nav">
+    <a href="index.html">Home</a>
     <a href="dell.html">Dell</a>
     <a href="hp.html">HP</a>
     <a href="lenovo.html">Lenovo</a>
-    <a href="asus.html">ASUS</a>
+    <a href="asus.html" class="active">ASUS</a>
     <a href="acer.html">Acer</a>
     <a href="razer.html">Razer</a>
     <a href="samsung.html">Samsung</a>
     <a href="surface.html">Surface</a>
   </nav>
 
-  <!-- Centered Banner Section -->
   <div class="banner-container">
     <img src="images/banner.jpg" alt="FixIt Core Banner" class="site-banner">
   </div>
@@ -31,61 +29,109 @@
     <p>Hardware Repair Tips and Useful Commands</p>
   </header>
 
-  <div class="container">
-    <div class="guides-section">
-      <h2>ASUS Repair Protocols & Keys</h2>
-      
+  <div class="wiki-container">
+    <aside class="wiki-sidebar">
+      <div class="sidebar-title">Article Index</div>
+      <ul class="sidebar-links">
+        <li><a href="#models"><span>▸</span> Model Classification</a></li>
+        <li><a href="#keys"><span>▸</span> Firmware & Boot Keys</a></li>
+        <li><a href="#codes"><span>▸</span> POST Beep Codes</a></li>
+        <li><a href="#servicing"><span>▸</span> Servicing Protocols</a></li>
+      </ul>
+    </aside>
+
+    <main class="wiki-content">
+      <div class="wiki-section-header" id="models">ASUS Model Comparison</div>
+
       <div class="guide-card">
-        <img src="images/asus-main.jpg" alt="ASUS Hardware" class="guide-img">
-        <h3>🔑 ASUS Firmware & Boot Keys</h3>
+        <img src="images/asus-main.jpg" alt="ASUS Laptops" class="guide-img">
+        <h3>Consumer vs. ROG Gaming Tier Overview</h3>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; color: var(--text-muted);">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--border-color); text-align: left; color: var(--text-main);">
+              <th style="padding: 8px;">Series</th>
+              <th style="padding: 8px;">Target Class</th>
+              <th style="padding: 8px;">RAM Config</th>
+              <th style="padding: 8px;">Servicing Highlights</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Vivobook</td>
+              <td style="padding: 8px;">Consumer Entry</td>
+              <td style="padding: 8px;">Onboard + 1 SODIMM</td>
+              <td style="padding: 8px;">Plastic clips, standard Phillips screws.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">ZenBook</td>
+              <td style="padding: 8px;">Consumer Premium Ultra</td>
+              <td style="padding: 8px;">LPDDR Soldered</td>
+              <td style="padding: 8px;">Torx screws, delicate ribbon connectors.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">TUF Gaming</td>
+              <td style="padding: 8px;">Gaming Mid-Range</td>
+              <td style="padding: 8px;">Dual SODIMM</td>
+              <td style="padding: 8px;">Dual fans, secondary M.2 slot access.</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">ROG Strix / Zephyrus</td>
+              <td style="padding: 8px;">High-End Gaming</td>
+              <td style="padding: 8px;">Modular / LPDDR</td>
+              <td style="padding: 8px;">Factory Liquid Metal thermal barrier, metal safety clip on battery.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="guide-card" id="keys">
+        <h3>Firmware & Diagnostic Key Combinations</h3>
         <ul>
-          <li><strong>BIOS / UEFI Setup:</strong> Tap <strong style="color: #60a5fa;">F2</strong> or <strong style="color: #60a5fa;">Delete</strong> repeatedly on startup.</li>
-          <li><strong>One-Time Boot Menu:</strong> Tap <strong style="color: #60a5fa;">Esc</strong> (or <strong style="color: #60a5fa;">F8</strong> on legacy ROG boards) on startup.</li>
-          <li><strong>Hard CMOS Reset:</strong> Hold Power button for 40 seconds straight from off state to trigger EC reset.</li>
+          <li><strong>BIOS Setup:</strong> Tap <code>F2</code> or <code>Delete</code> on power-on.</li>
+          <li><strong>One-Time Boot Menu:</strong> Tap <code>Esc</code> repeatedly at startup.</li>
+          <li><strong>EC Hard Reset:</strong> Press and hold Power button for 40 seconds straight from power-off state to reset embedded controller.</li>
+          <li><strong>EZ Flash Utility:</strong> Accessible inside UEFI (F2 -> Advanced Mode -> Tool -> ASUS EZ Flash).</li>
         </ul>
       </div>
 
-      <div class="guide-card">
-        <h3>🚨 ASUS / AMI BIOS Beep Codes</h3>
-        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 10px;">Format: Standard American Megatrends Audio Sequences</p>
+      <div class="guide-card" id="codes">
+        <h3>AMI BIOS POST Beep Code Definitions</h3>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 12px;">Diagnostic format: Speaker Beep Sequences</p>
         <ul>
-          <li><strong>1 Short Beep:</strong> System booted successfully / POST pass.</li>
-          <li><strong>1 Long, 2 Short Beeps:</strong> Memory / RAM detection failure or unseated SODIMM.</li>
-          <li><strong>1 Long, 3 Short Beeps:</strong> Display / Graphics card error (eDP ribbon issue).</li>
-          <li><strong>1 Long, 4 Short Beeps:</strong> Hardware component failure / CPU fan speed fault.</li>
+          <li><strong>1 Short Beep:</strong> Successful POST pass.</li>
+          <li><strong>1 Long, 2 Short:</strong> Memory / SODIMM initialization failure.</li>
+          <li><strong>1 Long, 3 Short:</strong> Display graphics output error (eDP ribbon or GPU failure).</li>
+          <li><strong>1 Long, 4 Short:</strong> System fan tachometer error or hardware component power plane failure.</li>
         </ul>
       </div>
 
-      <div class="guide-card">
-        <img src="images/drive-replacement.jpg" alt="ASUS Storage & Hardware Servicing" class="guide-img">
-        <h3>🔋 ROG & ZenBook Servicing Protocols</h3>
+      <div class="guide-card" id="servicing">
+        <img src="images/drive-replacement.jpg" alt="ASUS Servicing" class="guide-img">
+        <h3>ASUS Disassembly & Liquid Metal Caution</h3>
         <ol>
-          <li><strong>Chassis Screw Tracking:</strong> Track Torx T5 screw lengths during disassembly to prevent puncture damage.</li>
-          <li><strong>Battery Safety Clip:</strong> Slide back the metal locking mechanism before unplugging battery header.</li>
-          <li><strong>Liquid Metal Caution:</strong> Modern ROG models use factory liquid metal; isolate thoroughly prior to heatsink removal.</li>
+          <li><strong>Metal Battery Safety Slider:</strong> Slide the metal retention clip off the battery connector before pulling plug straight off the motherboard.</li>
+          <li><strong>Liquid Metal Safety:</strong> Modern ROG gaming laptops feature liquid metal on CPU dies; isolate components with electrical tape during heatsink lifting.</li>
+          <li><strong>OLED Panel Caution:</strong> ZenBook OLED ribbon connectors carry high backlight voltages—always isolate battery before unplugging panels.</li>
         </ol>
       </div>
-    </div>
+    </main>
   </div>
 
   <!-- FLOATING SUPPORT CHAT WIDGET -->
   <div class="chat-widget-container">
     <button class="chat-toggle-btn" onclick="toggleChat()">Support Chat</button>
-    
     <div class="chat-popup-panel" id="chat-panel">
       <div class="chat-header">
-        <span id="chat-header-title">Support Chat [Locked]</span>
+        <span id="chat-header-title">Support Chat</span>
         <button class="close-btn" onclick="toggleChat()">✕</button>
       </div>
-
       <div id="auth-gate" style="padding: 20px; text-align: center; display: flex; flex-direction: column; gap: 12px; justify-content: center; height: 100%;">
-        <h4 style="color: #a78bfa;">Restricted Access</h4>
+        <h4 style="color: var(--accent-purple);">Restricted Access</h4>
         <p style="color: var(--text-muted); font-size: 0.85rem;">Please log in to receive support.</p>
-        <input type="text" id="gateway-username" placeholder="Username (Any)" style="background: var(--bg-input); border: 1px solid var(--border-color); color: #fff; padding: 8px; border-radius: 4px; text-align: center; font-size: 0.85rem;">
-        <input type="password" id="gateway-password" placeholder="Password" style="background: var(--bg-input); border: 1px solid var(--border-color); color: #fff; padding: 8px; border-radius: 4px; text-align: center; font-size: 0.85rem;">
-        <button onclick="unlockChat()" style="background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue)); color: #fff; border: none; padding: 8px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.85rem;">Login</button>
+        <input type="text" id="gateway-username" placeholder="Username">
+        <input type="password" id="gateway-password" placeholder="Password">
+        <button onclick="unlockChat()">Login</button>
       </div>
-
       <div id="chat-interface" style="display: none; flex-direction: column; height: 100%;">
         <div class="channel-selector">
           <button class="channel-btn active" data-channel="GEN" onclick="selectChannel('GEN')">GEN</button>
@@ -96,11 +142,9 @@
           <button class="channel-btn" data-channel="S" onclick="selectChannel('S')">S</button>
           <button class="channel-btn" data-channel="SEC" onclick="selectChannel('SEC')">SEC</button>
         </div>
-
         <div class="chat-messages" id="message-container">
           <div class="message"><span class="author">[System]</span> Logged in. ASUS stream active.</div>
         </div>
-
         <div class="chat-input-area">
           <textarea id="message-input" rows="2" placeholder="Type message..."></textarea>
           <button onclick="handleSend()">Send Message</button>

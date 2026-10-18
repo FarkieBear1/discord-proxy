@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FixIt Core | Samsung Repair Reference</title>
+  <title>FixIt Core | Samsung Wiki Reference</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Top Navigation Bar -->
   <nav class="site-nav">
     <a href="index.html">Home</a>
     <a href="dell.html">Dell</a>
@@ -21,7 +20,6 @@
     <a href="surface.html">Surface</a>
   </nav>
 
-  <!-- Centered Banner Section -->
   <div class="banner-container">
     <img src="images/banner.jpg" alt="FixIt Core Banner" class="site-banner">
   </div>
@@ -31,61 +29,98 @@
     <p>Hardware Repair Tips and Useful Commands</p>
   </header>
 
-  <div class="container">
-    <div class="guides-section">
-      <h2>Samsung Repair Protocols & Keys</h2>
-      
+  <div class="wiki-container">
+    <aside class="wiki-sidebar">
+      <div class="sidebar-title">Article Index</div>
+      <ul class="sidebar-links">
+        <li><a href="#models"><span>▸</span> Model Classification</a></li>
+        <li><a href="#keys"><span>▸</span> Firmware & Boot Keys</a></li>
+        <li><a href="#codes"><span>▸</span> Power Light Status</a></li>
+        <li><a href="#servicing"><span>▸</span> Servicing Protocols</a></li>
+      </ul>
+    </aside>
+
+    <main class="wiki-content">
+      <div class="wiki-section-header" id="models">Samsung Galaxy Book Lineup</div>
+
       <div class="guide-card">
-        <img src="images/samsung main.jpg" alt="Samsung Hardware" class="guide-img">
-        <h3>🔑 Samsung Firmware & Boot Keys</h3>
+        <img src="images/samsung main.jpg" alt="Samsung Laptops" class="guide-img">
+        <h3>Galaxy Book Series Overview</h3>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; color: var(--text-muted);">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--border-color); text-align: left; color: var(--text-main);">
+              <th style="padding: 8px;">Series</th>
+              <th style="padding: 8px;">Type</th>
+              <th style="padding: 8px;">RAM Config</th>
+              <th style="padding: 8px;">Servicing Highlights</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Galaxy Book Standard</td>
+              <td style="padding: 8px;">Ultra-Portable</td>
+              <td style="padding: 8px;">LPDDR Soldered</td>
+              <td style="padding: 8px;">Hidden screws under rubber feet.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Galaxy Book Pro / 360</td>
+              <td style="padding: 8px;">AMOLED Convertible</td>
+              <td style="padding: 8px;">LPDDR Soldered</td>
+              <td style="padding: 8px;">Ultra-fragile OLED glass panels and ribbon cables.</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Galaxy Book Ultra</td>
+              <td style="padding: 8px;">Performance Studio</td>
+              <td style="padding: 8px;">LPDDR Soldered</td>
+              <td style="padding: 8px;">Dual fans, dual M.2 NVMe expansion slots.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="guide-card" id="keys">
+        <h3>Firmware & Diagnostic Key Combinations</h3>
         <ul>
-          <li><strong>BIOS / UEFI Setup:</strong> Tap <strong style="color: #60a5fa;">F2</strong> repeatedly on startup.</li>
-          <li><strong>One-Time Boot Menu:</strong> Tap <strong style="color: #60a5fa;">F10</strong> (or <strong style="color: #60a5fa;">F12</strong> on select models) repeatedly on startup.</li>
-          <li><strong>Samsung Recovery Utility:</strong> Tap <strong style="color: #60a5fa;">F4</strong> repeatedly during boot.</li>
-          <li><strong>Forced Power Reset:</strong> Hold Power + Volume Down buttons for 10 seconds on Galaxy Book 2-in-1 convertible models.</li>
+          <li><strong>BIOS Setup:</strong> Tap <code>F2</code> repeatedly on power-on.</li>
+          <li><strong>One-Time Boot Menu:</strong> Tap <code>F10</code> on startup.</li>
+          <li><strong>Samsung Factory Recovery:</strong> Tap <code>F4</code> on boot.</li>
         </ul>
       </div>
 
-      <div class="guide-card">
-        <h3>🚨 Samsung Galaxy Book Fault Indicators</h3>
-        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 10px;">Format: Charging Port & Power LED Behavior</p>
+      <div class="guide-card" id="codes">
+        <h3>Power & Charging LED Diagnostics</h3>
         <ul>
-          <li><strong>Blinking Red Power LED:</strong> Improper USB-C PD wattage detected; system running directly off battery.</li>
-          <li><strong>Blinking Blue LED:</strong> Modern Standby / Sleep mode wake failure or corrupted graphics driver state.</li>
-          <li><strong>No LED Reaction On Charger:</strong> Dead USB-C power delivery negotiator chip or tripped motherboard input fuse.</li>
+          <li><strong>Blinking Red Light:</strong> Non-compliant USB-C Power Delivery power supply.</li>
+          <li><strong>Blinking Blue Light:</strong> System modern standby lockup state.</li>
         </ul>
       </div>
 
-      <div class="guide-card">
-        <img src="images/drive-replacement.jpg" alt="Samsung Galaxy Book Repair" class="guide-img">
-        <h3>🔋 Samsung Galaxy Book Repair & Upgrade Tips</h3>
+      <div class="guide-card" id="servicing">
+        <img src="images/drive-replacement.jpg" alt="Samsung Servicing" class="guide-img">
+        <h3>Samsung Galaxy Book Repair Tips</h3>
         <ol>
-          <li><strong>Hidden Rubber Feet Screws:</strong> Samsung ultra-portables conceal micro-Philips screws under all four corner rubber pads. Heat pads gently with a hairdryer before prying.</li>
-          <li><strong>Ultra-Thin Ribbon Cables:</strong> Galaxy Book motherboard connectors use fragile, zero-insertion-force (ZIF) latches—lift flaps with nylon spudgers only.</li>
-          <li><strong>Storage Slots:</strong> Galaxy Book Pro / 360 models frequently feature a secondary M.2 2280 NVMe expansion slot under thermal shielding tape.</li>
+          <li><strong>Rubber Feet Extraction:</strong> Heat rubber feet with a thermal blower prior to lifting to avoid tearing adhesive padding.</li>
+          <li><strong>Zero Insertion Force (ZIF) Clips:</strong> Handle tiny ZIF ribbon clamps with plastic tools to prevent snapping retention bars.</li>
         </ol>
       </div>
-    </div>
+    </main>
   </div>
 
   <!-- FLOATING SUPPORT CHAT WIDGET -->
   <div class="chat-widget-container">
     <button class="chat-toggle-btn" onclick="toggleChat()">Support Chat</button>
-    
     <div class="chat-popup-panel" id="chat-panel">
       <div class="chat-header">
-        <span id="chat-header-title">Support Chat [Locked]</span>
+        <span id="chat-header-title">Support Chat</span>
         <button class="close-btn" onclick="toggleChat()">✕</button>
       </div>
-
       <div id="auth-gate" style="padding: 20px; text-align: center; display: flex; flex-direction: column; gap: 12px; justify-content: center; height: 100%;">
-        <h4 style="color: #a78bfa;">Restricted Access</h4>
+        <h4 style="color: var(--accent-purple);">Restricted Access</h4>
         <p style="color: var(--text-muted); font-size: 0.85rem;">Please log in to receive support.</p>
-        <input type="text" id="gateway-username" placeholder="Username (Any)" style="background: var(--bg-input); border: 1px solid var(--border-color); color: #fff; padding: 8px; border-radius: 4px; text-align: center; font-size: 0.85rem;">
-        <input type="password" id="gateway-password" placeholder="Password" style="background: var(--bg-input); border: 1px solid var(--border-color); color: #fff; padding: 8px; border-radius: 4px; text-align: center; font-size: 0.85rem;">
-        <button onclick="unlockChat()" style="background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue)); color: #fff; border: none; padding: 8px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.85rem;">Login</button>
+        <input type="text" id="gateway-username" placeholder="Username">
+        <input type="password" id="gateway-password" placeholder="Password">
+        <button onclick="unlockChat()">Login</button>
       </div>
-
       <div id="chat-interface" style="display: none; flex-direction: column; height: 100%;">
         <div class="channel-selector">
           <button class="channel-btn active" data-channel="GEN" onclick="selectChannel('GEN')">GEN</button>
@@ -96,11 +131,9 @@
           <button class="channel-btn" data-channel="S" onclick="selectChannel('S')">S</button>
           <button class="channel-btn" data-channel="SEC" onclick="selectChannel('SEC')">SEC</button>
         </div>
-
         <div class="chat-messages" id="message-container">
           <div class="message"><span class="author">[System]</span> Logged in. Samsung stream active.</div>
         </div>
-
         <div class="chat-input-area">
           <textarea id="message-input" rows="2" placeholder="Type message..."></textarea>
           <button onclick="handleSend()">Send Message</button>

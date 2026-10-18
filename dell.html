@@ -3,94 +3,141 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FixIt Core | Dell Repair Reference</title>
+  <title>FixIt Core | Dell Wiki Reference</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <!-- Top Navigation Bar -->
-<nav class="site-nav">
-  <a href="index.html">Home</a>
-  <a href="dell.html">Dell</a>
-  <a href="hp.html">HP</a>
-  <a href="lenovo.html">Lenovo</a>
-  <a href="asus.html">ASUS</a>
-  <a href="acer.html">Acer</a>
-  <a href="razer.html">Razer</a>
-  <a href="samsung.html">Samsung</a>
-  <a href="surface.html">Surface</a>
-</nav>
+  <nav class="site-nav">
+    <a href="index.html">Home</a>
+    <a href="dell.html" class="active">Dell</a>
+    <a href="hp.html">HP</a>
+    <a href="lenovo.html">Lenovo</a>
+    <a href="asus.html">ASUS</a>
+    <a href="acer.html">Acer</a>
+    <a href="razer.html">Razer</a>
+    <a href="samsung.html">Samsung</a>
+    <a href="surface.html">Surface</a>
+  </nav>
 
-  <!-- Centered Banner Section -->
   <div class="banner-container">
     <img src="images/banner.jpg" alt="FixIt Core Banner" class="site-banner">
   </div>
 
   <header>
-    <h1>Dell Hardware Reference</h1>
+    <h1>Dell Technical Reference</h1>
     <p>Hardware Repair Tips and Useful Commands</p>
   </header>
 
-  <div class="container">
-    <div class="guides-section">
-      <h2>Dell Repair Protocols & Keys</h2>
-      
+  <div class="wiki-container">
+    <!-- LEFT SIDEBAR -->
+    <aside class="wiki-sidebar">
+      <div class="sidebar-title">Article Index</div>
+      <ul class="sidebar-links">
+        <li><a href="#models"><span>▸</span> Model Classification</a></li>
+        <li><a href="#keys"><span>▸</span> Firmware & Boot Keys</a></li>
+        <li><a href="#codes"><span>▸</span> LED Flash Codes</a></li>
+        <li><a href="#servicing"><span>▸</span> Servicing Protocols</a></li>
+      </ul>
+    </aside>
+
+    <!-- MAIN WIKI CONTENT -->
+    <main class="wiki-content">
+      <div class="wiki-section-header" id="models">Dell Laptop Tier Comparison</div>
+
       <div class="guide-card">
-        <img src="images/dell-main.jpg" alt="Dell Laptop Hardware" class="guide-img">
-        <h3>🔑 Dell Firmware & Boot Keys</h3>
+        <img src="images/dell-main.jpg" alt="Dell Laptops" class="guide-img">
+        <h3>Consumer vs. Commercial Model Families</h3>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; color: var(--text-muted);">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--border-color); text-align: left; color: var(--text-main);">
+              <th style="padding: 8px;">Series</th>
+              <th style="padding: 8px;">Target Class</th>
+              <th style="padding: 8px;">RAM Config</th>
+              <th style="padding: 8px;">Servicing Highlights</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Inspiron</td>
+              <td style="padding: 8px;">Consumer Entry / Mid</td>
+              <td style="padding: 8px;">Dual SODIMM / LPDDR</td>
+              <td style="padding: 8px;">Plastic clips, standard Phillips fasteners.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">XPS</td>
+              <td style="padding: 8px;">Consumer Premium</td>
+              <td style="padding: 8px;">LPDDR Soldered / CAMM2</td>
+              <td style="padding: 8px;">Torx T5 screws, delicate ribbon connectors.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Latitude</td>
+              <td style="padding: 8px;">Business Enterprise</td>
+              <td style="padding: 8px;">Dual SODIMM / Modular</td>
+              <td style="padding: 8px;">Captive screws, modular I/O, service doors.</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Precision</td>
+              <td style="padding: 8px;">Workstation</td>
+              <td style="padding: 8px;">ECC SODIMM / CAMM2</td>
+              <td style="padding: 8px;">Dual heatpipes, multi-drive M.2 expansion.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="guide-card" id="keys">
+        <h3>Firmware & Diagnostic Key Combinations</h3>
         <ul>
-          <li><strong>BIOS / UEFI Setup:</strong> Tap <strong style="color: #60a5fa;">F2</strong> repeatedly on startup.</li>
-          <li><strong>One-Time Boot Menu:</strong> Tap <strong style="color: #60a5fa;">F12</strong> repeatedly on startup.</li>
-          <li><strong>Built-in LCD Self-Test (BIST):</strong> Hold down the <strong style="color: #60a5fa;">D</strong> key while powering on.</li>
-          <li><strong>Hardware Support Menu:</strong> Accessible via the F12 one-time boot menu.</li>
+          <li><strong>BIOS / UEFI Setup:</strong> Tap <code>F2</code> repeatedly at the Dell splash screen.</li>
+          <li><strong>One-Time Boot Menu:</strong> Tap <code>F12</code> repeatedly on power-on to access boot order and ePSA diagnostics.</li>
+          <li><strong>Display Pixel Self-Test (BIST):</strong> Hold the <code>D</code> key down while pressing the power button to initiate cycling color screen diagnostic.</li>
+          <li><strong>Force Real-Time Clock (RTC) Reset:</strong> Press and hold the power button for 25–30 seconds with AC connected to reset firmware registers.</li>
         </ul>
       </div>
 
-      <div class="guide-card">
-        <h3>🚨 Dell Amber / White Power LED Codes</h3>
-        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 10px;">Format: [Amber Blinks] - Pause - [White Blinks]</p>
+      <div class="guide-card" id="codes">
+        <h3>Amber / White Diagnostic LED Sequences</h3>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 12px;">Diagnostic format: [Amber Flashes] - [Pause] - [White Flashes]</p>
         <ul>
-          <li><strong>2, 1:</strong> Processor (CPU) failure or motherboard socket fault</li>
-          <li><strong>2, 3:</strong> System board, memory, or CMOS battery failure</li>
-          <li><strong>2, 4:</strong> RAM memory failure (Reseat or swap SODIMMs)</li>
-          <li><strong>2, 7:</strong> Display failure (LCD connection or eDP ribbon cable)</li>
-          <li><strong>3, 1:</strong> Real-Time Clock (RTC) power failure / Dead CMOS coin cell</li>
-          <li><strong>3, 6:</strong> Flash corruption detected / BIOS recovery needed</li>
+          <li><strong>2, 1:</strong> Processor (CPU) execution failure or logic board socket fault.</li>
+          <li><strong>2, 3:</strong> System board failure or bad BIOS flash.</li>
+          <li><strong>2, 4:</strong> Memory failure (No RAM detected / unseated SODIMM).</li>
+          <li><strong>2, 7:</strong> Display failure (eDP ribbon unseated or panel fault).</li>
+          <li><strong>3, 1:</strong> CMOS coin cell battery power failure.</li>
+          <li><strong>3, 6:</strong> SBIOS SPI flash memory corruption detected.</li>
         </ul>
       </div>
 
-      <div class="guide-card">
+      <div class="guide-card" id="servicing">
         <img src="images/battery-replacement.jpg" alt="Dell Battery Servicing" class="guide-img">
-        <h3>🔋 Dell Battery Replacement Procedure</h3>
+        <h3>Dell Disassembly & Repair Protocols</h3>
         <ol>
-          <li><strong>Health Audit:</strong> Run <code>powercfg /batteryreport</code> via administrative Command Prompt.</li>
-          <li><strong>Safe Shutdown:</strong> Power down completely and disconnect AC adapter.</li>
-          <li><strong>Chassis Access:</strong> Remove bottom cover screws and unclip edges with plastic spudgers.</li>
-          <li><strong>Primary Isolation:</strong> Disconnect internal battery connector parallel to board before touching components.</li>
-          <li><strong>Residual Discharge:</strong> Hold power button for 15 seconds to drain logic board capacitors.</li>
+          <li><strong>ePSA Audit:</strong> Run <code>F12</code> hardware diagnostics prior to physical teardowns to document error logs.</li>
+          <li><strong>Battery Isolation:</strong> Unplug internal battery cable parallel to board prior to touching storage or wireless modules.</li>
+          <li><strong>Screw Organization:</strong> Modern Dell Latitude/Precision models utilize captive base screws—do not force extraction.</li>
+          <li><strong>Thermal Maintenance:</strong> Replace phase-change thermal pads on VRM chokes whenever lifting heatsink assemblies.</li>
         </ol>
       </div>
-    </div>
+    </main>
   </div>
 
   <!-- FLOATING SUPPORT CHAT WIDGET -->
   <div class="chat-widget-container">
     <button class="chat-toggle-btn" onclick="toggleChat()">Support Chat</button>
-    
     <div class="chat-popup-panel" id="chat-panel">
       <div class="chat-header">
-        <span id="chat-header-title">Support Chat [Locked]</span>
+        <span id="chat-header-title">Support Chat</span>
         <button class="close-btn" onclick="toggleChat()">✕</button>
       </div>
-
       <div id="auth-gate" style="padding: 20px; text-align: center; display: flex; flex-direction: column; gap: 12px; justify-content: center; height: 100%;">
-        <h4 style="color: #a78bfa;">Restricted Access</h4>
+        <h4 style="color: var(--accent-purple);">Restricted Access</h4>
         <p style="color: var(--text-muted); font-size: 0.85rem;">Please log in to receive support.</p>
-        <input type="text" id="gateway-username" placeholder="Username (Any)" style="background: var(--bg-input); border: 1px solid var(--border-color); color: #fff; padding: 8px; border-radius: 4px; text-align: center; font-size: 0.85rem;">
-        <input type="password" id="gateway-password" placeholder="Password" style="background: var(--bg-input); border: 1px solid var(--border-color); color: #fff; padding: 8px; border-radius: 4px; text-align: center; font-size: 0.85rem;">
-        <button onclick="unlockChat()" style="background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue)); color: #fff; border: none; padding: 8px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.85rem;">Login</button>
+        <input type="text" id="gateway-username" placeholder="Username">
+        <input type="password" id="gateway-password" placeholder="Password">
+        <button onclick="unlockChat()">Login</button>
       </div>
-
       <div id="chat-interface" style="display: none; flex-direction: column; height: 100%;">
         <div class="channel-selector">
           <button class="channel-btn active" data-channel="GEN" onclick="selectChannel('GEN')">GEN</button>
@@ -101,11 +148,9 @@
           <button class="channel-btn" data-channel="S" onclick="selectChannel('S')">S</button>
           <button class="channel-btn" data-channel="SEC" onclick="selectChannel('SEC')">SEC</button>
         </div>
-
         <div class="chat-messages" id="message-container">
           <div class="message"><span class="author">[System]</span> Logged in. Dell stream active.</div>
         </div>
-
         <div class="chat-input-area">
           <textarea id="message-input" rows="2" placeholder="Type message..."></textarea>
           <button onclick="handleSend()">Send Message</button>

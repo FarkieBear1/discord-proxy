@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FixIt Core | Razer Repair Reference</title>
+  <title>FixIt Core | Razer Wiki Reference</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Top Navigation Bar -->
   <nav class="site-nav">
     <a href="index.html">Home</a>
     <a href="dell.html">Dell</a>
@@ -21,72 +20,109 @@
     <a href="surface.html">Surface</a>
   </nav>
 
-  <!-- Centered Banner Section -->
   <div class="banner-container">
     <img src="images/banner.jpg" alt="FixIt Core Banner" class="site-banner">
   </div>
 
   <header>
-    <h1>Razer Blade Hardware Reference</h1>
+    <h1>Razer Blade Reference</h1>
     <p>Hardware Repair Tips and Useful Commands</p>
   </header>
 
-  <div class="container">
-    <div class="guides-section">
-      <h2>Razer Blade Repair Protocols & Keys</h2>
-      
+  <div class="wiki-container">
+    <aside class="wiki-sidebar">
+      <div class="sidebar-title">Article Index</div>
+      <ul class="sidebar-links">
+        <li><a href="#models"><span>▸</span> Model Classification</a></li>
+        <li><a href="#keys"><span>▸</span> Firmware & Boot Keys</a></li>
+        <li><a href="#codes"><span>▸</span> Edge LED Diagnostics</a></li>
+        <li><a href="#servicing"><span>▸</span> Servicing Protocols</a></li>
+      </ul>
+    </aside>
+
+    <main class="wiki-content">
+      <div class="wiki-section-header" id="models">Razer Blade Model Comparison</div>
+
       <div class="guide-card">
-        <img src="images/Razer-Main.jpg" alt="Razer Hardware" class="guide-img">
-        <h3>🔑 Razer Firmware & Boot Keys</h3>
+        <img src="images/Razer-Main.jpg" alt="Razer Laptops" class="guide-img">
+        <h3>Razer Blade Chassis Lineup</h3>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; color: var(--text-muted);">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--border-color); text-align: left; color: var(--text-main);">
+              <th style="padding: 8px;">Series</th>
+              <th style="padding: 8px;">Form Factor</th>
+              <th style="padding: 8px;">RAM Config</th>
+              <th style="padding: 8px;">Servicing Highlights</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Blade 14</td>
+              <td style="padding: 8px;">Ultra-Compact AMD</td>
+              <td style="padding: 8px;">LPDDR Soldered</td>
+              <td style="padding: 8px;">Vapor chamber cooling, T5 Torx fasteners.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Blade 15 / 16</td>
+              <td style="padding: 8px;">Performance Portable</td>
+              <td style="padding: 8px;">Dual SODIMM Slots</td>
+              <td style="padding: 8px;">High battery swell rate—inspect cells during repairs.</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Blade 17 / 18</td>
+              <td style="padding: 8px;">Desktop Replacement</td>
+              <td style="padding: 8px;">Dual SODIMM Modular</td>
+              <td style="padding: 8px;">Multi-fan assemblies, dual M.2 NVMe slots.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="guide-card" id="keys">
+        <h3>Firmware & Diagnostic Key Combinations</h3>
         <ul>
-          <li><strong>BIOS / UEFI Setup:</strong> Tap <strong style="color: #60a5fa;">F2</strong> or <strong style="color: #60a5fa;">Delete</strong> repeatedly on startup.</li>
-          <li><strong>One-Time Boot Menu:</strong> Tap <strong style="color: #60a5fa;">F12</strong> repeatedly on startup.</li>
-          <li><strong>System Recovery:</strong> Tap <strong style="color: #60a5fa;">F9</strong> repeatedly during startup splash screen.</li>
-          <li><strong>EC Hard Reset:</strong> Shut down, unplug power cable, hold Power button for 15 seconds to reset Embedded Controller.</li>
+          <li><strong>BIOS Setup:</strong> Tap <code>F2</code> or <code>Delete</code> repeatedly on power-on.</li>
+          <li><strong>One-Time Boot Menu:</strong> Tap <code>F12</code> on startup.</li>
+          <li><strong>System Recovery:</strong> Tap <code>F9</code> repeatedly during splash screen.</li>
+          <li><strong>EC Hard Reset:</strong> Unplug power charger, press and hold Power button for 15 seconds.</li>
         </ul>
       </div>
 
-      <div class="guide-card">
-        <h3>🚨 Razer Blade Status Indicators & Diagnostic Codes</h3>
-        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 10px;">Format: Front Edge LED Pulse Sequences</p>
+      <div class="guide-card" id="codes">
+        <h3>Front Edge LED Diagnostic Patterns</h3>
         <ul>
-          <li><strong>Blinking Red LED:</strong> Overheating alert / thermal throttling limit exceeded or fan tachometer failure.</li>
-          <li><strong>Blinking Green LED:</strong> System in Sleep state or GPU power handoff fault.</li>
-          <li><strong>Solid Red LED:</strong> Power supply / charger wattage degradation or battery voltage mismatch.</li>
-          <li><strong>No Light / Black Screen:</strong> Memory train failure (wait 2 minutes after CMOS clearing) or eDP cable failure.</li>
+          <li><strong>Blinking Red:</strong> System thermal throttling / Fan tachometer failure.</li>
+          <li><strong>Blinking Green:</strong> Modern Standby / Sleep state wake issue.</li>
+          <li><strong>Solid Red:</strong> AC power adapter wattage mismatch or battery fault.</li>
         </ul>
       </div>
 
-      <div class="guide-card">
-        <img src="images/battery-replacement.jpg" alt="Razer Battery Servicing" class="guide-img">
-        <h3>🔋 Razer Blade Thermal & Battery Tips</h3>
+      <div class="guide-card" id="servicing">
+        <img src="images/battery-replacement.jpg" alt="Razer Servicing" class="guide-img">
+        <h3>Razer Blade Battery Swell & Thermal Care</h3>
         <ol>
-          <li><strong>Battery Swell Vigilance:</strong> Inspect Razer Blade batteries frequently for expansion; bulging cells can damage trackpad clickers and top aluminum casing.</li>
-          <li><strong>Vapor Chamber Caution:</strong> Handle vapor chambers with extreme care during repasting—bending copper vacuum seals permanently destroys cooling capacity.</li>
-          <li><strong>Torx Screws:</strong> Base plates typically require Torx T5 drivers; do not over-torque screws into delicate aluminum standoffs.</li>
+          <li><strong>Battery Inflation Check:</strong> Razer Blade batteries expand when subjected to sustained high temperatures; replace bulging packs immediately to prevent glass trackpad damage.</li>
+          <li><strong>Vapor Chamber Seals:</strong> Do not bend vapor chamber heatsinks during repasting—air leaks cause complete cooling loss.</li>
         </ol>
       </div>
-    </div>
+    </main>
   </div>
 
   <!-- FLOATING SUPPORT CHAT WIDGET -->
   <div class="chat-widget-container">
     <button class="chat-toggle-btn" onclick="toggleChat()">Support Chat</button>
-    
     <div class="chat-popup-panel" id="chat-panel">
       <div class="chat-header">
-        <span id="chat-header-title">Support Chat [Locked]</span>
+        <span id="chat-header-title">Support Chat</span>
         <button class="close-btn" onclick="toggleChat()">✕</button>
       </div>
-
       <div id="auth-gate" style="padding: 20px; text-align: center; display: flex; flex-direction: column; gap: 12px; justify-content: center; height: 100%;">
-        <h4 style="color: #a78bfa;">Restricted Access</h4>
+        <h4 style="color: var(--accent-purple);">Restricted Access</h4>
         <p style="color: var(--text-muted); font-size: 0.85rem;">Please log in to receive support.</p>
-        <input type="text" id="gateway-username" placeholder="Username (Any)" style="background: var(--bg-input); border: 1px solid var(--border-color); color: #fff; padding: 8px; border-radius: 4px; text-align: center; font-size: 0.85rem;">
-        <input type="password" id="gateway-password" placeholder="Password" style="background: var(--bg-input); border: 1px solid var(--border-color); color: #fff; padding: 8px; border-radius: 4px; text-align: center; font-size: 0.85rem;">
-        <button onclick="unlockChat()" style="background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue)); color: #fff; border: none; padding: 8px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.85rem;">Login</button>
+        <input type="text" id="gateway-username" placeholder="Username">
+        <input type="password" id="gateway-password" placeholder="Password">
+        <button onclick="unlockChat()">Login</button>
       </div>
-
       <div id="chat-interface" style="display: none; flex-direction: column; height: 100%;">
         <div class="channel-selector">
           <button class="channel-btn active" data-channel="GEN" onclick="selectChannel('GEN')">GEN</button>
@@ -97,11 +133,9 @@
           <button class="channel-btn" data-channel="S" onclick="selectChannel('S')">S</button>
           <button class="channel-btn" data-channel="SEC" onclick="selectChannel('SEC')">SEC</button>
         </div>
-
         <div class="chat-messages" id="message-container">
           <div class="message"><span class="author">[System]</span> Logged in. Razer stream active.</div>
         </div>
-
         <div class="chat-input-area">
           <textarea id="message-input" rows="2" placeholder="Type message..."></textarea>
           <button onclick="handleSend()">Send Message</button>
