@@ -108,29 +108,24 @@ app.post('/api/verify', (req, res) => {
 
 // 2. Send message (Password Protected)
 app.post('/api/messages', async (req, res) => {
-  const { content, channel: channelName, password, username } = req.body; 
-  const channelId = channelMap[channelName];
+  const { content, password, username } = req.body; 
 
   // 🛑 THE PASSWORD CHECK
   if (password !== "T3chRep@ir26!") {
     return res.status(403).json({ error: 'Access Denied: Invalid Technician ID.' });
   }
 
-  if (!content || !channelId) return res.status(400).json({ error: 'content and valid channel required' });
+  if (!content) return res.status(400).json({ error: 'content required' });
 
   try {
-    const channel = await client.channels.fetch(channelId);
+    // Force website messages to go directly to your CoreChatX Console Channel ('Survival' / 1548459448224456704)
+    const consoleChannelId = channelMap['Survival']; 
+    const channel = await client.channels.fetch(consoleChannelId);
     
-    // Format sender identity (defaults to 'WebUser' if not provided by frontend)
     const sender = username || 'WebUser';
-
-    // Format message with prefix command so CoreChatX processes it
-    let formattedMessage = `!chat [Web] ${sender}: ${content}`;
-
-    // If target channel is Survival console (CHANNELS.Survival in .env / 1548459448224456704)
-    if (channelName === 'Survival') {
-      formattedMessage = `!gchat [Web] ${sender}: ${content}`;
-    }
+    
+    // This triggers CoreChatX's console command handler to broadcast into Minecraft instantly
+    const formattedMessage = `!gchat [Web] ${sender}: ${content}`;
 
     const sent = await channel.send(formattedMessage);
     res.json({ ok: true, id: sent.id });
