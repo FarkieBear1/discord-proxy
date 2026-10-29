@@ -1,12 +1,21 @@
-/* Laptop family comparison tables */
-.laptop-family-guide{margin:20px 0 28px;overflow:hidden}
-.laptop-family-guide h3{margin-top:0}
-.family-table{width:100%;border-collapse:collapse;table-layout:fixed;margin:14px 0;font-size:.94rem}
-.family-table th,.family-table td{padding:13px 14px;text-align:left;vertical-align:top;border-bottom:1px solid rgba(172,145,220,.22);overflow-wrap:anywhere}
-.family-table th{background:rgba(120,79,185,.18);color:#eee5ff}
-.family-table th:first-child{width:20%}
-.family-table th:nth-child(2){width:43%}
-.family-table tbody tr:hover{background:rgba(120,79,185,.08)}
-.family-table td:first-child{font-weight:700;color:#d8bcff}
-.family-note{font-size:.84rem;opacity:.8;margin-bottom:0}
-@media(max-width:680px){.family-table{font-size:.83rem}.family-table th,.family-table td{padding:9px 7px}.family-table th:first-child{width:25%}}
+/* Laptop product family comparison: scoped to manufacturer pages. */
+.laptop-family-guide { margin: 24px 0 32px; min-width: 0; }
+.laptop-family-guide h3 { margin: 0 0 12px; line-height: 1.4; }
+.laptop-family-guide > p:not(.family-note) { line-height: 1.65; margin-bottom: 16px; }
+.laptop-family-guide .family-table-scroll { overflow-x: auto; max-width: 100%; border: 1px solid rgba(180,145,236,.30); border-radius: 12px; -webkit-overflow-scrolling: touch; }
+.laptop-family-guide table.family-table { width: 100%; min-width: 640px; table-layout: fixed; border-collapse: separate; border-spacing: 0; margin: 0; font-size: .93rem; line-height: 1.55; color: #eae5f3; }
+.laptop-family-guide .family-table th,
+.laptop-family-guide .family-table td { box-sizing: border-box; padding: 16px 18px; text-align: left; vertical-align: top; overflow-wrap: break-word; word-break: normal; border-bottom: 1px solid rgba(180,145,236,.22); }
+.laptop-family-guide .family-table thead th { background: #302044; color: #fff; font-weight: 700; letter-spacing: .01em; }
+.laptop-family-guide .family-table th:first-child { width: 20%; }
+.laptop-family-guide .family-table th:nth-child(2) { width: 39%; }
+.laptop-family-guide .family-table th:nth-child(3) { width: 41%; }
+.laptop-family-guide .family-table tbody tr:nth-child(odd) { background: rgba(67,48,94,.24); }
+.laptop-family-guide .family-table tbody tr:nth-child(even) { background: rgba(32,25,49,.65); }
+.laptop-family-guide .family-table tbody tr:hover { background: rgba(114,75,161,.30); }
+.laptop-family-guide .family-table tbody td:first-child { font-weight: 750; color: #e0c6ff; white-space: nowrap; }
+.laptop-family-guide .family-table th + th,
+.laptop-family-guide .family-table td + td { border-left: 1px solid rgba(180,145,236,.15); }
+.laptop-family-guide .family-table tbody tr:last-child td { border-bottom: 0; }
+.laptop-family-guide .family-note { margin: 16px 0 0; color: #bdb1cf; font-size: .83rem; line-height: 1.6; }
+@media (max-width: 700px) { .laptop-family-guide .family-table th, .laptop-family-guide .family-table td { padding: 13px 14px; } .laptop-family-guide table.family-table { font-size: .87rem; } }
