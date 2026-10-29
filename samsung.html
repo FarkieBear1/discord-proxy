@@ -1,146 +1,135 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FixIt Core | Samsung Repair Protocols & Boot Cheat Sheet</title>
-  <link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="diagnostics.css"><link rel="stylesheet" href="reference.css"><link rel="stylesheet" href="navigation.css"></head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FixIt Core | Samsung Repair Protocols &amp; Boot Cheat Sheet</title>
+<link href="style.css" rel="stylesheet"/>
+<link href="diagnostics.css" rel="stylesheet"/><link href="reference.css" rel="stylesheet"/><link href="navigation.css" rel="stylesheet"/><link href="laptop-families.css" rel="stylesheet"/></head>
 <body>
-
-  <div class="banner-container">
-    <img src="images/banner.jpg" alt="FixIt Core Banner" class="site-banner">
-  </div>
-
-  <nav class="site-nav grouped-nav" aria-label="Main navigation">
+<div class="banner-container">
+<img alt="FixIt Core Banner" class="site-banner" src="images/banner.jpg"/>
+</div>
+<nav aria-label="Main navigation" class="site-nav grouped-nav">
 <a class="nav-home" href="index.html">⌂ Home</a>
 <details class="nav-group"><summary>Windows laptops</summary><div class="nav-menu"><a href="dell.html">Dell</a><a href="hp.html">HP</a><a href="lenovo.html">Lenovo</a><a href="asus.html">ASUS</a><a href="acer.html">Acer</a><a href="razer.html">Razer</a><a href="samsung.html">Samsung</a><a href="surface.html">Microsoft Surface</a><a href="msi.html">MSI</a><a href="lg.html">LG gram</a><a href="windows-commands.html">Windows commands</a></div></details>
 <details class="nav-group"><summary>Apple / Mac</summary><div class="nav-menu"><a href="macbook.html">MacBook reference</a><a href="mac-commands.html">macOS commands</a></div></details>
 <a href="linux-commands.html">Linux commands</a><a href="diagnostics.html">Diagnostic tools</a>
 </nav>
-
-  <header>
-    <h1>Samsung Galaxy Book Servicing Guide</h1>
-    <p>Galaxy Book Pro, Ultra, Flex & 360 Bench Notes</p>
-  </header>
-
-  <div class="wiki-container">
-    <aside class="wiki-sidebar">
-      <div class="sidebar-title">Article Index</div>
-      <ul class="sidebar-links">
-        <li><a href="#samsung-matrix"><span>▸</span> Startup & Key Matrix</a></li>
-        <li><a href="#samsung-models"><span>▸</span> Series Classification</a></li>
-        <li><a href="#samsung-screws"><span>▸</span> Hidden Foot Screws</a></li>
-        <li><a href="#samsung-tips"><span>▸</span> Benchtop Repair Tips</a></li>
-      </ul>
-    </aside>
-
-    <main class="wiki-content"><figure class="brand-hero"><img src="images/samsung main.jpg" alt="Samsung laptop reference image" loading="lazy"><figcaption>Samsung laptop hardware reference</figcaption></figure>
-      <div class="wiki-section-header">Samsung Hardware Reference</div>
-
-      <!-- MATRIX TABLE -->
-      <div class="guide-card" id="samsung-matrix">
-        <h3>Samsung Keys Quick Reference</h3>
-        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--text-muted); margin-top: 10px;">
-          <thead>
-            <tr style="border-bottom: 1px solid var(--border-color); text-align: left; color: var(--text-main);">
-              <th style="padding: 8px;">Target Action</th>
-              <th style="padding: 8px;">Primary Key / Combination</th>
-              <th style="padding: 8px;">Description / Notes</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom: 1px solid var(--border-subtle);">
-              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">BIOS Setup</td>
-              <td style="padding: 8px;"><code>F2</code></td>
-              <td style="padding: 8px;">Tap rapidly at the Samsung splash screen.</td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--border-subtle);">
-              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Boot Device Menu</td>
-              <td style="padding: 8px;"><code>F10</code></td>
-              <td style="padding: 8px;">Opens external boot media selector.</td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--border-subtle);">
-              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Samsung Factory Recovery</td>
-              <td style="padding: 8px;"><code>F4</code></td>
-              <td style="padding: 8px;">Launches native Samsung Recovery solution.</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Force Reboot (2-in-1s)</td>
-              <td style="padding: 8px;"><code>Power + Vol Down (10 sec)</code></td>
-              <td style="padding: 8px;">Forces hard reset on locked Galaxy Book 360 models.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- MODEL BREAKDOWN -->
-      <div class="guide-card" id="samsung-models">
-        <h3>Model Series Breakdown</h3>
-        <ul>
-          <li><strong>Galaxy Book Ultra / Pro:</strong> Ultra-thin magnesium-aluminum alloy, dual M.2 NVMe SSD slots, soldered LPDDR memory chips.</li>
-          <li><strong>Galaxy Book 360 / Flex:</strong> 2-in-1 convertible touch displays, S-Pen digitizer assemblies, fragile lower glass bezel edges.</li>
-          <li><strong>Galaxy Book Go / ARM Series:</strong> Fanless Qualcomm Snapdragon SOC architectures, soldered eMMC/UFS storage on base models.</li>
-        </ul>
-      </div>
-
-      <!-- REPAIR TIPS -->
-      <div class="guide-card" id="samsung-screws">
-        <h3>Base Fasteners & Rubber Foot Removal</h3>
-        <p style="color: var(--text-muted); font-size: 0.88rem;">Samsung Galaxy Book laptops feature completely concealed base screws:</p>
-        <ol>
-          <li>Use a thin plastic pry tool to unseat all four circular rubber corner feet on the bottom case.</li>
-          <li>Remove the standard Phillips screws hidden beneath each rubber foot.</li>
-          <li>Unclip the thin aluminum lower panel starting from the back hinge edge.</li>
-        </ol>
-      </div>
-
-      <div class="guide-card" id="samsung-tips">
-        <img src="images/battery-replacement.jpg" alt="Samsung Servicing" class="guide-img">
-        <h3>Pro Benchtop Repair Tips for Samsung</h3>
-        <ul>
-          <li><strong>OLED Screen Ribbon Caution:</strong> Galaxy Book Pro models feature paper-thin AMOLED screen assemblies. Never pry near the bottom display logo area to avoid severing delicate driver IC ribbons.</li>
-          <li><strong>Secondary SSD Slot Thermal Pad:</strong> When adding a secondary M.2 NVMe drive to a Galaxy Book Ultra, always install a 1.5mm thermal pad against the bottom metal chassis cover to prevent thermal throttling.</li>
-        </ul>
-      </div>
-    <section class="guide-card" id="expanded-service-reference"><h3>Additional Bench Reference</h3><ul><li><strong>Model-specific service:</strong> Look up exact Galaxy Book model; memory and storage serviceability vary widely.</li><li><strong>Samsung utilities:</strong> Use Samsung Update and Samsung Settings where supported for firmware and platform features.</li><li><strong>Validation:</strong> Test fingerprint, camera, display, USB-C PD and sleep/wake.</li></ul><p>Use the exact model service manual for disassembly, firmware and part compatibility.</p></section>
-    </main>
-  </div>
-
-  <footer style="text-align: center; padding: 40px 0 20px 0; color: var(--text-dim); font-size: 0.75rem;">
-    <span>FixIt Core Hardware Wiki &copy; 2026</span>
-  </footer>
-
-  <!-- FLOATING HELP CHAT WIDGET -->
-  <div class="chat-widget-container" id="chat-widget-root" style="display: none;">
-    <button class="chat-toggle-btn" onclick="toggleChat()">Help Chat</button>
-    <div class="chat-popup-panel" id="chat-panel">
-      <div class="chat-header" id="chat-header-bar" title="Double-click to lock & hide chat">
-        <span id="chat-header-title">Help Chat</span>
-        <button class="close-btn" onclick="toggleChat()">✕</button>
-      </div>
-      <div id="chat-interface" style="display: flex; flex-direction: column; height: 100%;">
-        <div class="channel-selector">
-          <button class="channel-btn active" data-channel="GEN" onclick="selectChannel('GEN')">GEN</button>
-          <button class="channel-btn" data-channel="IGC" onclick="selectChannel('IGC')">IGC</button>
-          <button class="channel-btn" data-channel="JL" onclick="selectChannel('JL')">JL</button>
-          <button class="channel-btn" data-channel="COM" onclick="selectChannel('COM')">COM</button>
-          <button class="channel-btn" data-channel="L" onclick="selectChannel('L')">L</button>
-          <button class="channel-btn" data-channel="S" onclick="selectChannel('S')">S</button>
-          <button class="channel-btn" data-channel="SEC" onclick="selectChannel('SEC')">SEC</button>
-        </div>
-        <div class="chat-messages" id="message-container">
-          <div class="message"><span class="author">[System]</span> Logged in. Stream active.</div>
-        </div>
-        <div class="chat-input-area">
-          <textarea id="message-input" rows="2" placeholder="Type message..."></textarea>
-          <button onclick="handleSend()">Send Message</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
+<header>
+<h1>Samsung Galaxy Book Servicing Guide</h1>
+<p>Galaxy Book Pro, Ultra, Flex &amp; 360 Bench Notes</p>
+</header>
+<div class="wiki-container">
+<aside class="wiki-sidebar">
+<div class="sidebar-title">Article Index</div>
+<ul class="sidebar-links">
+<li><a href="#samsung-matrix"><span>▸</span> Startup &amp; Key Matrix</a></li>
+<li><a href="#samsung-models"><span>▸</span> Series Classification</a></li>
+<li><a href="#samsung-screws"><span>▸</span> Hidden Foot Screws</a></li>
+<li><a href="#samsung-tips"><span>▸</span> Benchtop Repair Tips</a></li>
+</ul>
+</aside>
+<main class="wiki-content"><figure class="brand-hero"><img alt="Samsung laptop reference image" loading="lazy" src="images/samsung main.jpg"/><figcaption>Samsung laptop hardware reference</figcaption></figure><section class="guide-card laptop-family-guide" id="laptop-families"><h3>Laptop Product Families: Consumer vs. Business vs. Workstation</h3><p>Model families and names change by year and region. Use the exact model number and service documentation when ordering parts or checking repairability.</p><table class="family-table"><thead><tr><th scope="col">Grade</th><th scope="col">Common product families</th><th scope="col">Typical use / notes</th></tr></thead><tbody><tr><td>Consumer</td><td>Galaxy Book, Galaxy Book Pro, Galaxy Book Ultra</td><td>Home, productivity and creator use</td></tr><tr><td>Business</td><td>Galaxy Book Business / Enterprise editions (market-dependent)</td><td>Commercial offerings vary by region</td></tr><tr><td>Workstation</td><td>No dedicated mainstream certified workstation family</td><td>Galaxy Book Ultra can suit creators but is not a workstation line</td></tr></tbody></table><p class="family-note">Classification is a practical buying/service guide, not a guarantee of ruggedness, repairability, warranty terms or professional software certification.</p></section>
+<div class="wiki-section-header">Samsung Hardware Reference</div>
+<!-- MATRIX TABLE -->
+<div class="guide-card" id="samsung-matrix">
+<h3>Samsung Keys Quick Reference</h3>
+<table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--text-muted); margin-top: 10px;">
+<thead>
+<tr style="border-bottom: 1px solid var(--border-color); text-align: left; color: var(--text-main);">
+<th style="padding: 8px;">Target Action</th>
+<th style="padding: 8px;">Primary Key / Combination</th>
+<th style="padding: 8px;">Description / Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-bottom: 1px solid var(--border-subtle);">
+<td style="padding: 8px; font-weight: 600; color: var(--text-main);">BIOS Setup</td>
+<td style="padding: 8px;"><code>F2</code></td>
+<td style="padding: 8px;">Tap rapidly at the Samsung splash screen.</td>
+</tr>
+<tr style="border-bottom: 1px solid var(--border-subtle);">
+<td style="padding: 8px; font-weight: 600; color: var(--text-main);">Boot Device Menu</td>
+<td style="padding: 8px;"><code>F10</code></td>
+<td style="padding: 8px;">Opens external boot media selector.</td>
+</tr>
+<tr style="border-bottom: 1px solid var(--border-subtle);">
+<td style="padding: 8px; font-weight: 600; color: var(--text-main);">Samsung Factory Recovery</td>
+<td style="padding: 8px;"><code>F4</code></td>
+<td style="padding: 8px;">Launches native Samsung Recovery solution.</td>
+</tr>
+<tr>
+<td style="padding: 8px; font-weight: 600; color: var(--text-main);">Force Reboot (2-in-1s)</td>
+<td style="padding: 8px;"><code>Power + Vol Down (10 sec)</code></td>
+<td style="padding: 8px;">Forces hard reset on locked Galaxy Book 360 models.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- MODEL BREAKDOWN -->
+<div class="guide-card" id="samsung-models">
+<h3>Model Series Breakdown</h3>
+<ul>
+<li><strong>Galaxy Book Ultra / Pro:</strong> Ultra-thin magnesium-aluminum alloy, dual M.2 NVMe SSD slots, soldered LPDDR memory chips.</li>
+<li><strong>Galaxy Book 360 / Flex:</strong> 2-in-1 convertible touch displays, S-Pen digitizer assemblies, fragile lower glass bezel edges.</li>
+<li><strong>Galaxy Book Go / ARM Series:</strong> Fanless Qualcomm Snapdragon SOC architectures, soldered eMMC/UFS storage on base models.</li>
+</ul>
+</div>
+<!-- REPAIR TIPS -->
+<div class="guide-card" id="samsung-screws">
+<h3>Base Fasteners &amp; Rubber Foot Removal</h3>
+<p style="color: var(--text-muted); font-size: 0.88rem;">Samsung Galaxy Book laptops feature completely concealed base screws:</p>
+<ol>
+<li>Use a thin plastic pry tool to unseat all four circular rubber corner feet on the bottom case.</li>
+<li>Remove the standard Phillips screws hidden beneath each rubber foot.</li>
+<li>Unclip the thin aluminum lower panel starting from the back hinge edge.</li>
+</ol>
+</div>
+<div class="guide-card" id="samsung-tips">
+<img alt="Samsung Servicing" class="guide-img" src="images/battery-replacement.jpg"/>
+<h3>Pro Benchtop Repair Tips for Samsung</h3>
+<ul>
+<li><strong>OLED Screen Ribbon Caution:</strong> Galaxy Book Pro models feature paper-thin AMOLED screen assemblies. Never pry near the bottom display logo area to avoid severing delicate driver IC ribbons.</li>
+<li><strong>Secondary SSD Slot Thermal Pad:</strong> When adding a secondary M.2 NVMe drive to a Galaxy Book Ultra, always install a 1.5mm thermal pad against the bottom metal chassis cover to prevent thermal throttling.</li>
+</ul>
+</div>
+<section class="guide-card" id="expanded-service-reference"><h3>Additional Bench Reference</h3><ul><li><strong>Model-specific service:</strong> Look up exact Galaxy Book model; memory and storage serviceability vary widely.</li><li><strong>Samsung utilities:</strong> Use Samsung Update and Samsung Settings where supported for firmware and platform features.</li><li><strong>Validation:</strong> Test fingerprint, camera, display, USB-C PD and sleep/wake.</li></ul><p>Use the exact model service manual for disassembly, firmware and part compatibility.</p></section>
+</main>
+</div>
+<footer style="text-align: center; padding: 40px 0 20px 0; color: var(--text-dim); font-size: 0.75rem;">
+<span>FixIt Core Hardware Wiki © 2026</span>
+</footer>
+<!-- FLOATING HELP CHAT WIDGET -->
+<div class="chat-widget-container" id="chat-widget-root" style="display: none;">
+<button class="chat-toggle-btn" onclick="toggleChat()">Help Chat</button>
+<div class="chat-popup-panel" id="chat-panel">
+<div class="chat-header" id="chat-header-bar" title="Double-click to lock &amp; hide chat">
+<span id="chat-header-title">Help Chat</span>
+<button class="close-btn" onclick="toggleChat()">✕</button>
+</div>
+<div id="chat-interface" style="display: flex; flex-direction: column; height: 100%;">
+<div class="channel-selector">
+<button class="channel-btn active" data-channel="GEN" onclick="selectChannel('GEN')">GEN</button>
+<button class="channel-btn" data-channel="IGC" onclick="selectChannel('IGC')">IGC</button>
+<button class="channel-btn" data-channel="JL" onclick="selectChannel('JL')">JL</button>
+<button class="channel-btn" data-channel="COM" onclick="selectChannel('COM')">COM</button>
+<button class="channel-btn" data-channel="L" onclick="selectChannel('L')">L</button>
+<button class="channel-btn" data-channel="S" onclick="selectChannel('S')">S</button>
+<button class="channel-btn" data-channel="SEC" onclick="selectChannel('SEC')">SEC</button>
+</div>
+<div class="chat-messages" id="message-container">
+<div class="message"><span class="author">[System]</span> Logged in. Stream active.</div>
+</div>
+<div class="chat-input-area">
+<textarea id="message-input" placeholder="Type message..." rows="2"></textarea>
+<button onclick="handleSend()">Send Message</button>
+</div>
+</div>
+</div>
+</div>
+<script>
     let activeChannel = "GEN";
     let activePassword = "";
     let activeUsername = "";
@@ -256,5 +245,5 @@
       };
     }
   </script>
-<a class="diagnostics-shortcut" href="diagnostics.html" aria-label="Open diagnostic tools">⌨ Diagnostic Tools</a></body>
+<a aria-label="Open diagnostic tools" class="diagnostics-shortcut" href="diagnostics.html">⌨ Diagnostic Tools</a></body>
 </html>

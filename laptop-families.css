@@ -1,0 +1,12 @@
+/* Laptop family comparison tables */
+.laptop-family-guide{margin:20px 0 28px;overflow:hidden}
+.laptop-family-guide h3{margin-top:0}
+.family-table{width:100%;border-collapse:collapse;table-layout:fixed;margin:14px 0;font-size:.94rem}
+.family-table th,.family-table td{padding:13px 14px;text-align:left;vertical-align:top;border-bottom:1px solid rgba(172,145,220,.22);overflow-wrap:anywhere}
+.family-table th{background:rgba(120,79,185,.18);color:#eee5ff}
+.family-table th:first-child{width:20%}
+.family-table th:nth-child(2){width:43%}
+.family-table tbody tr:hover{background:rgba(120,79,185,.08)}
+.family-table td:first-child{font-weight:700;color:#d8bcff}
+.family-note{font-size:.84rem;opacity:.8;margin-bottom:0}
+@media(max-width:680px){.family-table{font-size:.83rem}.family-table th,.family-table td{padding:9px 7px}.family-table th:first-child{width:25%}}

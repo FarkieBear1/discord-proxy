@@ -1,146 +1,135 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FixIt Core | ASUS Repair Protocols & Boot Cheat Sheet</title>
-  <link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="diagnostics.css"><link rel="stylesheet" href="reference.css"><link rel="stylesheet" href="navigation.css"></head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FixIt Core | ASUS Repair Protocols &amp; Boot Cheat Sheet</title>
+<link href="style.css" rel="stylesheet"/>
+<link href="diagnostics.css" rel="stylesheet"/><link href="reference.css" rel="stylesheet"/><link href="navigation.css" rel="stylesheet"/><link href="laptop-families.css" rel="stylesheet"/></head>
 <body>
-
-  <div class="banner-container">
-    <img src="images/banner.jpg" alt="FixIt Core Banner" class="site-banner">
-  </div>
-
-  <nav class="site-nav grouped-nav" aria-label="Main navigation">
+<div class="banner-container">
+<img alt="FixIt Core Banner" class="site-banner" src="images/banner.jpg"/>
+</div>
+<nav aria-label="Main navigation" class="site-nav grouped-nav">
 <a class="nav-home" href="index.html">⌂ Home</a>
 <details class="nav-group"><summary>Windows laptops</summary><div class="nav-menu"><a href="dell.html">Dell</a><a href="hp.html">HP</a><a href="lenovo.html">Lenovo</a><a href="asus.html">ASUS</a><a href="acer.html">Acer</a><a href="razer.html">Razer</a><a href="samsung.html">Samsung</a><a href="surface.html">Microsoft Surface</a><a href="msi.html">MSI</a><a href="lg.html">LG gram</a><a href="windows-commands.html">Windows commands</a></div></details>
 <details class="nav-group"><summary>Apple / Mac</summary><div class="nav-menu"><a href="macbook.html">MacBook reference</a><a href="mac-commands.html">macOS commands</a></div></details>
 <a href="linux-commands.html">Linux commands</a><a href="diagnostics.html">Diagnostic tools</a>
 </nav>
-
-  <header>
-    <h1>ASUS Hardware Servicing Guide</h1>
-    <p>ROG Strix, ZenBook, TUF Gaming & VivoBook Bench Notes</p>
-  </header>
-
-  <div class="wiki-container">
-    <aside class="wiki-sidebar">
-      <div class="sidebar-title">Article Index</div>
-      <ul class="sidebar-links">
-        <li><a href="#asus-matrix"><span>▸</span> Startup & Key Matrix</a></li>
-        <li><a href="#asus-models"><span>▸</span> Series Classification</a></li>
-        <li><a href="#asus-ec"><span>▸</span> EC Hard Power Reset</a></li>
-        <li><a href="#asus-tips"><span>▸</span> Benchtop Repair Tips</a></li>
-      </ul>
-    </aside>
-
-    <main class="wiki-content"><figure class="brand-hero"><img src="images/asus-main.jpg" alt="ASUS laptop reference image" loading="lazy"><figcaption>ASUS laptop hardware reference</figcaption></figure>
-      <div class="wiki-section-header">ASUS Hardware Reference</div>
-
-      <!-- MATRIX TABLE -->
-      <div class="guide-card" id="asus-matrix">
-        <h3>ASUS Keys Quick Reference</h3>
-        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--text-muted); margin-top: 10px;">
-          <thead>
-            <tr style="border-bottom: 1px solid var(--border-color); text-align: left; color: var(--text-main);">
-              <th style="padding: 8px;">Target Action</th>
-              <th style="padding: 8px;">Primary Key / Combination</th>
-              <th style="padding: 8px;">Description / Notes</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom: 1px solid var(--border-subtle);">
-              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">BIOS Setup</td>
-              <td style="padding: 8px;"><code>F2</code> or <code>Delete</code></td>
-              <td style="padding: 8px;">Hold or tap continuously at startup.</td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--border-subtle);">
-              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Boot Device Menu</td>
-              <td style="padding: 8px;"><code>Escape Key</code></td>
-              <td style="padding: 8px;">Opens drive selection menu on laptops.</td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--border-subtle);">
-              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">EZ Flash Utility</td>
-              <td style="padding: 8px;"><code>F7 (Advanced) -> Tools</code></td>
-              <td style="padding: 8px;">Flashes UEFI firmware via FAT32 USB drive.</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">EC Hard Power Reset</td>
-              <td style="padding: 8px;"><code>Hold Power (40 Seconds)</code></td>
-              <td style="padding: 8px;">Drains embedded controller power state on no-boot.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- MODEL BREAKDOWN -->
-      <div class="guide-card" id="asus-models">
-        <h3>Model Series Breakdown</h3>
-        <ul>
-          <li><strong>Gaming Tier (ROG Strix / Zephyrus / TUF):</strong> High power thermal loads, dual fan heat sinks, liquid metal cooling compound applied on CPU dies.</li>
-          <li><strong>Ultrabook Tier (ZenBook / ExpertBook):</strong> ErgoLift hinges, delicate ribbon cables, glued base feet concealing chassis screws.</li>
-          <li><strong>Entry Tier (VivoBook):</strong> Single fan assemblies, plastic chassis mounts, soldered mainboard RAM.</li>
-        </ul>
-      </div>
-
-      <!-- REPAIR TIPS -->
-      <div class="guide-card" id="asus-ec">
-        <h3>Hard EC Reset (Embedded Controller Clear)</h3>
-        <p style="color: var(--text-muted); font-size: 0.88rem;">To clear stuck power states or blank screen initialization issues on ROG and ZenBook models:</p>
-        <ol>
-          <li>Unplug the AC power adapter.</li>
-          <li>Press and hold the Power button down continuously for <strong>40 full seconds</strong>.</li>
-          <li>Plug the AC adapter back in and press Power normally. The system will take up to 60 seconds to train memory and display video.</li>
-        </ol>
-      </div>
-
-      <div class="guide-card" id="asus-tips">
-        <img src="images/drive-replacement.jpg" alt="ASUS Servicing" class="guide-img">
-        <h3>Pro Benchtop Repair Tips for ASUS</h3>
-        <ul>
-          <li><strong>Liquid Metal Caution (ROG Series):</strong> Modern ROG laptops use liquid metal thermal compound on the CPU. Never tilt or flex the logic board vertically while warm. Clean only using 99% IPA and high-density foam swabs.</li>
-          <li><strong>ROG Pop-Open Base Screw:</strong> On TUF and ROG laptops, the bottom-right corner screw is a "Pop-Open" captive screw designed to create an opening gap for your guitar pick pry tool.</li>
-        </ul>
-      </div>
-    <section class="guide-card" id="expanded-service-reference"><h3>Additional Bench Reference</h3><ul><li><strong>Model identification:</strong> Confirm full model and board variant before BIOS or driver updates.</li><li><strong>Power troubleshooting:</strong> Check adapter rating, USB-C PD support, battery connector and embedded controller reset procedure.</li><li><strong>Validation:</strong> Test fan modes, keyboard lighting, display refresh rate and charging.</li></ul><p>Use the exact model service manual for disassembly, firmware and part compatibility.</p></section>
-    </main>
-  </div>
-
-  <footer style="text-align: center; padding: 40px 0 20px 0; color: var(--text-dim); font-size: 0.75rem;">
-    <span>FixIt Core Hardware Wiki &copy; 2026</span>
-  </footer>
-
-  <!-- FLOATING HELP CHAT WIDGET -->
-  <div class="chat-widget-container" id="chat-widget-root" style="display: none;">
-    <button class="chat-toggle-btn" onclick="toggleChat()">Help Chat</button>
-    <div class="chat-popup-panel" id="chat-panel">
-      <div class="chat-header" id="chat-header-bar" title="Double-click to lock & hide chat">
-        <span id="chat-header-title">Help Chat</span>
-        <button class="close-btn" onclick="toggleChat()">✕</button>
-      </div>
-      <div id="chat-interface" style="display: flex; flex-direction: column; height: 100%;">
-        <div class="channel-selector">
-          <button class="channel-btn active" data-channel="GEN" onclick="selectChannel('GEN')">GEN</button>
-          <button class="channel-btn" data-channel="IGC" onclick="selectChannel('IGC')">IGC</button>
-          <button class="channel-btn" data-channel="JL" onclick="selectChannel('JL')">JL</button>
-          <button class="channel-btn" data-channel="COM" onclick="selectChannel('COM')">COM</button>
-          <button class="channel-btn" data-channel="L" onclick="selectChannel('L')">L</button>
-          <button class="channel-btn" data-channel="S" onclick="selectChannel('S')">S</button>
-          <button class="channel-btn" data-channel="SEC" onclick="selectChannel('SEC')">SEC</button>
-        </div>
-        <div class="chat-messages" id="message-container">
-          <div class="message"><span class="author">[System]</span> Logged in. Stream active.</div>
-        </div>
-        <div class="chat-input-area">
-          <textarea id="message-input" rows="2" placeholder="Type message..."></textarea>
-          <button onclick="handleSend()">Send Message</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
+<header>
+<h1>ASUS Hardware Servicing Guide</h1>
+<p>ROG Strix, ZenBook, TUF Gaming &amp; VivoBook Bench Notes</p>
+</header>
+<div class="wiki-container">
+<aside class="wiki-sidebar">
+<div class="sidebar-title">Article Index</div>
+<ul class="sidebar-links">
+<li><a href="#asus-matrix"><span>▸</span> Startup &amp; Key Matrix</a></li>
+<li><a href="#asus-models"><span>▸</span> Series Classification</a></li>
+<li><a href="#asus-ec"><span>▸</span> EC Hard Power Reset</a></li>
+<li><a href="#asus-tips"><span>▸</span> Benchtop Repair Tips</a></li>
+</ul>
+</aside>
+<main class="wiki-content"><figure class="brand-hero"><img alt="ASUS laptop reference image" loading="lazy" src="images/asus-main.jpg"/><figcaption>ASUS laptop hardware reference</figcaption></figure><section class="guide-card laptop-family-guide" id="laptop-families"><h3>Laptop Product Families: Consumer vs. Business vs. Workstation</h3><p>Model families and names change by year and region. Use the exact model number and service documentation when ordering parts or checking repairability.</p><table class="family-table"><thead><tr><th scope="col">Grade</th><th scope="col">Common product families</th><th scope="col">Typical use / notes</th></tr></thead><tbody><tr><td>Consumer</td><td>Vivobook, Zenbook, ROG, TUF Gaming, ProArt laptops</td><td>Home, creator and gaming; ProArt is creator-focused</td></tr><tr><td>Business</td><td>ExpertBook B and P series</td><td>Business-focused features and service</td></tr><tr><td>Workstation</td><td>ProArt Studiobook Pro (select models)</td><td>Professional creator/workstation-oriented configurations; certification varies</td></tr></tbody></table><p class="family-note">Classification is a practical buying/service guide, not a guarantee of ruggedness, repairability, warranty terms or professional software certification.</p></section>
+<div class="wiki-section-header">ASUS Hardware Reference</div>
+<!-- MATRIX TABLE -->
+<div class="guide-card" id="asus-matrix">
+<h3>ASUS Keys Quick Reference</h3>
+<table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--text-muted); margin-top: 10px;">
+<thead>
+<tr style="border-bottom: 1px solid var(--border-color); text-align: left; color: var(--text-main);">
+<th style="padding: 8px;">Target Action</th>
+<th style="padding: 8px;">Primary Key / Combination</th>
+<th style="padding: 8px;">Description / Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-bottom: 1px solid var(--border-subtle);">
+<td style="padding: 8px; font-weight: 600; color: var(--text-main);">BIOS Setup</td>
+<td style="padding: 8px;"><code>F2</code> or <code>Delete</code></td>
+<td style="padding: 8px;">Hold or tap continuously at startup.</td>
+</tr>
+<tr style="border-bottom: 1px solid var(--border-subtle);">
+<td style="padding: 8px; font-weight: 600; color: var(--text-main);">Boot Device Menu</td>
+<td style="padding: 8px;"><code>Escape Key</code></td>
+<td style="padding: 8px;">Opens drive selection menu on laptops.</td>
+</tr>
+<tr style="border-bottom: 1px solid var(--border-subtle);">
+<td style="padding: 8px; font-weight: 600; color: var(--text-main);">EZ Flash Utility</td>
+<td style="padding: 8px;"><code>F7 (Advanced) -&gt; Tools</code></td>
+<td style="padding: 8px;">Flashes UEFI firmware via FAT32 USB drive.</td>
+</tr>
+<tr>
+<td style="padding: 8px; font-weight: 600; color: var(--text-main);">EC Hard Power Reset</td>
+<td style="padding: 8px;"><code>Hold Power (40 Seconds)</code></td>
+<td style="padding: 8px;">Drains embedded controller power state on no-boot.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- MODEL BREAKDOWN -->
+<div class="guide-card" id="asus-models">
+<h3>Model Series Breakdown</h3>
+<ul>
+<li><strong>Gaming Tier (ROG Strix / Zephyrus / TUF):</strong> High power thermal loads, dual fan heat sinks, liquid metal cooling compound applied on CPU dies.</li>
+<li><strong>Ultrabook Tier (ZenBook / ExpertBook):</strong> ErgoLift hinges, delicate ribbon cables, glued base feet concealing chassis screws.</li>
+<li><strong>Entry Tier (VivoBook):</strong> Single fan assemblies, plastic chassis mounts, soldered mainboard RAM.</li>
+</ul>
+</div>
+<!-- REPAIR TIPS -->
+<div class="guide-card" id="asus-ec">
+<h3>Hard EC Reset (Embedded Controller Clear)</h3>
+<p style="color: var(--text-muted); font-size: 0.88rem;">To clear stuck power states or blank screen initialization issues on ROG and ZenBook models:</p>
+<ol>
+<li>Unplug the AC power adapter.</li>
+<li>Press and hold the Power button down continuously for <strong>40 full seconds</strong>.</li>
+<li>Plug the AC adapter back in and press Power normally. The system will take up to 60 seconds to train memory and display video.</li>
+</ol>
+</div>
+<div class="guide-card" id="asus-tips">
+<img alt="ASUS Servicing" class="guide-img" src="images/drive-replacement.jpg"/>
+<h3>Pro Benchtop Repair Tips for ASUS</h3>
+<ul>
+<li><strong>Liquid Metal Caution (ROG Series):</strong> Modern ROG laptops use liquid metal thermal compound on the CPU. Never tilt or flex the logic board vertically while warm. Clean only using 99% IPA and high-density foam swabs.</li>
+<li><strong>ROG Pop-Open Base Screw:</strong> On TUF and ROG laptops, the bottom-right corner screw is a "Pop-Open" captive screw designed to create an opening gap for your guitar pick pry tool.</li>
+</ul>
+</div>
+<section class="guide-card" id="expanded-service-reference"><h3>Additional Bench Reference</h3><ul><li><strong>Model identification:</strong> Confirm full model and board variant before BIOS or driver updates.</li><li><strong>Power troubleshooting:</strong> Check adapter rating, USB-C PD support, battery connector and embedded controller reset procedure.</li><li><strong>Validation:</strong> Test fan modes, keyboard lighting, display refresh rate and charging.</li></ul><p>Use the exact model service manual for disassembly, firmware and part compatibility.</p></section>
+</main>
+</div>
+<footer style="text-align: center; padding: 40px 0 20px 0; color: var(--text-dim); font-size: 0.75rem;">
+<span>FixIt Core Hardware Wiki © 2026</span>
+</footer>
+<!-- FLOATING HELP CHAT WIDGET -->
+<div class="chat-widget-container" id="chat-widget-root" style="display: none;">
+<button class="chat-toggle-btn" onclick="toggleChat()">Help Chat</button>
+<div class="chat-popup-panel" id="chat-panel">
+<div class="chat-header" id="chat-header-bar" title="Double-click to lock &amp; hide chat">
+<span id="chat-header-title">Help Chat</span>
+<button class="close-btn" onclick="toggleChat()">✕</button>
+</div>
+<div id="chat-interface" style="display: flex; flex-direction: column; height: 100%;">
+<div class="channel-selector">
+<button class="channel-btn active" data-channel="GEN" onclick="selectChannel('GEN')">GEN</button>
+<button class="channel-btn" data-channel="IGC" onclick="selectChannel('IGC')">IGC</button>
+<button class="channel-btn" data-channel="JL" onclick="selectChannel('JL')">JL</button>
+<button class="channel-btn" data-channel="COM" onclick="selectChannel('COM')">COM</button>
+<button class="channel-btn" data-channel="L" onclick="selectChannel('L')">L</button>
+<button class="channel-btn" data-channel="S" onclick="selectChannel('S')">S</button>
+<button class="channel-btn" data-channel="SEC" onclick="selectChannel('SEC')">SEC</button>
+</div>
+<div class="chat-messages" id="message-container">
+<div class="message"><span class="author">[System]</span> Logged in. Stream active.</div>
+</div>
+<div class="chat-input-area">
+<textarea id="message-input" placeholder="Type message..." rows="2"></textarea>
+<button onclick="handleSend()">Send Message</button>
+</div>
+</div>
+</div>
+</div>
+<script>
     let activeChannel = "GEN";
     let activePassword = "";
     let activeUsername = "";
@@ -256,5 +245,5 @@
       };
     }
   </script>
-<a class="diagnostics-shortcut" href="diagnostics.html" aria-label="Open diagnostic tools">⌨ Diagnostic Tools</a></body>
+<a aria-label="Open diagnostic tools" class="diagnostics-shortcut" href="diagnostics.html">⌨ Diagnostic Tools</a></body>
 </html>

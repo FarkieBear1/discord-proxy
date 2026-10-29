@@ -1,152 +1,141 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FixIt Core | Lenovo Repair Protocols & Boot Cheat Sheet</title>
-  <link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="diagnostics.css"><link rel="stylesheet" href="reference.css"><link rel="stylesheet" href="navigation.css"></head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FixIt Core | Lenovo Repair Protocols &amp; Boot Cheat Sheet</title>
+<link href="style.css" rel="stylesheet"/>
+<link href="diagnostics.css" rel="stylesheet"/><link href="reference.css" rel="stylesheet"/><link href="navigation.css" rel="stylesheet"/><link href="laptop-families.css" rel="stylesheet"/></head>
 <body>
-
-  <div class="banner-container">
-    <img src="images/banner.jpg" alt="FixIt Core Banner" class="site-banner">
-  </div>
-
-  <nav class="site-nav grouped-nav" aria-label="Main navigation">
+<div class="banner-container">
+<img alt="FixIt Core Banner" class="site-banner" src="images/banner.jpg"/>
+</div>
+<nav aria-label="Main navigation" class="site-nav grouped-nav">
 <a class="nav-home" href="index.html">⌂ Home</a>
 <details class="nav-group"><summary>Windows laptops</summary><div class="nav-menu"><a href="dell.html">Dell</a><a href="hp.html">HP</a><a href="lenovo.html">Lenovo</a><a href="asus.html">ASUS</a><a href="acer.html">Acer</a><a href="razer.html">Razer</a><a href="samsung.html">Samsung</a><a href="surface.html">Microsoft Surface</a><a href="msi.html">MSI</a><a href="lg.html">LG gram</a><a href="windows-commands.html">Windows commands</a></div></details>
 <details class="nav-group"><summary>Apple / Mac</summary><div class="nav-menu"><a href="macbook.html">MacBook reference</a><a href="mac-commands.html">macOS commands</a></div></details>
 <a href="linux-commands.html">Linux commands</a><a href="diagnostics.html">Diagnostic tools</a>
 </nav>
-
-  <header>
-    <h1>Lenovo Hardware Servicing Guide</h1>
-    <p>ThinkPad, IdeaPad, Yoga, Legion & ThinkBook Bench Notes</p>
-  </header>
-
-  <div class="wiki-container">
-    <aside class="wiki-sidebar">
-      <div class="sidebar-title">Article Index</div>
-      <ul class="sidebar-links">
-        <li><a href="#lenovo-matrix"><span>▸</span> Startup & Key Matrix</a></li>
-        <li><a href="#lenovo-models"><span>▸</span> Series Classification</a></li>
-        <li><a href="#lenovo-pinhole"><span>▸</span> Emergency Reset Pinhole</a></li>
-        <li><a href="#lenovo-tips"><span>▸</span> Benchtop Repair Tips</a></li>
-      </ul>
-    </aside>
-
-    <main class="wiki-content"><figure class="brand-hero"><img src="images/lenovo-main.jpg" alt="Lenovo laptop reference image" loading="lazy"><figcaption>Lenovo laptop hardware reference</figcaption></figure>
-      <div class="wiki-section-header">Lenovo Hardware Reference</div>
-
-      <!-- MATRIX TABLE -->
-      <div class="guide-card" id="lenovo-matrix">
-        <h3>Lenovo Keys Quick Reference</h3>
-        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--text-muted); margin-top: 10px;">
-          <thead>
-            <tr style="border-bottom: 1px solid var(--border-color); text-align: left; color: var(--text-main);">
-              <th style="padding: 8px;">Target Action</th>
-              <th style="padding: 8px;">Primary Key / Combination</th>
-              <th style="padding: 8px;">Description / Notes</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom: 1px solid var(--border-subtle);">
-              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Interrupt Boot Prompt</td>
-              <td style="padding: 8px;"><code>Enter Key</code></td>
-              <td style="padding: 8px;">Tap repeatedly on ThinkPads during startup splash.</td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--border-subtle);">
-              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">BIOS Setup</td>
-              <td style="padding: 8px;"><code>F1</code> or <code>Fn + F1</code></td>
-              <td style="padding: 8px;">Enters Lenovo UEFI configuration setup.</td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--border-subtle);">
-              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Boot Device Menu</td>
-              <td style="padding: 8px;"><code>F12</code> or <code>Fn + F12</code></td>
-              <td style="padding: 8px;">Brings up UEFI drive boot selection.</td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--border-subtle);">
-              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Novo Button Menu</td>
-              <td style="padding: 8px;"><code>Paperclip in Novo Hole</code></td>
-              <td style="padding: 8px;">Used on IdeaPad/Yoga while system is powered OFF.</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Emergency Power Reset</td>
-              <td style="padding: 8px;"><code>Bottom Pinhole (10 sec)</code></td>
-              <td style="padding: 8px;">Cuts main battery circuit on unresponsive ThinkPads.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- MODEL BREAKDOWN -->
-      <div class="guide-card" id="lenovo-models">
-        <h3>Model Series Breakdown</h3>
-        <ul>
-          <li><strong>Enterprise Tier (ThinkPad X1 / T / P / L Series):</strong> Roll-cage magnesium construction, captive screws,TrackPoint keyboards, water drainage channels. Highly modular.</li>
-          <li><strong>Mid-Range Business (ThinkBook):</strong> Aluminum top cover, standard plastic base, dual M.2 NVMe expansion slots.</li>
-          <li><strong>Consumer Tier (IdeaPad / Yoga / Slim):</strong> Pinhole Novo buttons, single heatpipe fan assemblies, delicate hinges mounted to plastic anchors.</li>
-        </ul>
-      </div>
-
-      <!-- REPAIR TIPS -->
-      <div class="guide-card" id="lenovo-pinhole">
-        <h3>Emergency Reset Pinhole Procedure</h3>
-        <p style="color: var(--text-muted); font-size: 0.88rem;">If a ThinkPad exhibits a black screen or locked power state:</p>
-        <ol>
-          <li>Disconnect the AC adapter.</li>
-          <li>Locate the tiny emergency reset pinhole on the bottom casing.</li>
-          <li>Insert a straightened paperclip for <strong>10 full seconds</strong> to disconnect the internal battery circuit and drain board capacitance.</li>
-          <li>Reconnect AC power and turn on normally.</li>
-        </ol>
-      </div>
-
-      <div class="guide-card" id="lenovo-tips">
-        <img src="images/battery-replacement.jpg" alt="Lenovo Servicing" class="guide-img">
-        <h3>Pro Benchtop Repair Tips for Lenovo</h3>
-        <ul>
-          <li><strong>BIOS Power Cutoff Feature:</strong> Before servicing internal components, boot into ThinkPad BIOS -> Config -> Power -> Select "Disable Built-in Battery". The battery disconnects automatically until AC power is re-attached!</li>
-          <li><strong>Hinge Screw Torque Issue:</strong> IdeaPad hinges often pull out of their plastic standoffs. Re-anchor standoffs using epoxy resin and loosen hinge nut tension by a quarter turn before reinstalling.</li>
-        </ul>
-      </div>
-    <section class="guide-card" id="expanded-service-reference"><h3>Additional Bench Reference</h3><ul><li><strong>Machine type and parts:</strong> Identify MTM and use Lenovo parts lookup for FRU compatibility.</li><li><strong>Power safety:</strong> Use Disable Built-in Battery in BIOS where offered before internal service.</li><li><strong>Post-repair tests:</strong> Run Lenovo diagnostics, confirm charging, trackpoint/touchpad and firmware settings.</li></ul><p>Use the exact model service manual for disassembly, firmware and part compatibility.</p></section>
-    </main>
-  </div>
-
-  <footer style="text-align: center; padding: 40px 0 20px 0; color: var(--text-dim); font-size: 0.75rem;">
-    <span>FixIt Core Hardware Wiki &copy; 2026</span>
-  </footer>
-
-  <!-- FLOATING HELP CHAT WIDGET -->
-  <div class="chat-widget-container" id="chat-widget-root" style="display: none;">
-    <button class="chat-toggle-btn" onclick="toggleChat()">Help Chat</button>
-    <div class="chat-popup-panel" id="chat-panel">
-      <div class="chat-header" id="chat-header-bar" title="Double-click to lock & hide chat">
-        <span id="chat-header-title">Help Chat</span>
-        <button class="close-btn" onclick="toggleChat()">✕</button>
-      </div>
-      <div id="chat-interface" style="display: flex; flex-direction: column; height: 100%;">
-        <div class="channel-selector">
-          <button class="channel-btn active" data-channel="GEN" onclick="selectChannel('GEN')">GEN</button>
-          <button class="channel-btn" data-channel="IGC" onclick="selectChannel('IGC')">IGC</button>
-          <button class="channel-btn" data-channel="JL" onclick="selectChannel('JL')">JL</button>
-          <button class="channel-btn" data-channel="COM" onclick="selectChannel('COM')">COM</button>
-          <button class="channel-btn" data-channel="L" onclick="selectChannel('L')">L</button>
-          <button class="channel-btn" data-channel="S" onclick="selectChannel('S')">S</button>
-          <button class="channel-btn" data-channel="SEC" onclick="selectChannel('SEC')">SEC</button>
-        </div>
-        <div class="chat-messages" id="message-container">
-          <div class="message"><span class="author">[System]</span> Logged in. Stream active.</div>
-        </div>
-        <div class="chat-input-area">
-          <textarea id="message-input" rows="2" placeholder="Type message..."></textarea>
-          <button onclick="handleSend()">Send Message</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
+<header>
+<h1>Lenovo Hardware Servicing Guide</h1>
+<p>ThinkPad, IdeaPad, Yoga, Legion &amp; ThinkBook Bench Notes</p>
+</header>
+<div class="wiki-container">
+<aside class="wiki-sidebar">
+<div class="sidebar-title">Article Index</div>
+<ul class="sidebar-links">
+<li><a href="#lenovo-matrix"><span>▸</span> Startup &amp; Key Matrix</a></li>
+<li><a href="#lenovo-models"><span>▸</span> Series Classification</a></li>
+<li><a href="#lenovo-pinhole"><span>▸</span> Emergency Reset Pinhole</a></li>
+<li><a href="#lenovo-tips"><span>▸</span> Benchtop Repair Tips</a></li>
+</ul>
+</aside>
+<main class="wiki-content"><figure class="brand-hero"><img alt="Lenovo laptop reference image" loading="lazy" src="images/lenovo-main.jpg"/><figcaption>Lenovo laptop hardware reference</figcaption></figure><section class="guide-card laptop-family-guide" id="laptop-families"><h3>Laptop Product Families: Consumer vs. Business vs. Workstation</h3><p>Model families and names change by year and region. Use the exact model number and service documentation when ordering parts or checking repairability.</p><table class="family-table"><thead><tr><th scope="col">Grade</th><th scope="col">Common product families</th><th scope="col">Typical use / notes</th></tr></thead><tbody><tr><td>Consumer</td><td>IdeaPad, Yoga, Legion, LOQ</td><td>Everyday, creative and gaming</td></tr><tr><td>Business</td><td>ThinkPad L, E, T, X, X1; ThinkBook</td><td>Commercial fleets and business users</td></tr><tr><td>Workstation</td><td>ThinkPad P series</td><td>Mobile workstations; verify ISV support for exact configuration</td></tr></tbody></table><p class="family-note">Classification is a practical buying/service guide, not a guarantee of ruggedness, repairability, warranty terms or professional software certification.</p></section>
+<div class="wiki-section-header">Lenovo Hardware Reference</div>
+<!-- MATRIX TABLE -->
+<div class="guide-card" id="lenovo-matrix">
+<h3>Lenovo Keys Quick Reference</h3>
+<table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--text-muted); margin-top: 10px;">
+<thead>
+<tr style="border-bottom: 1px solid var(--border-color); text-align: left; color: var(--text-main);">
+<th style="padding: 8px;">Target Action</th>
+<th style="padding: 8px;">Primary Key / Combination</th>
+<th style="padding: 8px;">Description / Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-bottom: 1px solid var(--border-subtle);">
+<td style="padding: 8px; font-weight: 600; color: var(--text-main);">Interrupt Boot Prompt</td>
+<td style="padding: 8px;"><code>Enter Key</code></td>
+<td style="padding: 8px;">Tap repeatedly on ThinkPads during startup splash.</td>
+</tr>
+<tr style="border-bottom: 1px solid var(--border-subtle);">
+<td style="padding: 8px; font-weight: 600; color: var(--text-main);">BIOS Setup</td>
+<td style="padding: 8px;"><code>F1</code> or <code>Fn + F1</code></td>
+<td style="padding: 8px;">Enters Lenovo UEFI configuration setup.</td>
+</tr>
+<tr style="border-bottom: 1px solid var(--border-subtle);">
+<td style="padding: 8px; font-weight: 600; color: var(--text-main);">Boot Device Menu</td>
+<td style="padding: 8px;"><code>F12</code> or <code>Fn + F12</code></td>
+<td style="padding: 8px;">Brings up UEFI drive boot selection.</td>
+</tr>
+<tr style="border-bottom: 1px solid var(--border-subtle);">
+<td style="padding: 8px; font-weight: 600; color: var(--text-main);">Novo Button Menu</td>
+<td style="padding: 8px;"><code>Paperclip in Novo Hole</code></td>
+<td style="padding: 8px;">Used on IdeaPad/Yoga while system is powered OFF.</td>
+</tr>
+<tr>
+<td style="padding: 8px; font-weight: 600; color: var(--text-main);">Emergency Power Reset</td>
+<td style="padding: 8px;"><code>Bottom Pinhole (10 sec)</code></td>
+<td style="padding: 8px;">Cuts main battery circuit on unresponsive ThinkPads.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- MODEL BREAKDOWN -->
+<div class="guide-card" id="lenovo-models">
+<h3>Model Series Breakdown</h3>
+<ul>
+<li><strong>Enterprise Tier (ThinkPad X1 / T / P / L Series):</strong> Roll-cage magnesium construction, captive screws,TrackPoint keyboards, water drainage channels. Highly modular.</li>
+<li><strong>Mid-Range Business (ThinkBook):</strong> Aluminum top cover, standard plastic base, dual M.2 NVMe expansion slots.</li>
+<li><strong>Consumer Tier (IdeaPad / Yoga / Slim):</strong> Pinhole Novo buttons, single heatpipe fan assemblies, delicate hinges mounted to plastic anchors.</li>
+</ul>
+</div>
+<!-- REPAIR TIPS -->
+<div class="guide-card" id="lenovo-pinhole">
+<h3>Emergency Reset Pinhole Procedure</h3>
+<p style="color: var(--text-muted); font-size: 0.88rem;">If a ThinkPad exhibits a black screen or locked power state:</p>
+<ol>
+<li>Disconnect the AC adapter.</li>
+<li>Locate the tiny emergency reset pinhole on the bottom casing.</li>
+<li>Insert a straightened paperclip for <strong>10 full seconds</strong> to disconnect the internal battery circuit and drain board capacitance.</li>
+<li>Reconnect AC power and turn on normally.</li>
+</ol>
+</div>
+<div class="guide-card" id="lenovo-tips">
+<img alt="Lenovo Servicing" class="guide-img" src="images/battery-replacement.jpg"/>
+<h3>Pro Benchtop Repair Tips for Lenovo</h3>
+<ul>
+<li><strong>BIOS Power Cutoff Feature:</strong> Before servicing internal components, boot into ThinkPad BIOS -&gt; Config -&gt; Power -&gt; Select "Disable Built-in Battery". The battery disconnects automatically until AC power is re-attached!</li>
+<li><strong>Hinge Screw Torque Issue:</strong> IdeaPad hinges often pull out of their plastic standoffs. Re-anchor standoffs using epoxy resin and loosen hinge nut tension by a quarter turn before reinstalling.</li>
+</ul>
+</div>
+<section class="guide-card" id="expanded-service-reference"><h3>Additional Bench Reference</h3><ul><li><strong>Machine type and parts:</strong> Identify MTM and use Lenovo parts lookup for FRU compatibility.</li><li><strong>Power safety:</strong> Use Disable Built-in Battery in BIOS where offered before internal service.</li><li><strong>Post-repair tests:</strong> Run Lenovo diagnostics, confirm charging, trackpoint/touchpad and firmware settings.</li></ul><p>Use the exact model service manual for disassembly, firmware and part compatibility.</p></section>
+</main>
+</div>
+<footer style="text-align: center; padding: 40px 0 20px 0; color: var(--text-dim); font-size: 0.75rem;">
+<span>FixIt Core Hardware Wiki © 2026</span>
+</footer>
+<!-- FLOATING HELP CHAT WIDGET -->
+<div class="chat-widget-container" id="chat-widget-root" style="display: none;">
+<button class="chat-toggle-btn" onclick="toggleChat()">Help Chat</button>
+<div class="chat-popup-panel" id="chat-panel">
+<div class="chat-header" id="chat-header-bar" title="Double-click to lock &amp; hide chat">
+<span id="chat-header-title">Help Chat</span>
+<button class="close-btn" onclick="toggleChat()">✕</button>
+</div>
+<div id="chat-interface" style="display: flex; flex-direction: column; height: 100%;">
+<div class="channel-selector">
+<button class="channel-btn active" data-channel="GEN" onclick="selectChannel('GEN')">GEN</button>
+<button class="channel-btn" data-channel="IGC" onclick="selectChannel('IGC')">IGC</button>
+<button class="channel-btn" data-channel="JL" onclick="selectChannel('JL')">JL</button>
+<button class="channel-btn" data-channel="COM" onclick="selectChannel('COM')">COM</button>
+<button class="channel-btn" data-channel="L" onclick="selectChannel('L')">L</button>
+<button class="channel-btn" data-channel="S" onclick="selectChannel('S')">S</button>
+<button class="channel-btn" data-channel="SEC" onclick="selectChannel('SEC')">SEC</button>
+</div>
+<div class="chat-messages" id="message-container">
+<div class="message"><span class="author">[System]</span> Logged in. Stream active.</div>
+</div>
+<div class="chat-input-area">
+<textarea id="message-input" placeholder="Type message..." rows="2"></textarea>
+<button onclick="handleSend()">Send Message</button>
+</div>
+</div>
+</div>
+</div>
+<script>
     let activeChannel = "GEN";
     let activePassword = "";
     let activeUsername = "";
@@ -262,5 +251,5 @@
       };
     }
   </script>
-<a class="diagnostics-shortcut" href="diagnostics.html" aria-label="Open diagnostic tools">⌨ Diagnostic Tools</a></body>
+<a aria-label="Open diagnostic tools" class="diagnostics-shortcut" href="diagnostics.html">⌨ Diagnostic Tools</a></body>
 </html>

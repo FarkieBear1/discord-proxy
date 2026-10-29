@@ -1,146 +1,135 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FixIt Core | Surface Repair Protocols & Boot Cheat Sheet</title>
-  <link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="diagnostics.css"><link rel="stylesheet" href="reference.css"><link rel="stylesheet" href="navigation.css"></head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FixIt Core | Surface Repair Protocols &amp; Boot Cheat Sheet</title>
+<link href="style.css" rel="stylesheet"/>
+<link href="diagnostics.css" rel="stylesheet"/><link href="reference.css" rel="stylesheet"/><link href="navigation.css" rel="stylesheet"/><link href="laptop-families.css" rel="stylesheet"/></head>
 <body>
-
-  <div class="banner-container">
-    <img src="images/banner.jpg" alt="FixIt Core Banner" class="site-banner">
-  </div>
-
-  <nav class="site-nav grouped-nav" aria-label="Main navigation">
+<div class="banner-container">
+<img alt="FixIt Core Banner" class="site-banner" src="images/banner.jpg"/>
+</div>
+<nav aria-label="Main navigation" class="site-nav grouped-nav">
 <a class="nav-home" href="index.html">⌂ Home</a>
 <details class="nav-group"><summary>Windows laptops</summary><div class="nav-menu"><a href="dell.html">Dell</a><a href="hp.html">HP</a><a href="lenovo.html">Lenovo</a><a href="asus.html">ASUS</a><a href="acer.html">Acer</a><a href="razer.html">Razer</a><a href="samsung.html">Samsung</a><a href="surface.html">Microsoft Surface</a><a href="msi.html">MSI</a><a href="lg.html">LG gram</a><a href="windows-commands.html">Windows commands</a></div></details>
 <details class="nav-group"><summary>Apple / Mac</summary><div class="nav-menu"><a href="macbook.html">MacBook reference</a><a href="mac-commands.html">macOS commands</a></div></details>
 <a href="linux-commands.html">Linux commands</a><a href="diagnostics.html">Diagnostic tools</a>
 </nav>
-
-  <header>
-    <h1>Microsoft Surface Servicing Guide</h1>
-    <p>Surface Pro, Surface Laptop, Surface Go & Surface Studio Notes</p>
-  </header>
-
-  <div class="wiki-container">
-    <aside class="wiki-sidebar">
-      <div class="sidebar-title">Article Index</div>
-      <ul class="sidebar-links">
-        <li><a href="#surface-matrix"><span>▸</span> Startup & Key Matrix</a></li>
-        <li><a href="#surface-models"><span>▸</span> Series Classification</a></li>
-        <li><a href="#surface-ssd"><span>▸</span> Modular M.2 Door Access</a></li>
-        <li><a href="#surface-tips"><span>▸</span> Benchtop Repair Tips</a></li>
-      </ul>
-    </aside>
-
-    <main class="wiki-content"><figure class="brand-hero"><img src="images/surface main.jpg" alt="Microsoft Surface laptop reference image" loading="lazy"><figcaption>Microsoft Surface laptop hardware reference</figcaption></figure>
-      <div class="wiki-section-header">Microsoft Surface Reference</div>
-
-      <!-- MATRIX TABLE -->
-      <div class="guide-card" id="surface-matrix">
-        <h3>Surface Hardware Combinations Quick Reference</h3>
-        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--text-muted); margin-top: 10px;">
-          <thead>
-            <tr style="border-bottom: 1px solid var(--border-color); text-align: left; color: var(--text-main);">
-              <th style="padding: 8px;">Target Action</th>
-              <th style="padding: 8px;">Primary Key / Combination</th>
-              <th style="padding: 8px;">Description / Notes</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom: 1px solid var(--border-subtle);">
-              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">UEFI BIOS Menu</td>
-              <td style="padding: 8px;"><code>Hold Vol Up + Power</code></td>
-              <td style="padding: 8px;">Release Power at logo, continue holding Vol Up.</td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--border-subtle);">
-              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">USB Boot Override</td>
-              <td style="padding: 8px;"><code>Hold Vol Down + Power</code></td>
-              <td style="padding: 8px;">Release Vol Down once spinning dots appear under logo.</td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--border-subtle);">
-              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Forced Hard Reset</td>
-              <td style="padding: 8px;"><code>Hold Power (20 sec)</code></td>
-              <td style="padding: 8px;">Forces hardware shutoff on frozen screen.</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px; font-weight: 600; color: var(--text-main);">Recovery Drive Boot</td>
-              <td style="padding: 8px;"><code>USB Recovery Image</code></td>
-              <td style="padding: 8px;">Download official Microsoft Surface Bare-Metal BMR image.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- MODEL BREAKDOWN -->
-      <div class="guide-card" id="surface-models">
-        <h3>Model Series Breakdown</h3>
-        <ul>
-          <li><strong>Surface Pro (7+ / 8 / 9 / 10 / 11):</strong> Glass display screen glued with tough heat-activated adhesive. Features accessible M.2 2230 SSD kickstand door.</li>
-          <li><strong>Surface Laptop (3 / 4 / 5 / 6 / Studio):</strong> Alcantara or metal palmrests held by hidden magnetic Torx screws beneath rubber base feet.</li>
-          <li><strong>Surface Go:</strong> Lower power fanless tablets, glued display glass, non-upgradable eMMC / soldered NVMe storage.</li>
-        </ul>
-      </div>
-
-      <!-- REPAIR TIPS -->
-      <div class="guide-card" id="surface-ssd">
-        <h3>Modular M.2 2230 SSD Access Door</h3>
-        <p style="color: var(--text-muted); font-size: 0.88rem;">Modern Surface Pro and Laptop models allow easy storage replacement without removing glued display glass:</p>
-        <ol>
-          <li>Open the kickstand on Surface Pro models to reveal the magnetic SSD compartment door.</li>
-          <li>Insert a SIM ejector tool into the pinhole to pop open the metal door cover.</li>
-          <li>Remove the single Torx T3 screw holding the M.2 2230 NVMe drive.</li>
-        </ol>
-      </div>
-
-      <div class="guide-card" id="surface-tips">
-        <img src="images/drive-replacement.jpg" alt="Surface Servicing" class="guide-img">
-        <h3>Pro Benchtop Repair Tips for Surface</h3>
-        <ul>
-          <li><strong>Heat Gun Screen Removal Rule:</strong> When opening glued Surface screens, heat edges uniformly to **70°C–75°C**. Never exceed 80°C or thermal spot damage will permanently yellow the display digitizer.</li>
-          <li><strong>Surface Bare Metal Recovery (BMR):</strong> Standard Windows 10/11 ISOs often lack touch screen and Wi-Fi drivers out of the box. Always download the model-specific Surface BMR Recovery Zip from Microsoft Support.</li>
-        </ul>
-      </div>
-    <section class="guide-card" id="expanded-service-reference"><h3>Additional Bench Reference</h3><ul><li><strong>Serviceability:</strong> Surface model generations differ significantly; consult Microsoft service documentation for replaceable components.</li><li><strong>UEFI access:</strong> On many Surface devices, hold Volume Up while pressing Power; release at Surface logo.</li><li><strong>Post-service:</strong> Check touch, pen, cameras, Windows Hello, charging and Surface firmware.</li></ul><p>Use the exact model service manual for disassembly, firmware and part compatibility.</p></section>
-    </main>
-  </div>
-
-  <footer style="text-align: center; padding: 40px 0 20px 0; color: var(--text-dim); font-size: 0.75rem;">
-    <span>FixIt Core Hardware Wiki &copy; 2026</span>
-  </footer>
-
-  <!-- FLOATING HELP CHAT WIDGET -->
-  <div class="chat-widget-container" id="chat-widget-root" style="display: none;">
-    <button class="chat-toggle-btn" onclick="toggleChat()">Help Chat</button>
-    <div class="chat-popup-panel" id="chat-panel">
-      <div class="chat-header" id="chat-header-bar" title="Double-click to lock & hide chat">
-        <span id="chat-header-title">Help Chat</span>
-        <button class="close-btn" onclick="toggleChat()">✕</button>
-      </div>
-      <div id="chat-interface" style="display: flex; flex-direction: column; height: 100%;">
-        <div class="channel-selector">
-          <button class="channel-btn active" data-channel="GEN" onclick="selectChannel('GEN')">GEN</button>
-          <button class="channel-btn" data-channel="IGC" onclick="selectChannel('IGC')">IGC</button>
-          <button class="channel-btn" data-channel="JL" onclick="selectChannel('JL')">JL</button>
-          <button class="channel-btn" data-channel="COM" onclick="selectChannel('COM')">COM</button>
-          <button class="channel-btn" data-channel="L" onclick="selectChannel('L')">L</button>
-          <button class="channel-btn" data-channel="S" onclick="selectChannel('S')">S</button>
-          <button class="channel-btn" data-channel="SEC" onclick="selectChannel('SEC')">SEC</button>
-        </div>
-        <div class="chat-messages" id="message-container">
-          <div class="message"><span class="author">[System]</span> Logged in. Stream active.</div>
-        </div>
-        <div class="chat-input-area">
-          <textarea id="message-input" rows="2" placeholder="Type message..."></textarea>
-          <button onclick="handleSend()">Send Message</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
+<header>
+<h1>Microsoft Surface Servicing Guide</h1>
+<p>Surface Pro, Surface Laptop, Surface Go &amp; Surface Studio Notes</p>
+</header>
+<div class="wiki-container">
+<aside class="wiki-sidebar">
+<div class="sidebar-title">Article Index</div>
+<ul class="sidebar-links">
+<li><a href="#surface-matrix"><span>▸</span> Startup &amp; Key Matrix</a></li>
+<li><a href="#surface-models"><span>▸</span> Series Classification</a></li>
+<li><a href="#surface-ssd"><span>▸</span> Modular M.2 Door Access</a></li>
+<li><a href="#surface-tips"><span>▸</span> Benchtop Repair Tips</a></li>
+</ul>
+</aside>
+<main class="wiki-content"><figure class="brand-hero"><img alt="Microsoft Surface laptop reference image" loading="lazy" src="images/surface main.jpg"/><figcaption>Microsoft Surface laptop hardware reference</figcaption></figure><section class="guide-card laptop-family-guide" id="laptop-families"><h3>Laptop Product Families: Consumer vs. Business vs. Workstation</h3><p>Model families and names change by year and region. Use the exact model number and service documentation when ordering parts or checking repairability.</p><table class="family-table"><thead><tr><th scope="col">Grade</th><th scope="col">Common product families</th><th scope="col">Typical use / notes</th></tr></thead><tbody><tr><td>Consumer</td><td>Surface Laptop, Surface Pro (consumer editions), Surface Laptop Studio</td><td>Personal productivity, creative and convertible devices</td></tr><tr><td>Business</td><td>Surface Laptop for Business, Surface Pro for Business</td><td>Commercial SKUs with business deployment/support options</td></tr><tr><td>Workstation</td><td>No dedicated ISV-certified mobile workstation family</td><td>Surface Laptop Studio is performance/creator-focused, not a traditional workstation</td></tr></tbody></table><p class="family-note">Classification is a practical buying/service guide, not a guarantee of ruggedness, repairability, warranty terms or professional software certification.</p></section>
+<div class="wiki-section-header">Microsoft Surface Reference</div>
+<!-- MATRIX TABLE -->
+<div class="guide-card" id="surface-matrix">
+<h3>Surface Hardware Combinations Quick Reference</h3>
+<table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--text-muted); margin-top: 10px;">
+<thead>
+<tr style="border-bottom: 1px solid var(--border-color); text-align: left; color: var(--text-main);">
+<th style="padding: 8px;">Target Action</th>
+<th style="padding: 8px;">Primary Key / Combination</th>
+<th style="padding: 8px;">Description / Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-bottom: 1px solid var(--border-subtle);">
+<td style="padding: 8px; font-weight: 600; color: var(--text-main);">UEFI BIOS Menu</td>
+<td style="padding: 8px;"><code>Hold Vol Up + Power</code></td>
+<td style="padding: 8px;">Release Power at logo, continue holding Vol Up.</td>
+</tr>
+<tr style="border-bottom: 1px solid var(--border-subtle);">
+<td style="padding: 8px; font-weight: 600; color: var(--text-main);">USB Boot Override</td>
+<td style="padding: 8px;"><code>Hold Vol Down + Power</code></td>
+<td style="padding: 8px;">Release Vol Down once spinning dots appear under logo.</td>
+</tr>
+<tr style="border-bottom: 1px solid var(--border-subtle);">
+<td style="padding: 8px; font-weight: 600; color: var(--text-main);">Forced Hard Reset</td>
+<td style="padding: 8px;"><code>Hold Power (20 sec)</code></td>
+<td style="padding: 8px;">Forces hardware shutoff on frozen screen.</td>
+</tr>
+<tr>
+<td style="padding: 8px; font-weight: 600; color: var(--text-main);">Recovery Drive Boot</td>
+<td style="padding: 8px;"><code>USB Recovery Image</code></td>
+<td style="padding: 8px;">Download official Microsoft Surface Bare-Metal BMR image.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- MODEL BREAKDOWN -->
+<div class="guide-card" id="surface-models">
+<h3>Model Series Breakdown</h3>
+<ul>
+<li><strong>Surface Pro (7+ / 8 / 9 / 10 / 11):</strong> Glass display screen glued with tough heat-activated adhesive. Features accessible M.2 2230 SSD kickstand door.</li>
+<li><strong>Surface Laptop (3 / 4 / 5 / 6 / Studio):</strong> Alcantara or metal palmrests held by hidden magnetic Torx screws beneath rubber base feet.</li>
+<li><strong>Surface Go:</strong> Lower power fanless tablets, glued display glass, non-upgradable eMMC / soldered NVMe storage.</li>
+</ul>
+</div>
+<!-- REPAIR TIPS -->
+<div class="guide-card" id="surface-ssd">
+<h3>Modular M.2 2230 SSD Access Door</h3>
+<p style="color: var(--text-muted); font-size: 0.88rem;">Modern Surface Pro and Laptop models allow easy storage replacement without removing glued display glass:</p>
+<ol>
+<li>Open the kickstand on Surface Pro models to reveal the magnetic SSD compartment door.</li>
+<li>Insert a SIM ejector tool into the pinhole to pop open the metal door cover.</li>
+<li>Remove the single Torx T3 screw holding the M.2 2230 NVMe drive.</li>
+</ol>
+</div>
+<div class="guide-card" id="surface-tips">
+<img alt="Surface Servicing" class="guide-img" src="images/drive-replacement.jpg"/>
+<h3>Pro Benchtop Repair Tips for Surface</h3>
+<ul>
+<li><strong>Heat Gun Screen Removal Rule:</strong> When opening glued Surface screens, heat edges uniformly to **70°C–75°C**. Never exceed 80°C or thermal spot damage will permanently yellow the display digitizer.</li>
+<li><strong>Surface Bare Metal Recovery (BMR):</strong> Standard Windows 10/11 ISOs often lack touch screen and Wi-Fi drivers out of the box. Always download the model-specific Surface BMR Recovery Zip from Microsoft Support.</li>
+</ul>
+</div>
+<section class="guide-card" id="expanded-service-reference"><h3>Additional Bench Reference</h3><ul><li><strong>Serviceability:</strong> Surface model generations differ significantly; consult Microsoft service documentation for replaceable components.</li><li><strong>UEFI access:</strong> On many Surface devices, hold Volume Up while pressing Power; release at Surface logo.</li><li><strong>Post-service:</strong> Check touch, pen, cameras, Windows Hello, charging and Surface firmware.</li></ul><p>Use the exact model service manual for disassembly, firmware and part compatibility.</p></section>
+</main>
+</div>
+<footer style="text-align: center; padding: 40px 0 20px 0; color: var(--text-dim); font-size: 0.75rem;">
+<span>FixIt Core Hardware Wiki © 2026</span>
+</footer>
+<!-- FLOATING HELP CHAT WIDGET -->
+<div class="chat-widget-container" id="chat-widget-root" style="display: none;">
+<button class="chat-toggle-btn" onclick="toggleChat()">Help Chat</button>
+<div class="chat-popup-panel" id="chat-panel">
+<div class="chat-header" id="chat-header-bar" title="Double-click to lock &amp; hide chat">
+<span id="chat-header-title">Help Chat</span>
+<button class="close-btn" onclick="toggleChat()">✕</button>
+</div>
+<div id="chat-interface" style="display: flex; flex-direction: column; height: 100%;">
+<div class="channel-selector">
+<button class="channel-btn active" data-channel="GEN" onclick="selectChannel('GEN')">GEN</button>
+<button class="channel-btn" data-channel="IGC" onclick="selectChannel('IGC')">IGC</button>
+<button class="channel-btn" data-channel="JL" onclick="selectChannel('JL')">JL</button>
+<button class="channel-btn" data-channel="COM" onclick="selectChannel('COM')">COM</button>
+<button class="channel-btn" data-channel="L" onclick="selectChannel('L')">L</button>
+<button class="channel-btn" data-channel="S" onclick="selectChannel('S')">S</button>
+<button class="channel-btn" data-channel="SEC" onclick="selectChannel('SEC')">SEC</button>
+</div>
+<div class="chat-messages" id="message-container">
+<div class="message"><span class="author">[System]</span> Logged in. Stream active.</div>
+</div>
+<div class="chat-input-area">
+<textarea id="message-input" placeholder="Type message..." rows="2"></textarea>
+<button onclick="handleSend()">Send Message</button>
+</div>
+</div>
+</div>
+</div>
+<script>
     let activeChannel = "GEN";
     let activePassword = "";
     let activeUsername = "";
@@ -256,5 +245,5 @@
       };
     }
   </script>
-<a class="diagnostics-shortcut" href="diagnostics.html" aria-label="Open diagnostic tools">⌨ Diagnostic Tools</a></body>
+<a aria-label="Open diagnostic tools" class="diagnostics-shortcut" href="diagnostics.html">⌨ Diagnostic Tools</a></body>
 </html>
