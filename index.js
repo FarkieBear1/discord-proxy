@@ -118,7 +118,7 @@ app.post('/api/verify', (express.json()), (req, res) => {
 app.post('/api/messages', async (req, res) => {
   const { content, password, username, channel: shorthandCode } = req.body; 
 
-  if (password !== "T3chRep@ir26!") {
+  if (!process.env.TECH_PASSWORD || password !== process.env.TECH_PASSWORD) {
     return res.status(403).json({ error: 'Access Denied: Invalid Technician ID.' });
   }
 
