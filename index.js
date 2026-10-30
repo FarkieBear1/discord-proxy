@@ -8,7 +8,7 @@ const crypto = require('crypto');
 const app = express();
 app.disable('x-powered-by');
 app.use(express.json({ limit: '16kb' }));
-const PUBLIC_HOSTS = new Set(['stowawaytech.com', 'www.stowawaytech.com']);
+const PUBLIC_HOSTS = new Set(['stowawaytech.com', 'www.stowawaytech.com', 'stowawaytech.onrender.com']);
 const PRIVATE_HOST = 'tech.stowawaytech.com';
 const COOKIE = 'stowawaytech_private';
 const PASSWORD = process.env.PRIVATE_SITE_PASSWORD;
